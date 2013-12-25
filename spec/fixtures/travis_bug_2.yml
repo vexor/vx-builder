@@ -1,0 +1,18 @@
+# bug: ignore services
+rvm:
+  - "2.0.0"
+
+services:
+  - elasticsearch
+
+env:
+  - DB=postgresql
+
+before_script:
+  - cp config/samples/secret_token.rb config/initializers/secret_token.rb
+  - cp config/database.travis.yml config/database.yml
+  - bundle exec rake db:setup
+  - bundle exec rake db:test:prepare
+
+script:
+  - bundle exec rspec
