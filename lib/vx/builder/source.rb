@@ -1,12 +1,12 @@
-require File.expand_path("../build_configuration/constants",    __FILE__)
-require File.expand_path("../build_configuration/matrix",       __FILE__)
-require File.expand_path("../build_configuration/serializable", __FILE__)
+require File.expand_path("../source/constants",    __FILE__)
+require File.expand_path("../source/matrix",       __FILE__)
+require File.expand_path("../source/serializable", __FILE__)
 
 module Vx
   module Builder
-    class BuildConfiguration
+    class Source
 
-      include BuildConfiguration::Serializable
+      include Source::Serializable
 
       attr_reader :attributes
       alias_method :to_hash, :attributes

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Vx::Builder::BuildConfiguration do
+describe Vx::Builder::Source do
   let(:content) { YAML.load fixture('travis.yml') }
   let(:config)  { described_class.from_attributes content }
   subject { config }

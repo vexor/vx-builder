@@ -1,9 +1,9 @@
 module Vx
   module Builder
-    class BuildConfiguration
+    class Source
       class Matrix
 
-        KEYS = (BuildConfiguration::LANGS + %w{ matrix_env:env }).freeze
+        KEYS = (Source::LANGS + %w{ matrix_env:env }).freeze
         NOT_MATRIX_KEYS = %w{ script before_script services }
 
         attr_reader :source
@@ -24,7 +24,7 @@ module Vx
                 a
               end
             )
-            BuildConfiguration.new attrs
+            Source.new attrs
           end
         end
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'yaml'
 
-describe Vx::Builder::BuildConfiguration::Matrix do
+describe Vx::Builder::Source::Matrix do
   let(:attributes) { {
     env:   %w{ FOO=1 BAR=2 },
     rvm:   %w{ 1.8.7 1.9.3 2.0.0 },
@@ -9,7 +9,7 @@ describe Vx::Builder::BuildConfiguration::Matrix do
     before_script: "echo before_script",
     script: "echo script"
   } }
-  let(:config) { Vx::Builder::BuildConfiguration.from_attributes attributes }
+  let(:config) { Vx::Builder::Source.from_attributes attributes }
   let(:matrix) { described_class.new config }
 
   subject { matrix }
@@ -57,7 +57,7 @@ describe Vx::Builder::BuildConfiguration::Matrix do
     end
 
     context "with one env and one rvm key" do
-      let(:config) { Vx::Builder::BuildConfiguration.from_file fixture_path("travis_bug_1.yml") }
+      let(:config) { Vx::Builder::Source.from_file fixture_path("travis_bug_1.yml") }
 
       it{ should have(1).item }
 
@@ -69,7 +69,7 @@ describe Vx::Builder::BuildConfiguration::Matrix do
     end
 
     context "with services key" do
-      let(:config) { Vx::Builder::BuildConfiguration.from_file fixture_path("travis_bug_2.yml") }
+      let(:config) { Vx::Builder::Source.from_file fixture_path("travis_bug_2.yml") }
       it { should have(1).item }
 
       it "should have services" do

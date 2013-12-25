@@ -3,7 +3,7 @@ require 'json'
 
 module Vx
   module Builder
-    class BuildConfiguration
+    class Source
 
       module Serializable
 
@@ -32,7 +32,7 @@ module Vx
           end
 
           def from_attributes(attrs)
-            BuildConfiguration.new attrs
+            Source.new attrs
           end
 
         end

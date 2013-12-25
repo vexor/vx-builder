@@ -1,6 +1,6 @@
 module Vx
   module Builder
-    class BuildConfiguration
+    class Source
 
       LANGS    = %w{ rvm scala java go }.freeze
       KEYS     = %w{ services before_script script }.freeze
