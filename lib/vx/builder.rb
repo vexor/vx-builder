@@ -3,7 +3,10 @@ require File.expand_path("../builder/version", __FILE__)
 module Vx
   module Builder
     autoload :Source,        File.expand_path("../builder/source",        __FILE__)
+    autoload :Script,        File.expand_path("../builder/script",        __FILE__)
     autoload :Configuration, File.expand_path("../builder/configuration", __FILE__)
+
+    class MissingBuildKeys < Exception ; end
 
     extend self
 
