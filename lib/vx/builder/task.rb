@@ -1,6 +1,6 @@
 module Vx
   module Builder
-    class Build
+    class Task
 
       attr_reader :name, :src, :sha, :deploy_key, :branch, :pull_request_id
 
@@ -19,7 +19,7 @@ module Vx
 
         def validate!
           (name && src && sha && deploy_key && branch) or
-            raise(MissingBuildKeys)
+            raise(MissingKeys)
         end
 
     end

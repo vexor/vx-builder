@@ -10,15 +10,15 @@ module Vx
         include Common::Helper::UploadShCommand
 
         def call(env)
-          name         = env.build.name
-          deploy_key   = env.build.deploy_key
+          name         = env.task.name
+          deploy_key   = env.task.deploy_key
 
           repo_path    = "code/#{name}"
           data_path    = "data/#{name}"
           key_file     = "#{data_path}/key"
           git_ssh_file = "#{data_path}/git_ssh"
 
-          sha          = env.build.sha
+          sha          = env.task.sha
           scm          = build_scm(env, sha, repo_path)
           git_ssh      = scm.git_ssh.class.template(deploy_key && "$(dirname $0)/key")
 
@@ -46,11 +46,11 @@ module Vx
         private
 
           def build_scm(env, sha, path)
-            SCM::Git.new(env.build.src,
+            SCM::Git.new(env.task.src,
                          sha,
                          "$PWD/#{path}",
-                         branch: env.build.branch,
-                         pull_request_id: env.build.pull_request_id)
+                         branch: env.task.branch,
+                         pull_request_id: env.task.pull_request_id)
           end
 
       end

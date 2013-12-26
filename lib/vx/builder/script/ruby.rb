@@ -50,7 +50,7 @@ module Vx
                 grep -v 'system' |
                 grep '#{rvm env}' |
                 tail -n1)
-            }.compact
+            }.gsub(/\n/, ' ').gsub(/ +/, ' ').strip
           end
 
       end

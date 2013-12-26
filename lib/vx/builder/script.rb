@@ -1,4 +1,3 @@
-require 'shellwords'
 require 'vx/common'
 
 module Vx
@@ -16,19 +15,19 @@ module Vx
       include Common::Helper::Middlewares
 
       middlewares do
-        use Script::WebdavCache
-        use Script::Services
-        use Script::Env
-        use Script::Prepare
-        use Script::Ruby
-        use Script::Script
+        use Builder::Script::WebdavCache
+        use Builder::Script::Services
+        use Builder::Script::Env
+        use Builder::Script::Prepare
+        use Builder::Script::Ruby
+        use Builder::Script::Script
       end
 
-      attr_reader :configuration, :build
+      attr_reader :source, :task
 
-      def initialize(build, source)
+      def initialize(task, source)
         @source = source
-        @build  = build
+        @task   = task
       end
 
       def to_before_script
@@ -89,7 +88,7 @@ module Vx
             after_script:    [],
 
             source:          source,
-            build:           build,
+            task:            task,
             cache_key:       []
           )
         end

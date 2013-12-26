@@ -8,7 +8,7 @@ module Vx
 
       extend Hashr::EnvDefaults
 
-      self.env_namespace = 'vx_builder'
+      self.env_namespace = 'vx'
       self.raise_missing_keys = true
 
       define logger:            Common::TaggedLogging.new(Logger.new STDOUT),
