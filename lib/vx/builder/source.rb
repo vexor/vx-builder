@@ -21,19 +21,19 @@ module Vx
 
       def matrix_keys
         @matrix_keys ||=
-          Matrix::KEYS.inject([]) do |a,k|
+          Matrix::KEYS.inject({}) do |a,k|
           k_method, k_name = k.split(":")
           k_name ||= k_method
           val = send(k_method)
           unless val.empty?
-            a << val.map{|v| "#{k_name}:#{v}" }
+            a[k_name] = val.first
           end
           a
-          end.flatten.sort
+        end
       end
 
       def to_matrix_s
-        @to_matrix_s ||= matrix_keys.join(", ")
+        @to_matrix_s ||= matrix_keys.map{|k,v| "#{k}:#{v}" }.sort.join(", ")
       end
 
       def to_script_builder(build)

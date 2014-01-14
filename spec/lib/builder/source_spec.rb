@@ -72,20 +72,20 @@ describe Vx::Builder::Source do
         mock(config).rvm { %w{ 1.9.3 2.0.0 } }
         mock(config).scala { %w{ 2.10.1 } }
       end
-      it { should eq "rvm:1.9.3, rvm:2.0.0, scala:2.10.1" }
+      it { should eq "rvm:1.9.3, scala:2.10.1" }
     end
   end
 
   context "matrix_keys" do
     subject { config.matrix_keys }
-    it { should eq %w{ rvm:2.0.0 } }
+    it { should eq("rvm" => "2.0.0") }
 
     context "when many items" do
       before do
         mock(config).rvm { %w{ 1.9.3 2.0.0 } }
         mock(config).scala { %w{ 2.10.1 } }
       end
-      it { should eq %w{ rvm:1.9.3 rvm:2.0.0 scala:2.10.1 }}
+      it { should eq({"rvm"=>"1.9.3", "scala"=>"2.10.1"}) }
     end
   end
 
