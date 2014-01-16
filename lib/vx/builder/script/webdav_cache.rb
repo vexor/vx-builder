@@ -32,7 +32,7 @@ module Vx
 
           def assign_url_to_env(env)
             urls   = []
-            branch = env.build.branch
+            branch = env.task.branch
             if branch != 'master'
               urls << url_for(env, branch)
             end
@@ -44,7 +44,7 @@ module Vx
           end
 
           def url_for(env, branch)
-            name = env.build.name.dup + "/" + branch
+            name = env.task.name.dup + "/" + branch
 
             key = env.cache_key.join("-").gsub(/[^a-z0-9_\-.]/, '-')
             "#{config.webdav_cache_url}/#{name}/#{key}.tgz"
@@ -54,10 +54,10 @@ module Vx
             cmd = %{
               export CASHER_DIR=$HOME/.casher &&
               ( mkdir -p $CASHER_DIR/bin &&
-                curl #{CASHER_URL} -s -o #{CASHER_BIN} &&
+                /usr/bin/curl #{CASHER_URL} -s -o #{CASHER_BIN} &&
                 chmod +x #{CASHER_BIN} ) ||
               true
-            }.compact
+            }.gsub(/\n/, ' ').gsub(/ +/, ' ')
             env.init << cmd
           end
 
