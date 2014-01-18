@@ -13,7 +13,7 @@ module Vx
         def call(env)
           rs = app.call env
 
-          if config.webdav_cache_url
+          if env.task.cache_url_prefix
             assign_url_to_env(env)
             prepare(env)
             fetch(env)
@@ -38,8 +38,8 @@ module Vx
             end
             urls << url_for(env, 'master')
 
-            env.webdav_fetch_url = urls
-            env.webdav_push_url  = url_for(env, branch)
+            env.cache_fetch_url = urls
+            env.cache_push_url  = url_for(env, branch)
             env
           end
 
@@ -47,7 +47,7 @@ module Vx
             name = env.task.name.dup + "/" + branch
 
             key = env.cache_key.join("-").gsub(/[^a-z0-9_\-.]/, '-')
-            "#{config.webdav_cache_url}/#{name}/#{key}.tgz"
+            "#{env.task.cache_url_prefix}/#{name}/#{key}.tgz"
           end
 
           def prepare(env)
@@ -62,7 +62,7 @@ module Vx
           end
 
           def fetch(env)
-            urls = env.webdav_fetch_url.join(" ")
+            urls = env.cache_fetch_url.join(" ")
             env.init << "#{casher_cmd} fetch #{urls} || true"
           end
 
@@ -72,8 +72,8 @@ module Vx
           end
 
           def push(env)
-            if env.webdav_push_url
-              env.after_script << "#{casher_cmd} push #{env.webdav_push_url}"
+            if env.cache_push_url
+              env.after_script << "#{casher_cmd} push #{env.cache_push_url}"
             end
           end
 
