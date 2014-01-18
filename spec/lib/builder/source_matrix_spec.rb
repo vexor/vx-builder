@@ -7,6 +7,7 @@ describe Vx::Builder::Source::Matrix do
     rvm:   %w{ 1.8.7 1.9.3 2.0.0 },
     scala: %w{ 2.9.2 2.10.1 },
     before_script: "echo before_script",
+    before_install: "echo before_install",
     script: "echo script"
   } }
   let(:config) { Vx::Builder::Source.from_attributes attributes }
@@ -32,11 +33,15 @@ describe Vx::Builder::Source::Matrix do
     subject { matrix.configurations }
 
     it "should copy script from source" do
-      expect(subject.map(&:script).uniq).to eq [["echo script"]]
+      expect(subject.map(&:script).flatten).to eq ["echo script"] * 12
     end
 
     it "should copy before_script from source" do
-      expect(subject.map(&:before_script).uniq).to eq [["echo before_script"]]
+      expect(subject.map(&:before_script).flatten).to eq ["echo before_script"] * 12
+    end
+
+    it "should copy before_install from source" do
+      expect(subject.map(&:before_install).flatten).to eq ["echo before_install"] * 12
     end
 
     context "without any matrix keys" do
@@ -50,9 +55,10 @@ describe Vx::Builder::Source::Matrix do
           "matrix" => [],
           "global" => []
         },
-        "script"        =>["/bin/true"],
-        "before_script" =>[],
-        "services"      => []
+        "script"         =>["/bin/true"],
+        "before_script"  =>[],
+        "services"       => [],
+        "before_install" => []
       )}
     end
 

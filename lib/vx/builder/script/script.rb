@@ -7,6 +7,9 @@ module Vx
         include Helper::TraceShCommand
 
         def call(env)
+          env.source.before_install.each do |c|
+            env.before_install << trace_sh_command(c)
+          end
           env.source.before_script.each do |c|
             env.before_script << trace_sh_command(c)
           end

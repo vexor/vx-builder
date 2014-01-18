@@ -2,4 +2,6 @@ rvm:
   - 2.0.0
 before_script:
   - "echo before_script"
+before_install:
+  - "echo before_install"
 script: "RAILS_ENV=test ls -1 && echo DONE!"

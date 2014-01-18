@@ -27,9 +27,10 @@ describe Vx::Builder::Source do
 
     context "build new instance" do
       let(:expected) { {
-        "rvm"           => ["2.0.0"],
-        "before_script" => ["echo before_script"],
-        "script"        => ["RAILS_ENV=test ls -1 && echo DONE!"],
+        "rvm"            => ["2.0.0"],
+        "before_script"  => ["echo before_script"],
+        "before_install" => ["echo before_install"],
+        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
         "env" => {
           "matrix" => [],
           "global" => []
@@ -50,6 +51,7 @@ describe Vx::Builder::Source do
         let(:attrs) {{
           rvm:           "2.0.0",
           before_script: "echo before_script",
+          before_install: "echo before_install",
           script:        "RAILS_ENV=test ls -1 && echo DONE!"
         }}
         subject { described_class.from_attributes(attrs).attributes }

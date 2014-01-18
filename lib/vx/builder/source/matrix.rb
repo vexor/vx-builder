@@ -4,7 +4,7 @@ module Vx
       class Matrix
 
         KEYS = (Source::LANGS + %w{ matrix_env:env }).freeze
-        NOT_MATRIX_KEYS = %w{ script before_script services }
+        NOT_MATRIX_KEYS = %w{ script before_script services before_install }
 
         attr_reader :source
 
