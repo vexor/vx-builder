@@ -2,7 +2,7 @@ module Vx
   module Builder
     class Script
 
-      WebdavCache = Struct.new(:app) do
+      Cache = Struct.new(:app) do
 
         include Helper::Config
         include Helper::Logger
