@@ -6,7 +6,8 @@ def create(name, options = {})
       'src',
       'sha',
       deploy_key: 'deploy_key',
-      branch: 'master'
+      branch: 'master',
+      cache_url_prefix: "http://localhost"
     )
   when :source
     Vx::Builder::Source.from_yaml(fixture("travis.yml"))

@@ -9,13 +9,13 @@ module Vx
       autoload :Script,       File.expand_path("../script/script",        __FILE__)
       autoload :Prepare,      File.expand_path("../script/prepare",       __FILE__)
       autoload :Databases,    File.expand_path("../script/databases",     __FILE__)
-      autoload :WebdavCache,  File.expand_path("../script/webdav_cache",  __FILE__)
+      autoload :Cache,        File.expand_path("../script/cache",         __FILE__)
       autoload :Services,     File.expand_path("../script/services",      __FILE__)
 
       include Common::Helper::Middlewares
 
       middlewares do
-        use Builder::Script::WebdavCache
+        use Builder::Script::Cache
         use Builder::Script::Services
         use Builder::Script::Env
         use Builder::Script::Prepare

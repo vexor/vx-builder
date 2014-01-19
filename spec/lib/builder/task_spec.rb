@@ -8,7 +8,8 @@ describe Vx::Builder::Task do
       'source',
       'sha',
       deploy_key: 'deploy_key',
-      pull_request_id: '1'
+      pull_request_id: '1',
+      cache_url_prefix: 'cache_url'
     )
   }
 
@@ -20,6 +21,7 @@ describe Vx::Builder::Task do
     let(:sha)             { should eq 'sha' }
     let(:deploy_key)      { should eq 'deploy_key' }
     let(:pull_request_id) { should eq '1' }
+    let(:cache_url_prefix){ should eq 'cache_url' }
   end
 
 end
