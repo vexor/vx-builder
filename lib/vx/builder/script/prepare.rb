@@ -50,7 +50,7 @@ module Vx
           def build_scm(env, sha, path)
             Common::Git.new(env.task.src,
                          sha,
-                         "$PWD/#{path}",
+                         path,
                          branch: env.task.branch,
                          pull_request_id: env.task.pull_request_id)
           end
