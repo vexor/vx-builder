@@ -7,7 +7,7 @@ module Vx
         include Helper::Config
         include Helper::Logger
 
-        CASHER_URL = "https://raw.github.com/travis-ci/casher/production/bin/casher"
+        CASHER_URL = "https://raw2.github.com/dima-exe/casher/master/bin/casher"
         CASHER_BIN = "$HOME/.casher/bin/casher"
 
         def call(env)
