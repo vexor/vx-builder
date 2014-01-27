@@ -46,7 +46,13 @@ module Vx
           def url_for(env, branch)
             name = branch
 
-            key = env.cache_key.join("-").gsub(/[^a-z0-9_\-.]/, '-')
+            key =
+              if env.cache_key.empty?
+                "cache"
+              else
+                env.cache_key.join("-").gsub(/[^a-z0-9_\-.]/, '-')
+              end
+
             "#{env.task.cache_url_prefix}/#{name}/#{key}.tgz"
           end
 
