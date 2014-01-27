@@ -27,7 +27,7 @@ module Vx
         private
 
           def casher_cmd
-            "#{config.casher_ruby} #{CASHER_BIN}"
+            "test -x #{config.casher_ruby} && #{config.casher_ruby} #{CASHER_BIN}"
           end
 
           def assign_url_to_env(env)
