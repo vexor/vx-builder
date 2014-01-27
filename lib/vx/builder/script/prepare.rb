@@ -13,21 +13,22 @@ module Vx
           name         = env.task.name
           deploy_key   = env.task.deploy_key
 
-          repo_path    = "code/#{name}"
-          data_path    = "data/#{name}"
+          repo_path    = "${VX_ROOT}/code/#{name}"
+          data_path    = "${VX_ROOT}/data/#{name}"
           key_file     = "#{data_path}/key"
           git_ssh_file = "#{data_path}/git_ssh"
 
           sha          = env.task.sha
           scm          = build_scm(env, sha, repo_path)
-          git_ssh      = scm.git_ssh.class.template(deploy_key && "$(dirname $0)/key")
+          git_ssh      = scm.git_ssh_content(deploy_key && "#{key_file}")
 
           env.init.tap do |i|
-            i << "mkdir -p  #{data_path}"
-            i << "mkdir -p  #{repo_path}"
+            i << 'export VX_ROOT=$(pwd)'
+
+            i << "mkdir -p #{data_path}"
+            i << "mkdir -p #{repo_path}"
 
             if deploy_key
-              i << "echo instaling keys"
               i << upload_sh_command(key_file, deploy_key)
               i << "chmod 0600 #{key_file}"
             end
@@ -35,9 +36,10 @@ module Vx
             i << upload_sh_command(git_ssh_file, git_ssh)
             i << "chmod 0750 #{git_ssh_file}"
 
-            i << "export GIT_SSH=$PWD/#{git_ssh_file}"
-            i << scm.make_fetch_command
+            i << "export GIT_SSH=#{git_ssh_file}"
+            i << scm.fetch_cmd
             i << "unset GIT_SSH"
+            i << "cd #{repo_path}"
           end
 
           app.call env
@@ -46,7 +48,7 @@ module Vx
         private
 
           def build_scm(env, sha, path)
-            SCM::Git.new(env.task.src,
+            Common::Git.new(env.task.src,
                          sha,
                          "$PWD/#{path}",
                          branch: env.task.branch,
