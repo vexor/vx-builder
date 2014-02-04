@@ -13,7 +13,7 @@ module Vx
             env.before_install.tap do |i|
               i << 'eval "$(rbenv init -)" || true'
               i << "rbenv shell #{make_rbenv_version_command env}"
-              i << 'export BUNDLE_GEMFILE=${PWD}/Gemfile'
+              i << "export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}"
               i << 'export GEM_HOME=$HOME/cached/rubygems'
             end
 
@@ -36,6 +36,15 @@ module Vx
 
           def rvm(env)
             env.source.rvm.first
+          end
+
+          def gemfile(env)
+            if env.source.gemfile
+              env.source.gemfile.first
+            else
+              env.source.gemfile = ["Gemfile"]
+              gemfile(env)
+            end
           end
 
           def make_rbenv_version_command(env)

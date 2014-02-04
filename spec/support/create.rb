@@ -20,9 +20,16 @@ def create(name, options = {})
 
   when :env
     OpenStruct.new(
-      init:   [],
-      source: create(:source),
-      task:   create(:task)
+      init:           [],
+      before_install: [],
+      install:        [],
+      announce:       [],
+      before_script:  [],
+      script:         [],
+      after_script:   [],
+      source:         create(:source),
+      task:           create(:task),
+      cache_key:      []
     )
 
   when :command_from_env
