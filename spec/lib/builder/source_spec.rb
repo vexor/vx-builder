@@ -7,6 +7,7 @@ describe Vx::Builder::Source do
 
   its(:attributes)    { should be }
   its(:rvm)           { should eq %w{ 2.0.0 } }
+  its(:gemfile)       { should eq %w{ Gemfile } }
   its(:before_script) { should eq ["echo before_script"] }
   its(:script)        { should eq ["RAILS_ENV=test ls -1 && echo DONE!"] }
 
@@ -28,6 +29,7 @@ describe Vx::Builder::Source do
     context "build new instance" do
       let(:expected) { {
         "rvm"            => ["2.0.0"],
+        "gemfile"        => ["Gemfile"],
         "before_script"  => ["echo before_script"],
         "before_install" => ["echo before_install"],
         "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
@@ -50,6 +52,7 @@ describe Vx::Builder::Source do
       context "from_attributes" do
         let(:attrs) {{
           rvm:           "2.0.0",
+          gemfile:       "Gemfile",
           before_script: "echo before_script",
           before_install: "echo before_install",
           script:        "RAILS_ENV=test ls -1 && echo DONE!"
@@ -67,27 +70,27 @@ describe Vx::Builder::Source do
 
   context "to_matrix_s" do
     subject { config.to_matrix_s }
-    it { should eq 'rvm:2.0.0' }
+    it { should eq 'gemfile:Gemfile, rvm:2.0.0' }
 
     context "when many items" do
       before do
         mock(config).rvm { %w{ 1.9.3 2.0.0 } }
         mock(config).scala { %w{ 2.10.1 } }
       end
-      it { should eq "rvm:1.9.3, scala:2.10.1" }
+      it { should eq "gemfile:Gemfile, rvm:1.9.3, scala:2.10.1" }
     end
   end
 
   context "matrix_keys" do
     subject { config.matrix_keys }
-    it { should eq("rvm" => "2.0.0") }
+    it { should eq("rvm" => "2.0.0", "gemfile" => "Gemfile") }
 
     context "when many items" do
       before do
         mock(config).rvm { %w{ 1.9.3 2.0.0 } }
         mock(config).scala { %w{ 2.10.1 } }
       end
-      it { should eq({"rvm"=>"1.9.3", "scala"=>"2.10.1"}) }
+      it { should eq({"rvm"=>"1.9.3", "scala"=>"2.10.1", "gemfile" => "Gemfile"}) }
     end
   end
 
