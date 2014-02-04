@@ -39,12 +39,7 @@ module Vx
           end
 
           def gemfile(env)
-            if env.source.gemfile
-              env.source.gemfile.first
-            else
-              env.source.gemfile = ["Gemfile"]
-              gemfile(env)
-            end
+            env.source.gemfile.first || "Gemfile"
           end
 
           def make_rbenv_version_command(env)
