@@ -9,17 +9,12 @@ module Vx
 
     module Helper
       autoload :Config, File.expand_path("../builder/helper/config", __FILE__)
-      autoload :Logger, File.expand_path("../builder/helper/logger", __FILE__)
       autoload :TraceShCommand, File.expand_path("../builder/helper/trace_sh_command", __FILE__)
     end
 
     class MissingKeys < Exception ; end
 
     extend self
-
-    def logger
-      config.logger
-    end
 
     def configure
       yield config if block_given?

@@ -12,7 +12,8 @@ def create(name, options = {})
       msg.src,
       msg.sha,
       deploy_key: msg.deploy_key,
-      branch:     msg.branch
+      branch:     msg.branch,
+      cache_url_prefix: "http://example.com/"
     )
 
   when :source
@@ -29,7 +30,8 @@ def create(name, options = {})
       after_script:   [],
       source:         create(:source),
       task:           create(:task),
-      cache_key:      []
+      cache_key:      [],
+      cached_directories: []
     )
 
   when :command_from_env

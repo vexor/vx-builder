@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Vx::Builder do
   subject { described_class }
 
-  its(:logger) { should be }
   its(:config) { should be }
 
   context ".configure" do

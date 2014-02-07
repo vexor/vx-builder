@@ -52,6 +52,14 @@ module Vx
         attributes["env"]["global"]
       end
 
+      def cached_directories
+        if attributes["cache"] == false
+          false
+        else
+          (attributes["cache"] && attributes["cache"]["directories"]) || []
+        end
+      end
+
       AS_ARRAY.each do |m|
         define_method m do
           @attributes[m] || []

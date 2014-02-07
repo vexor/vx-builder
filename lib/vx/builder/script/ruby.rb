@@ -13,8 +13,8 @@ module Vx
             env.before_install.tap do |i|
               i << 'eval "$(rbenv init -)" || true'
               i << "rbenv shell #{make_rbenv_version_command env}"
-              i << "export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}"
-              i << 'export GEM_HOME=$HOME/cached/rubygems'
+              i << trace_sh_command("export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}")
+              i << trace_sh_command('export GEM_HOME=~/.rubygems')
             end
 
             env.announce.tap do |a|
@@ -26,6 +26,10 @@ module Vx
             env.install.tap do |i|
               i << trace_sh_command("bundle install")
               i << trace_sh_command("bundle clean --force")
+            end
+
+            if env.source.cached_directories != false
+              env.cached_directories.push "~/.rubygems"
             end
           end
 

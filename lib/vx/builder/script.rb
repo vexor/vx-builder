@@ -72,24 +72,25 @@ module Vx
         def default_env
           OpenStruct.new(
             # initialization, repo does not exists
-            init:            [],
+            init:               [],
 
             # before instalation, using for system setup
-            before_install:  [],
+            before_install:     [],
 
             # instalation, using for application setup
-            install:         [],
+            install:            [],
 
             # announce software and services version
-            announce:        [],
+            announce:           [],
 
-            before_script:   [],
-            script:          [],
-            after_script:    [],
+            before_script:      [],
+            script:             [],
+            after_script:       [],
 
-            source:          source,
-            task:            task,
-            cache_key:       []
+            source:             source,
+            task:               task,
+            cache_key:          [],
+            cached_directories: []
           )
         end
 

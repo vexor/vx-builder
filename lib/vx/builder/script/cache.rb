@@ -5,7 +5,6 @@ module Vx
       Cache = Struct.new(:app) do
 
         include Helper::Config
-        include Helper::Logger
 
         CASHER_URL = "https://raw2.github.com/dima-exe/casher/master/bin/casher"
         CASHER_BIN = "$HOME/.casher/bin/casher"
@@ -13,7 +12,7 @@ module Vx
         def call(env)
           rs = app.call env
 
-          if env.task.cache_url_prefix
+          if env.task.cache_url_prefix && enabled?(env)
             assign_url_to_env(env)
             prepare(env)
             fetch(env)
@@ -25,6 +24,11 @@ module Vx
         end
 
         private
+
+          def enabled?(env)
+            puts env.cached_directories.inspect
+            !env.cached_directories.empty?
+          end
 
           def casher_cmd
             "test -f #{CASHER_BIN} && #{config.casher_ruby} #{CASHER_BIN}"
@@ -73,7 +77,9 @@ module Vx
           end
 
           def add(env)
-            env.init << "#{casher_cmd} add $HOME/cached || true"
+            env.cached_directories.each do |d|
+              env.init << "#{casher_cmd} add #{d} || true"
+            end
             env.init << "unset CASHER_DIR"
           end
 

@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Vx::Builder::Source do
-  let(:content) { YAML.load fixture('travis.yml') }
-  let(:config)  { described_class.from_attributes content }
+  let(:default_content) { YAML.load fixture('travis.yml') }
+  let(:content)         { default_content }
+  let(:config)          { described_class.from_attributes content }
   subject { config }
 
   its(:attributes)    { should be }
@@ -24,6 +25,27 @@ describe Vx::Builder::Source do
     end
   end
 
+  context "cached_directories" do
+    subject { config.cached_directories }
+    context "when cache is false" do
+      let(:content) { default_content.merge("cache" => false) }
+      it { should be_false }
+    end
+    context "when cache is nil" do
+      let(:content) { default_content.delete("cache") && default_content }
+      it { should eq [] }
+    end
+
+    context "when cache.directories is nil" do
+      let(:content) { default_content["cache"].delete("directories") && default_content }
+      it { should eq [] }
+    end
+
+    context "when exists" do
+      it { should eq ["~/.cache"] }
+    end
+  end
+
   context "(serialization)" do
 
     context "build new instance" do
@@ -31,6 +53,9 @@ describe Vx::Builder::Source do
         "rvm"            => ["2.0.0"],
         "gemfile"        => ["Gemfile"],
         "before_script"  => ["echo before_script"],
+        "cache"          => {
+          "directories"=>["~/.cache"]
+        },
         "before_install" => ["echo before_install"],
         "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
         "env" => {
@@ -55,7 +80,10 @@ describe Vx::Builder::Source do
           gemfile:       "Gemfile",
           before_script: "echo before_script",
           before_install: "echo before_install",
-          script:        "RAILS_ENV=test ls -1 && echo DONE!"
+          script:        "RAILS_ENV=test ls -1 && echo DONE!",
+          cache: {
+            "directories" => ["~/.cache"]
+          }
         }}
         subject { described_class.from_attributes(attrs).attributes }
         it { should eq expected }
