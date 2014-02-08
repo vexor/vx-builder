@@ -11,3 +11,7 @@ script: "RAILS_ENV=test ls -1 && echo DONE!"
 cache:
   directories:
   - ~/.cache
+
+image:
+  - one
+  - two

@@ -52,6 +52,7 @@ describe Vx::Builder::Source do
       let(:expected) { {
         "rvm"            => ["2.0.0"],
         "gemfile"        => ["Gemfile"],
+        "image"          => %w{ one two },
         "before_script"  => ["echo before_script"],
         "cache"          => {
           "directories"=>["~/.cache"]
@@ -77,6 +78,7 @@ describe Vx::Builder::Source do
       context "from_attributes" do
         let(:attrs) {{
           rvm:           "2.0.0",
+          image:         %w{ one two },
           gemfile:       "Gemfile",
           before_script: "echo before_script",
           before_install: "echo before_install",
@@ -98,27 +100,27 @@ describe Vx::Builder::Source do
 
   context "to_matrix_s" do
     subject { config.to_matrix_s }
-    it { should eq 'gemfile:Gemfile, rvm:2.0.0' }
+    it { should eq 'gemfile:Gemfile, image:one, rvm:2.0.0' }
 
     context "when many items" do
       before do
         mock(config).rvm { %w{ 1.9.3 2.0.0 } }
         mock(config).scala { %w{ 2.10.1 } }
       end
-      it { should eq "gemfile:Gemfile, rvm:1.9.3, scala:2.10.1" }
+      it { should eq "gemfile:Gemfile, image:one, rvm:1.9.3, scala:2.10.1" }
     end
   end
 
   context "matrix_keys" do
     subject { config.matrix_keys }
-    it { should eq("rvm" => "2.0.0", "gemfile" => "Gemfile") }
+    it { should eq("rvm" => "2.0.0", "gemfile" => "Gemfile", "image" => "one") }
 
     context "when many items" do
       before do
         mock(config).rvm { %w{ 1.9.3 2.0.0 } }
         mock(config).scala { %w{ 2.10.1 } }
       end
-      it { should eq({"rvm"=>"1.9.3", "scala"=>"2.10.1", "gemfile" => "Gemfile"}) }
+      it { should eq({"rvm"=>"1.9.3", "scala"=>"2.10.1", "gemfile" => "Gemfile", 'image' => "one"}) }
     end
   end
 

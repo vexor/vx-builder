@@ -8,7 +8,7 @@ describe Vx::Builder::Source::Matrix do
     scala: %w{ 2.9.2 2.10.1 },
     before_script: "echo before_script",
     before_install: "echo before_install",
-    script: "echo script"
+    script: "echo script",
   } }
   let(:config) { Vx::Builder::Source.from_attributes attributes }
   let(:matrix) { described_class.new config }
