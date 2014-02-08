@@ -6,6 +6,8 @@ module Vx
 
       autoload :Env,          File.expand_path("../script/env",           __FILE__)
       autoload :Ruby,         File.expand_path("../script/ruby",          __FILE__)
+      autoload :Java,         File.expand_path("../script/java",          __FILE__)
+      autoload :Scala,        File.expand_path("../script/scala",         __FILE__)
       autoload :Script,       File.expand_path("../script/script",        __FILE__)
       autoload :Prepare,      File.expand_path("../script/prepare",       __FILE__)
       autoload :Databases,    File.expand_path("../script/databases",     __FILE__)
@@ -19,6 +21,8 @@ module Vx
         use Builder::Script::Services
         use Builder::Script::Env
         use Builder::Script::Prepare
+        use Builder::Script::Java
+        use Builder::Script::Scala
         use Builder::Script::Ruby
         use Builder::Script::Script
       end

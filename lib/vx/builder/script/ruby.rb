@@ -14,7 +14,6 @@ module Vx
             env.cache_key << gemfile(env)
 
             env.before_install.tap do |i|
-              i << "source /etc/profile.d/rbenv.sh"
               i << 'eval "$(rbenv init -)" || true'
               i << "rbenv shell #{make_rbenv_version_command env}"
               i << trace_sh_command("export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}")
@@ -30,6 +29,11 @@ module Vx
             env.install.tap do |i|
               i << trace_sh_command("bundle install")
               i << trace_sh_command("bundle clean --force")
+            end
+
+            if env.source.script.empty?
+              script = "test -f Rakefile && #{trace_sh_command "bundle exec rake"} || true"
+              env.script << script
             end
 
             if env.source.cached_directories != false

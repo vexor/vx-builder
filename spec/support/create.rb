@@ -17,7 +17,8 @@ def create(name, options = {})
     )
 
   when :source
-    Vx::Builder::Source.from_yaml(fixture("travis.yml"))
+    name = options[:name] || "travis.yml"
+    Vx::Builder::Source.from_yaml(fixture(name))
 
   when :env
     OpenStruct.new(
@@ -28,7 +29,7 @@ def create(name, options = {})
       before_script:  [],
       script:         [],
       after_script:   [],
-      source:         create(:source),
+      source:         options[:source] || create(:source),
       task:           create(:task),
       cache_key:      [],
       cached_directories: []
