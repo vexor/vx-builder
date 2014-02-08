@@ -53,7 +53,7 @@ module Vx
               if env.cache_key.empty?
                 "cache"
               else
-                env.cache_key.join("-").gsub(/[^a-z0-9_\-.]/, '-')
+                env.cache_key.join("-").downcase.gsub(/[^a-z0-9_\-.]/, '-')
               end
 
             "#{env.task.cache_url_prefix}/#{name}/#{key}.tgz"

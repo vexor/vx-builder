@@ -11,6 +11,7 @@ describe Vx::Builder::Source do
   its(:gemfile)       { should eq %w{ Gemfile } }
   its(:before_script) { should eq ["echo before_script"] }
   its(:script)        { should eq ["RAILS_ENV=test ls -1 && echo DONE!"] }
+  its(:language)      { should eq 'ruby' }
 
   context "merge" do
     let(:new_attrs) { { rvm: "replaced" } }
@@ -58,6 +59,7 @@ describe Vx::Builder::Source do
         "cache"          => {
           "directories"=>["~/.cache"]
         },
+        "language"       => "ruby",
         "before_install" => ["echo before_install"],
         "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
         "env" => {
@@ -83,6 +85,7 @@ describe Vx::Builder::Source do
           gemfile:       "Gemfile",
           before_script: "echo before_script",
           after_success:  "echo after success",
+          language:       "ruby",
           before_install: "echo before_install",
           script:        "RAILS_ENV=test ls -1 && echo DONE!",
           cache: {

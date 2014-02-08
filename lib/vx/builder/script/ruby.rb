@@ -6,9 +6,12 @@ module Vx
 
         include Helper::TraceShCommand
 
+        DEFAULT_RUBY = '1.9.3'
+
         def call(env)
-          if rvm env
-            env.cache_key << "rvm-#{rvm env}"
+          if enabled?(env)
+            env.cache_key << "rvm-#{ruby env}"
+            env.cache_key << gemfile(env)
 
             env.before_install.tap do |i|
               i << "source /etc/profile.d/rbenv.sh"
@@ -39,8 +42,12 @@ module Vx
 
         private
 
-          def rvm(env)
-            env.source.rvm.first
+          def enabled?(env)
+            env.source.rvm.first || env.source.language == 'ruby'
+          end
+
+          def ruby(env)
+            env.source.rvm.first || DEFAULT_RUBY
           end
 
           def gemfile(env)
@@ -57,7 +64,7 @@ module Vx
                 sed -e 's/^\*/ /' |
                 awk '{print $1}' |
                 grep -v 'system' |
-                grep '#{rvm env}' |
+                grep '#{ruby env}' |
                 tail -n1)
             }.gsub(/\n/, ' ').gsub(/ +/, ' ').strip
           end

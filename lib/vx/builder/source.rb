@@ -60,6 +60,10 @@ module Vx
         end
       end
 
+      def language
+        attributes["language"]
+      end
+
       AS_ARRAY.each do |m|
         define_method m do
           @attributes[m] || []
