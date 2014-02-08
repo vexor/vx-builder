@@ -26,7 +26,6 @@ module Vx
         private
 
           def enabled?(env)
-            puts env.cached_directories.inspect
             !env.cached_directories.empty?
           end
 
