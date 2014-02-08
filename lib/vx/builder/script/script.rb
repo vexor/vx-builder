@@ -16,6 +16,9 @@ module Vx
           env.source.script.each do |c|
             env.script << trace_sh_command(c)
           end
+          env.source.after_success.each do |c|
+            env.script << trace_sh_command(c)
+          end
           app.call(env)
         end
 

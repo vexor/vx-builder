@@ -11,6 +11,7 @@ module Vx
             env.cache_key << "rvm-#{rvm env}"
 
             env.before_install.tap do |i|
+              i << "source /etc/profile.d/rbenv.sh"
               i << 'eval "$(rbenv init -)" || true'
               i << "rbenv shell #{make_rbenv_version_command env}"
               i << trace_sh_command("export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}")

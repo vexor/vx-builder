@@ -54,6 +54,7 @@ describe Vx::Builder::Source do
         "gemfile"        => ["Gemfile"],
         "image"          => %w{ one two },
         "before_script"  => ["echo before_script"],
+        "after_success"  => ["echo after success"],
         "cache"          => {
           "directories"=>["~/.cache"]
         },
@@ -81,6 +82,7 @@ describe Vx::Builder::Source do
           image:         %w{ one two },
           gemfile:       "Gemfile",
           before_script: "echo before_script",
+          after_success:  "echo after success",
           before_install: "echo before_install",
           script:        "RAILS_ENV=test ls -1 && echo DONE!",
           cache: {
