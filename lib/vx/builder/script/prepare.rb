@@ -31,6 +31,7 @@ module Vx
             if deploy_key
               i << upload_sh_command(key_file, deploy_key)
               i << "chmod 0600 #{key_file}"
+              i << "export VX_PRIVATE_KEY=#{key_file}"
             end
 
             i << upload_sh_command(git_ssh_file, git_ssh)
