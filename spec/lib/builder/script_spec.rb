@@ -11,6 +11,11 @@ describe Vx::Builder::Script do
     its(:task)   { should eq task  }
   end
 
+  context "#image" do
+    subject { script.image }
+    it { should eq 'one' }
+  end
+
   context "#to_before_script" do
     subject { script.to_before_script }
     it { should be }

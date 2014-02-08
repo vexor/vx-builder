@@ -30,6 +30,10 @@ module Vx
         @task   = task
       end
 
+      def image
+        source.image.first
+      end
+
       def to_before_script
         a = []
         a << "\n# init"
