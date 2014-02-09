@@ -34,7 +34,7 @@ module Vx
         private
 
           def enabled?(env)
-            env.source.scala.first || env.language == 'scala'
+            env.source.scala.first || env.source.language == 'scala'
           end
 
           def scala(env)
