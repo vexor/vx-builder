@@ -16,6 +16,14 @@ module Vx
               i << "echo Using scala #{scala env}"
             end
 
+            env.init.tap do |i|
+              i << trace_sh_command("export SCALA_VERSION=#{scala env}")
+            end
+
+            env.install.tap do |i|
+              i << "if [[ -d project || -f build.sbt ]] ; then #{trace_sh_command "sbt ++#{scala env} update"} ; fi"
+            end
+
             if env.source.script.empty?
               env.script.tap do |i|
                 i << "if [[ -d project || -f build.sbt ]] ; then #{trace_sh_command "sbt ++#{scala env} test"} ; fi"
