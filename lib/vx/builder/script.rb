@@ -19,8 +19,8 @@ module Vx
 
       middlewares do
         use Builder::Script::Cache
-        use Builder::Script::Services
         use Builder::Script::Env
+        use Builder::Script::Services
         use Builder::Script::Prepare
         use Builder::Script::Java
         use Builder::Script::Scala
