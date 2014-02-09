@@ -40,6 +40,11 @@ module Vx
             i << "export GIT_SSH=#{git_ssh_file}"
             i << scm.fetch_cmd
             i << "unset GIT_SSH"
+
+            i << 'echo "Starting SSH Agent"'
+            i << 'eval "$(ssh-agent)"'
+            i << "ssh-add $VX_PRIVATE_KEY"
+
             i << "cd #{repo_path}"
           end
 

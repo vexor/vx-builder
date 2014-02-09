@@ -13,10 +13,6 @@ module Vx
             env.cache_key << "scala-#{scala env}"
 
             env.announce.tap do |i|
-              i << "echo Using scala #{scala env}"
-            end
-
-            env.init.tap do |i|
               i << trace_sh_command("export SCALA_VERSION=#{scala env}")
             end
 
