@@ -10,7 +10,7 @@ module Vx
           env.init << "set -e"
           env.init << "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
           env.init << 'export LC_ALL=en_US.UTF8'
-          env.init << "source /etc/profile.d/*.sh"
+          env.init << "for i in $(ls /etc/profile.d) ; do source /etc/profile.d/$i ; done"
           env.source.global_env.each do |e|
             env.init << trace_sh_command("export #{e}")
           end
