@@ -13,12 +13,12 @@ module Vx
             end
 
             env.install.tap do |i|
-              i << "lein deps"
+              i << trace_sh_command("lein deps")
             end
 
             if env.source.script.empty?
               env.script.tap do |i|
-                i << "lein test"
+                i << trace_sh_command("lein test")
               end
             end
           end
