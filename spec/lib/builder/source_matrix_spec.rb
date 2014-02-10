@@ -58,7 +58,8 @@ describe Vx::Builder::Source::Matrix do
         "script"         =>["/bin/true"],
         "before_script"  =>[],
         "services"       => [],
-        "before_install" => []
+        "before_install" => [],
+        "after_success"  => []
       )}
     end
 

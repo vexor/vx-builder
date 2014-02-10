@@ -4,7 +4,10 @@ module Vx
       class Matrix
 
         KEYS = (Source::LANGS + %w{ gemfile matrix_env:env image }).freeze
-        NOT_MATRIX_KEYS = %w{ script before_script services before_install }
+        NOT_MATRIX_KEYS = %w{
+          script before_script services before_install
+          after_success
+        }
 
         attr_reader :source
 
