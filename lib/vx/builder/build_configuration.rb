@@ -49,16 +49,22 @@ module Vx
         build_attributes new_attributes
       end
 
-      # for tests
-      def matrix_id
-        @matrix_attributes.map do |k,v|
+      def matrix_attributes
+        @matrix_attributes.inject({}) do |a,pair|
+          k,v = pair
           if k == 'env'
             v = v["matrix"].first
           end
           if v
-            [k,v].join(":")
+            a[k] = v
           end
-        end.compact.sort.join(", ")
+          a
+        end
+      end
+
+      # for tests
+      def matrix_id
+        matrix_attributes.to_a.map{|i| i.join(":") }.sort.join(", ")
       end
 
       def to_hash
