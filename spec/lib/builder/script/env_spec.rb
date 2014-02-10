@@ -14,7 +14,7 @@ describe Vx::Builder::Script::Env do
     before { run }
 
     it "should be success" do
-      system( %{bash -c "#{command}" } )
+      system( %{bash -l -c "#{command}" } )
       expect($?.to_i).to eq 0
     end
   end
