@@ -1,22 +1,32 @@
-rvm:
-  - 2.0.0
-gemfile:
-  - 'Gemfile'
-before_script:
-  - "echo before_script"
-before_install:
-  - "echo before_install"
+rvm: 2.0.0
+
+gemfile: 'Gemfile'
+
+before_script: "echo before_script"
+
+before_install: "echo before_install"
+
 script: "RAILS_ENV=test ls -1 && echo DONE!"
 
-after_success:
-  - "echo after success"
+after_success: "echo after success"
 
-cache:
-  directories:
-  - ~/.cache
+services: "rabbitmq"
+
+scala: "2.10.3"
+
+jdk: "openjdk7"
 
 image:
   - one
   - two
 
 language: ruby
+
+env:
+  global: 'global'
+  matrix: 'matrix'
+
+cache:
+  directories:
+  - ~/.cache
+

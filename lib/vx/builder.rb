@@ -6,6 +6,7 @@ module Vx
     autoload :Script,        File.expand_path("../builder/script",        __FILE__)
     autoload :Task,          File.expand_path("../builder/task",          __FILE__)
     autoload :Configuration, File.expand_path("../builder/configuration", __FILE__)
+    autoload :BuildConfiguration, File.expand_path("../builder/build_configuration", __FILE__)
 
     module Helper
       autoload :Config, File.expand_path("../builder/helper/config", __FILE__)
