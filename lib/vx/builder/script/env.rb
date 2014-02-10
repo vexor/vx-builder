@@ -15,7 +15,7 @@ module Vx
             env.init << "export CI_BRANCH=#{b}"
           end
 
-          env.source.global_env.each do |e|
+          env.source.env.global.each do |e|
             env.init << trace_sh_command("export #{e}")
           end
           app.call(env)

@@ -14,7 +14,7 @@ describe Vx::Builder::BuildConfiguration do
   its(:script)         { should eq ["RAILS_ENV=test ls -1 && echo DONE!"] }
   its(:after_success)  { should eq ["echo after success"] }
   its(:image)          { should eq %w{ one two } }
-  its(:language)       { should eq %w{ ruby } }
+  its(:language)       { should eq 'ruby' }
   its(:services)       { should eq %w{ rabbitmq } }
   its(:scala)          { should eq %w{ 2.10.3 } }
   its(:jdk)            { should eq %w{ openjdk7 } }

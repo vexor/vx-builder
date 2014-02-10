@@ -74,7 +74,15 @@ module Vx
         env.matrix
       end
 
-      ATTRIBUTES.each do |attr|
+      def language
+        @attributes["language"].first
+      end
+
+      def cached_directories
+        @cache.enabled? and @cache.directories
+      end
+
+      (ATTRIBUTES - %w{ language }).each do |attr|
         define_method attr do
           attributes[attr]
         end
