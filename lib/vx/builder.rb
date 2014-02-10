@@ -2,10 +2,12 @@ require File.expand_path("../builder/version", __FILE__)
 
 module Vx
   module Builder
-    autoload :Source,        File.expand_path("../builder/source",        __FILE__)
-    autoload :Script,        File.expand_path("../builder/script",        __FILE__)
-    autoload :Task,          File.expand_path("../builder/task",          __FILE__)
-    autoload :Configuration, File.expand_path("../builder/configuration", __FILE__)
+    autoload :Source,             File.expand_path("../builder/source",              __FILE__)
+    autoload :Script,             File.expand_path("../builder/script",              __FILE__)
+    autoload :Task,               File.expand_path("../builder/task",                __FILE__)
+    autoload :Configuration,      File.expand_path("../builder/configuration",       __FILE__)
+    autoload :BuildConfiguration, File.expand_path("../builder/build_configuration", __FILE__)
+    autoload :Matrix,             File.expand_path("../builder/matrix",              __FILE__)
 
     module Helper
       autoload :Config, File.expand_path("../builder/helper/config", __FILE__)
