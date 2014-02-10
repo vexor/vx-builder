@@ -37,13 +37,28 @@ module Vx
         end
       end
 
-      attr_reader :attributes, :env, :cache
+      attr_reader :env, :cache
 
-      def initialize(new_attributes = {})
+      def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
+
         @env   = Env.new(new_attributes["env"])
         @cache = Cache.new(new_attributes["cache"])
-        normalize_attributes new_attributes
+        @matrix_attributes = matrix_attributes
+
+        build_attributes new_attributes
+      end
+
+      # for tests
+      def matrix_id
+        @matrix_attributes.map do |k,v|
+          if k == 'env'
+            v = v["matrix"].first
+          end
+          if v
+            [k,v].join(":")
+          end
+        end.compact.sort.join(", ")
       end
 
       def to_hash
@@ -55,6 +70,10 @@ module Vx
         to_hash.to_yaml
       end
 
+      def env_matrix
+        env.matrix
+      end
+
       ATTRIBUTES.each do |attr|
         define_method attr do
           attributes[attr]
@@ -63,7 +82,11 @@ module Vx
 
       private
 
-        def normalize_attributes(new_attributes)
+        def attributes
+          @attributes
+        end
+
+        def build_attributes(new_attributes)
           @attributes = ATTRIBUTES.inject({}) do |ac, attribute_name|
             attribute = new_attributes[attribute_name]
             ac[attribute_name] = Array(attribute)
