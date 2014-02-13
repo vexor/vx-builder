@@ -30,3 +30,7 @@ cache:
   directories:
   - ~/.cache
 
+artifacts:
+  - ../app/foo.txt
+  - /app/*.txt
+  - app/
