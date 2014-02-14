@@ -48,6 +48,11 @@ module Vx
             i << "cd #{repo_path}"
           end
 
+          env.after_script_init.tap do |i|
+            i << 'export VX_ROOT=$(pwd)'
+            i << "cd #{repo_path}"
+          end
+
           app.call env
         end
 
