@@ -34,3 +34,4 @@ artifacts:
   - ../app/foo.txt
   - /app/*.txt
   - app/
+  - prefix: $CI_JOB_ID/

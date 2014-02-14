@@ -43,7 +43,7 @@ describe Vx::Builder::BuildConfiguration do
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
        "services"       => ['rabbitmq'],
-       "artifacts"      => ["app/foo.txt", "app/*.txt", "app/"]
+       "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}]
       }
     ) }
   end
@@ -100,8 +100,13 @@ describe Vx::Builder::BuildConfiguration do
   context "artifacts" do
     subject { config.artifacts }
 
+    its(:prefix) { should eq "$CI_JOB_ID/" }
+    its(:files)  { should eq ["app/foo.txt", "app/*.txt", "app/"] }
+
     context "when is empty" do
       let(:content) { {} }
+      its(:files)      { should eq [] }
+      its(:prefix)     { should be_nil }
       its(:attributes) { should eq [] }
     end
   end

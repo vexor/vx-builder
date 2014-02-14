@@ -13,13 +13,15 @@ module Vx
 
           if enabled?(env)
             env.after_script << "echo"
-            env.source.artifacts.attributes.map{|a| compile(a) }.each do |artifact|
+            env.source.artifacts.files.map{|a| compile(a) }.each do |artifact|
               find = FIND % artifact
-              prefix = env.task.artifacts_url_prefix
+              url = env.task.artifacts_url_prefix
+              prefix = env.source.artifacts.prefix
+              name = prefix ? "#{prefix}$i" : "$i"
               cmd = %{
                 for i in $(#{find}) ; do
-                  echo "upload artifact $i"
-                  curl -s -S -X PUT -T $i #{prefix}/$i > /dev/null
+                  echo "upload artifact #{name}"
+                  curl -s -S -X PUT -T $i #{url}/#{name} > /dev/null
                 done
               }
               env.after_script << cmd
@@ -42,7 +44,7 @@ module Vx
           end
 
           def enabled?(env)
-            !env.source.artifacts.attributes.empty? &&
+            !env.source.artifacts.files.empty? &&
               env.task.artifacts_url_prefix
           end
 

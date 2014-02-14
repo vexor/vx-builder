@@ -9,25 +9,55 @@ module Vx
           normalize_attributes(new_env)
         end
 
-        def artifacts
+        def attributes
           @attributes
+        end
+
+        def files
+          @files
+        end
+
+        def prefix
+          @options[:prefix]
         end
 
         private
 
           def normalize_attributes(new_env)
-
-            @attributes =
+            attrs =
               case new_env
               when Array
-                new_env.map(&:to_s)
+                new_env
               else
-                Array(new_env).map(&:to_s)
+                Array(new_env)
               end
 
-            @attributes.map! do |attr|
-              attr.gsub(/^\.*(\/)/, '')
+            extract_options_and_normalize_items(attrs)
+          end
+
+          def extract_options_and_normalize_items(new_env)
+            opts = {}
+            @attributes = []
+            @files      = []
+            env = new_env.inject([]) do |a, e|
+              if e.is_a?(Hash)
+                opts = e
+                @attributes.push e
+              else
+                a.push e.to_s.gsub(/^\.*(\/)/, '')
+                @attributes.push a.last
+                @files.push a.last
+              end
+              a
             end
+
+            if opts && opts["prefix"]
+              @options = { prefix: opts["prefix"] }
+            else
+              @options = {}
+            end
+
+            [opts, env]
 
           end
 
