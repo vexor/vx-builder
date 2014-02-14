@@ -12,7 +12,7 @@ describe Vx::Builder::Script::Artifacts do
 
   it "should create upload script" do
     subject
-    expect(env.after_success).to_not be_empty
+    expect(env.after_script).to_not be_empty
   end
 
 end

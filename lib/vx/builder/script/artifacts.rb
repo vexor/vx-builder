@@ -12,7 +12,7 @@ module Vx
           rs = app.call env
 
           if enabled?(env)
-            env.after_success << "echo"
+            env.after_script << "echo"
             env.source.artifacts.attributes.map{|a| compile(a) }.each do |artifact|
               find = FIND % artifact
               prefix = env.task.artifacts_url_prefix
@@ -22,9 +22,9 @@ module Vx
                   curl -s -S -X PUT -T $i #{prefix}/$i > /dev/null
                 done
               }
-              env.after_success << cmd
+              env.after_script << cmd
             end
-            env.after_success << "echo"
+            env.after_script << "echo"
           end
 
           rs

@@ -2,26 +2,18 @@ require 'spec_helper'
 require 'vx/common'
 
 describe Vx::Builder::Task do
-  let(:task) {
-    described_class.new(
-      'name',
-      'source',
-      'sha',
-      deploy_key: 'deploy_key',
-      pull_request_id: '1',
-      cache_url_prefix: 'cache_url'
-    )
-  }
-
+  let(:task) { create :task, pull_request_id: 1 }
   subject { task }
 
   context "just created" do
-    let(:name)            { should eq 'name' }
-    let(:source)          { should eq 'source' }
-    let(:sha)             { should eq 'sha' }
-    let(:deploy_key)      { should eq 'deploy_key' }
-    let(:pull_request_id) { should eq '1' }
-    let(:cache_url_prefix){ should eq 'cache_url' }
+    its(:name)            { should eq 'name' }
+    its(:sha)             { should eq 'b665f90239563c030f1b280a434b3d84daeda1bd' }
+    its(:deploy_key)      { should be }
+    its(:cache_url_prefix){ should eq 'http://example.com' }
+    its(:artifacts_url_prefix){ should eq 'http://example.com' }
+    its(:job_id)          { should eq 1 }
+    its(:build_id)        { should eq 12 }
+    its(:pull_request_id) { should eq 1 }
   end
 
 end

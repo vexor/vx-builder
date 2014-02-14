@@ -63,6 +63,8 @@ module Vx
 
       def to_after_script
         a = []
+        a << "\n# after script init"
+        a += env.after_script_init
         a << "\n# after script"
         a += env.after_script
         a.join("\n")
@@ -102,6 +104,8 @@ module Vx
             before_script:      [],
             script:             [],
             after_success:      [],
+
+            after_script_init:  [],
             after_script:       [],
 
             source:             source,

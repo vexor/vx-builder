@@ -8,13 +8,16 @@ def create(name, options = {})
   when :task
     msg = create(:message)
     Vx::Builder::Task.new(
-      'name',
-      msg.src,
-      msg.sha,
+      job_id:     1,
+      build_id:   12,
+      name:       'name',
+      src:        msg.src,
+      sha:        msg.sha,
       deploy_key: msg.deploy_key,
       branch:     msg.branch,
-      cache_url_prefix: "http://example.com/",
-      artifacts_url_prefix: "http://example.com/"
+      cache_url_prefix: "http://example.com",
+      artifacts_url_prefix: "http://example.com",
+      pull_request_id: options[:pull_request_id]
     )
 
   when :source
@@ -30,6 +33,7 @@ def create(name, options = {})
       before_script:  [],
       script:         [],
       after_script:   [],
+      after_script_init: [],
       source:         options[:source] || create(:source),
       after_success:  [],
       task:           create(:task),
