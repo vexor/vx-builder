@@ -13,7 +13,8 @@ def create(name, options = {})
       msg.sha,
       deploy_key: msg.deploy_key,
       branch:     msg.branch,
-      cache_url_prefix: "http://example.com/"
+      cache_url_prefix: "http://example.com/",
+      artifacts_url_prefix: "http://example.com/"
     )
 
   when :source
@@ -30,6 +31,7 @@ def create(name, options = {})
       script:         [],
       after_script:   [],
       source:         options[:source] || create(:source),
+      after_success:  [],
       task:           create(:task),
       cache_key:      [],
       cached_directories: []
