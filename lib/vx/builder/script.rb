@@ -14,11 +14,13 @@ module Vx
       autoload :Databases,    File.expand_path("../script/databases",     __FILE__)
       autoload :Cache,        File.expand_path("../script/cache",         __FILE__)
       autoload :Services,     File.expand_path("../script/services",      __FILE__)
+      autoload :Artifacts,    File.expand_path("../script/artifacts",     __FILE__)
 
       include Common::Helper::Middlewares
 
       middlewares do
         use Builder::Script::Cache
+        use Builder::Script::Artifacts
         use Builder::Script::Env
         use Builder::Script::Services
         use Builder::Script::Prepare
@@ -70,6 +72,10 @@ module Vx
         a = []
         a << "\n# script"
         a += env.script
+
+        a << "\n# after success"
+        a += env.after_success
+
         a.join("\n")
       end
 
@@ -95,6 +101,7 @@ module Vx
 
             before_script:      [],
             script:             [],
+            after_success:      [],
             after_script:       [],
 
             source:             source,

@@ -42,7 +42,8 @@ describe Vx::Builder::BuildConfiguration do
        "rvm"            => ["2.0.0"],
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
-       "services"       => ['rabbitmq']
+       "services"       => ['rabbitmq'],
+       "artifacts"      => ["app/foo.txt", "app/*.txt", "app/"]
       }
     ) }
   end
@@ -93,6 +94,15 @@ describe Vx::Builder::BuildConfiguration do
       let(:content) { { "cache" => false } }
       its(:directories) { should eq [] }
       its(:enabled?)    { should be_false }
+    end
+  end
+
+  context "artifacts" do
+    subject { config.artifacts }
+
+    context "when is empty" do
+      let(:content) { {} }
+      its(:attributes) { should eq [] }
     end
   end
 
