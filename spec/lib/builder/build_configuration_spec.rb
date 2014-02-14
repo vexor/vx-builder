@@ -43,7 +43,8 @@ describe Vx::Builder::BuildConfiguration do
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
        "services"       => ['rabbitmq'],
-       "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}]
+       "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}],
+       "deploy"         => [{"command"=>"cap deploy production", "provider"=>"shell"}],
       }
     ) }
   end
@@ -108,6 +109,47 @@ describe Vx::Builder::BuildConfiguration do
       its(:files)      { should eq [] }
       its(:prefix)     { should be_nil }
       its(:attributes) { should eq [] }
+    end
+  end
+
+  context "deploy" do
+    subject { config.deploy }
+
+    context "when is empty" do
+      let(:content) { {} }
+      its(:attributes) { should eq [] }
+
+      it "build_configuration#deploy? should be false" do
+        expect(config).to_not be_deploy
+      end
+    end
+
+    context "when is array" do
+      let(:content) { {
+        "deploy" => [
+          {
+            "provider" => "some"
+          }
+        ]
+      } }
+      its(:attributes){ should eq [{"provider" => "some"}] }
+
+      it "build_configuration#deploy? should be true" do
+        expect(config).to be_deploy
+      end
+    end
+
+    context "when is hash" do
+      let(:content) { {
+        "deploy" => {
+            "provider" => "some"
+          }
+      } }
+      its(:attributes){ should eq [{"provider" => "some"}] }
+
+      it "build_configuration#deploy? should be true" do
+        expect(config).to be_deploy
+      end
     end
   end
 
