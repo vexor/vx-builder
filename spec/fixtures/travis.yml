@@ -35,3 +35,5 @@ artifacts:
   - /app/*.txt
   - app/
   - prefix: $CI_JOB_ID/
+
+deploy: "cap deploy production"

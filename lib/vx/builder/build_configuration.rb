@@ -37,7 +37,7 @@ module Vx
         end
       end
 
-      attr_reader :env, :cache, :artifacts
+      attr_reader :env, :cache, :artifacts, :deploy
 
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
@@ -45,6 +45,7 @@ module Vx
         @env       = Env.new(new_attributes["env"])
         @cache     = Cache.new(new_attributes["cache"])
         @artifacts = Artifacts.new(new_attributes["artifacts"])
+        @deploy    = Deploy.new(new_attributes["deploy"])
 
         @matrix_attributes = matrix_attributes
 
@@ -64,6 +65,10 @@ module Vx
         end
       end
 
+      def deploy?
+        !deploy.attributes.empty?
+      end
+
       # for tests
       def matrix_id
         matrix_attributes.to_a.map{|i| i.join(":") }.sort.join(", ")
@@ -73,6 +78,7 @@ module Vx
         attributes.merge("env"       => env.attributes)
                   .merge("cache"     => cache.attributes)
                   .merge("artifacts" => artifacts.attributes)
+                  .merge("deploy"    => deploy.attributes)
       end
 
       def to_yaml
