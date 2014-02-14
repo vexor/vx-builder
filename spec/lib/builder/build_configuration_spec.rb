@@ -165,7 +165,7 @@ describe Vx::Builder::BuildConfiguration do
         } }
 
         it "should be branch" do
-          expect(subject.attributes).to eq("branch" => ["production"])
+          expect(subject.to_hash).to eq("branch" => ["production"])
         end
       end
 
@@ -181,7 +181,7 @@ describe Vx::Builder::BuildConfiguration do
         } }
 
         it "should be" do
-          expect(subject.attributes).to eq(
+          expect(subject.to_hash).to eq(
             "branch" => ["production"],
             "rvm"    => ["1.9", "2.0"]
           )
