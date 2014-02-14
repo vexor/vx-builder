@@ -1,6 +1,6 @@
 require 'yaml'
 
-Dir[File.expand_path("../build_configuration/*.rb", __FILE__)].each do |f|
+Dir[File.expand_path("../build_configuration/**/*.rb", __FILE__)].each do |f|
   require f
 end
 
@@ -38,7 +38,7 @@ module Vx
         end
       end
 
-      attr_reader :env, :cache, :artifacts, :deploy
+      attr_reader :env, :cache, :artifacts, :deploy, :attributes
 
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
@@ -68,6 +68,10 @@ module Vx
 
       def deploy?
         !deploy.attributes.empty?
+      end
+
+      def deploy_attributes= (val)
+        @deploy = Deploy.new(val)
       end
 
       # for tests
@@ -105,10 +109,6 @@ module Vx
       end
 
       private
-
-        def attributes
-          @attributes
-        end
 
         def build_attributes(new_attributes)
           @attributes = ATTRIBUTES.inject({}) do |ac, attribute_name|

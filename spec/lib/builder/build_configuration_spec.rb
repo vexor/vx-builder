@@ -152,6 +152,43 @@ describe Vx::Builder::BuildConfiguration do
         expect(config).to be_deploy
       end
     end
+
+    context "with on:" do
+      subject { config.deploy.providers.first.on }
+
+      context "when is string" do
+        let(:content) { {
+          "deploy" => {
+              "provider" => "some",
+              "on"       => "production"
+            }
+        } }
+
+        it "should be branch" do
+          expect(subject.attributes).to eq("branch" => ["production"])
+        end
+      end
+
+      context "when is hash" do
+        let(:content) { {
+          "deploy" => {
+              "provider" => "some",
+              "on"       => {
+                "branch" => "production",
+                "rvm"    => %w{ 1.9 2.0 }
+              }
+            }
+        } }
+
+        it "should be" do
+          expect(subject.attributes).to eq(
+            "branch" => ["production"],
+            "rvm"    => ["1.9", "2.0"]
+          )
+        end
+      end
+
+    end
   end
 
 end

@@ -9,10 +9,15 @@ module Vx
           normalize_attributes(new_env)
         end
 
-        def providers
-          @providers
+        def attributes
+          @attributes
         end
-        alias :attributes :providers
+
+        def providers
+          @providers ||= @attributes.map do |a|
+            Deploy::Provider.new(a)
+          end
+        end
 
         private
 
@@ -24,7 +29,7 @@ module Vx
               when Hash
                 [new_env]
               when String
-                [{"command" => new_env}]
+                [new_env]
               else
                 []
               end
@@ -33,13 +38,17 @@ module Vx
           end
 
           def extract_options_and_normalize_items(new_env)
-            @providers = []
+            @attributes = []
             new_env.each do |env|
-              case
-              when env["provider"]
-                @providers.push env
-              when env["command"]
-                @providers.push env.merge("provider" => "shell")
+              case env
+              when Hash
+                if env["provider"]
+                  @attributes.push env
+                else
+                  @attributes.push env.merge("provider" => "shell")
+                end
+              when String
+                @attributes.push("provider" => "shell", "command" => env)
               end
             end
           end
