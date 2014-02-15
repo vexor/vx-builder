@@ -45,7 +45,7 @@ describe Vx::Builder::Matrix do
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy production", "provider"=>"shell", "on"=>{"branch"=>[]}}]
+        [{"command"=>"cap deploy production", "provider"=>"shell", "on"=>[]}]
       ) }
     end
 
@@ -59,7 +59,7 @@ describe Vx::Builder::Matrix do
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy production", "provider"=>"shell", "on"=>{"branch"=>["master"]}}]
+        [{"command"=>"cap deploy production", "provider"=>"shell", "on"=>["master"]}]
       ) }
     end
 
@@ -79,7 +79,7 @@ describe Vx::Builder::Matrix do
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy staging", "provider"=>"shell", "on"=>{"branch"=>["master"]}}]
+        [{"command"=>"cap deploy staging", "provider"=>"shell", "on"=>["master"]}]
       ) }
 
       context "when no one matched" do

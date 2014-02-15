@@ -6,7 +6,7 @@ module Vx
         attr_reader :attributes
 
         def initialize(new_env)
-          normalize_attributes(new_env)
+          normalize(new_env)
         end
 
         def attributes
@@ -21,7 +21,7 @@ module Vx
 
         private
 
-          def normalize_attributes(new_env)
+          def normalize(new_env)
             attrs =
               case new_env
               when Array
@@ -34,10 +34,10 @@ module Vx
                 []
               end
 
-            extract_options_and_normalize_items(attrs)
+            normalize_each(attrs)
           end
 
-          def extract_options_and_normalize_items(new_env)
+          def normalize_each(new_env)
             @attributes = []
             new_env.each do |env|
               case env

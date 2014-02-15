@@ -28,7 +28,7 @@ module Vx
         return unless build_configuration.deploy?
 
         availabled_providers = build_configuration.deploy.providers.select do |provider|
-          provider.on_branch?(branch)
+          provider.branch?(branch)
         end
 
         unless availabled_providers.empty?

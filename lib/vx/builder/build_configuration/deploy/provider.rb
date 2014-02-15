@@ -8,38 +8,38 @@ module Vx
           attr_reader :name, :options, :on
 
           def initialize(new_attributes)
-            normalize_attributes new_attributes.dup
+            normalize new_attributes.dup
           end
 
-          def on?(build_configuration)
-            config_attrs = build_configuration.to_hash
-            on.attributes.each do |attribute_name, values|
-              if config_values = config_attrs[attribute_name]
-                values.all? do |v|
-                  config_values.include?(v)
-                end
-              end
-            end
-          end
-
-          def on_branch?(branch)
-            return true if on.branch.empty?
-            on.branch.include?(branch)
+          def branch?(branch)
+            return true if on.empty?
+            on.include?(branch)
           end
 
           def to_hash
             options.merge(
               "provider" => @name,
-              "on"       => on.to_hash
+              "on"       => on
             )
           end
 
           private
 
-            def normalize_attributes(new_attributes)
+            def normalize(new_attributes)
               @name    = new_attributes.delete("provider")
-              @on      = On.new(new_attributes.delete("on"))
+              @on      = new_attributes.delete("on")
               @options = new_attributes
+
+              @on =
+                case @on
+                when String
+                  [@on]
+                when Array
+                  @on.map(&:to_s)
+                else
+                  []
+                end
+
             end
 
         end

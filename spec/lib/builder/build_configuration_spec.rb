@@ -165,27 +165,19 @@ describe Vx::Builder::BuildConfiguration do
         } }
 
         it "should be branch" do
-          expect(subject.to_hash).to eq("branch" => ["production"])
+          expect(subject).to eq(["production"])
         end
       end
 
-      context "when is hash" do
+      context "when is array" do
         let(:content) { {
           "deploy" => {
               "provider" => "some",
-              "on"       => {
-                "branch" => "production",
-                "rvm"    => %w{ 1.9 2.0 }
-              }
+              "on"       => %w{ production master }
             }
         } }
 
-        it "should be" do
-          expect(subject.to_hash).to eq(
-            "branch" => ["production"],
-            "rvm"    => ["1.9", "2.0"]
-          )
-        end
+        it { should eq %w{ production master } }
       end
 
     end
