@@ -23,6 +23,14 @@ module Vx
             )
           end
 
+          def shell?
+            @name == 'shell'
+          end
+
+          def command
+            Array(options["command"])
+          end
+
           private
 
             def normalize(new_attributes)

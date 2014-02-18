@@ -23,6 +23,8 @@ module Vx
         before_script
         script
         after_success
+
+        before_deploy
       }
 
       class << self

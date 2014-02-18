@@ -39,7 +39,9 @@ def create(name, options = {})
       after_success:  [],
       task:           options[:task] || create(:task),
       cache_key:      [],
-      cached_directories: []
+      cached_directories: [],
+      before_deploy:       [],
+      deploy:              [],
     )
 
   when :command_from_env

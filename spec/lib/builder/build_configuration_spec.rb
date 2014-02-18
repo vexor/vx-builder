@@ -46,6 +46,7 @@ describe Vx::Builder::BuildConfiguration do
        "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}],
        "deploy"         => [{"command"=>"cap deploy production", "provider"=>"shell"}],
        "bundler_args"   => ["--without development"],
+       "before_deploy"  => [],
       }
     ) }
   end

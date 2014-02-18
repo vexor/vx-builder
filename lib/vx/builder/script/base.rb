@@ -33,6 +33,18 @@ module Vx
         def do_install(env)
           yield env.install
         end
+
+        def do_before_deploy(env)
+          yield env.before_deploy
+        end
+
+        def do_after_deploy(env)
+          yield env.after_deploy
+        end
+
+        def do_deploy(env)
+          yield env.deploy
+        end
       end
 
     end
