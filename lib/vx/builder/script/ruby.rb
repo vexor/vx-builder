@@ -2,28 +2,28 @@ module Vx
   module Builder
     class Script
 
-      Ruby = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Ruby < Base
 
         DEFAULT_RUBY = '1.9.3'
 
         def call(env)
           if enabled?(env)
-            env.cache_key << "rvm-#{ruby env}"
-            env.cache_key << gemfile(env)
+            do_cache_key(env) do |i|
+              i << "rvm-#{ruby env}"
+              i << gemfile(env)
+            end
 
-            env.before_install.tap do |i|
+            do_before_install(env) do |i|
               i << 'eval "$(rbenv init -)" || true'
               i << "rbenv shell #{make_rbenv_version_command env}"
               i << trace_sh_command("export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}")
               i << trace_sh_command('export GEM_HOME=~/.rubygems')
             end
 
-            env.announce.tap do |a|
-              a << trace_sh_command("ruby --version")
-              a << trace_sh_command("gem --version")
-              a << trace_sh_command("bundle --version")
+            do_announce(env) do |i|
+              i << trace_sh_command("ruby --version")
+              i << trace_sh_command("gem --version")
+              i << trace_sh_command("bundle --version")
             end
 
             env.install.tap do |i|
@@ -37,8 +37,17 @@ module Vx
               env.script << script
             end
 
-            if env.source.cached_directories != false
-              env.cached_directories.push "~/.rubygems"
+            do_install(env) do |i|
+              i << trace_sh_command("bundle install")
+              i << trace_sh_command("bundle clean --force")
+            end
+
+            do_script(env) do |i|
+              i << "test -f Rakefile && #{trace_sh_command "bundle exec rake"} || true"
+            end
+
+            do_cached_directories(env) do |i|
+              i << "~/.rubygems"
             end
           end
 

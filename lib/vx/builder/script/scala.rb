@@ -2,33 +2,31 @@ module Vx
   module Builder
     class Script
 
-      Scala = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Scala < Base
 
         DEFAULT_SCALA = '2.10.3'
 
         def call(env)
           if enabled?(env)
-            env.cache_key << "scala-#{scala env}"
+            do_cache_key(env) do |i|
+              i << "scala-#{scala env}"
+            end
 
-            env.announce.tap do |i|
+            do_announce(env) do |i|
               i << trace_sh_command("export SCALA_VERSION=#{scala env}")
             end
 
-            env.install.tap do |i|
+            do_install(env) do |i|
               i << "if [[ -d project || -f build.sbt ]] ; then #{trace_sh_command "sbt ++#{scala env} update"} ; fi"
             end
 
-            if env.source.script.empty?
-              env.script.tap do |i|
-                i << "if [[ -d project || -f build.sbt ]] ; then #{trace_sh_command "sbt ++#{scala env} test"} ; fi"
-              end
+            do_script(env) do |i|
+              i << "if [[ -d project || -f build.sbt ]] ; then #{trace_sh_command "sbt ++#{scala env} test"} ; fi"
             end
 
-            if env.source.cached_directories != false
-              env.cached_directories.push "~/.sbt"
-              env.cached_directories.push "~/.ivy2"
+            do_cached_directories(env) do |i|
+              i << "~/.sbt"
+              i << "~/.ivy2"
             end
           end
 

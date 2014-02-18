@@ -2,9 +2,7 @@ module Vx
   module Builder
     class Script
 
-      Env = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Env < Base
 
         def call(env)
           env.init << "set -e"

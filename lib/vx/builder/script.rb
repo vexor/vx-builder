@@ -4,6 +4,7 @@ module Vx
   module Builder
     class Script
 
+      autoload :Base,         File.expand_path("../script/base",          __FILE__)
       autoload :Env,          File.expand_path("../script/env",           __FILE__)
       autoload :Ruby,         File.expand_path("../script/ruby",          __FILE__)
       autoload :Java,         File.expand_path("../script/java",          __FILE__)

@@ -3,7 +3,7 @@ module Vx
     class Task
 
       attr_reader :name, :src, :sha, :deploy_key, :branch, :pull_request_id,
-        :cache_url_prefix, :artifacts_url_prefix, :job_id, :build_id
+        :cache_url_prefix, :artifacts_url_prefix, :job_id, :build_id, :deploy
 
       def initialize(options = {})
         @name                 = options[:name]
@@ -16,6 +16,7 @@ module Vx
         @pull_request_id      = options[:pull_request_id]
         @cache_url_prefix     = options[:cache_url_prefix]
         @artifacts_url_prefix = options[:artifacts_url_prefix]
+        @deploy               = !!options[:deploy]
 
         validate!
       end
