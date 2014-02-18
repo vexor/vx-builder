@@ -8,7 +8,7 @@ module Vx
           if enabled?(env)
             env.source.deploy.providers.each do |provider|
               if provider.shell?
-                deploy_using_shell(env)
+                deploy_using_shell(env, provider)
               end
             end
           end
