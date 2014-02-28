@@ -27,6 +27,18 @@ describe Vx::Builder::Script::Prepare do
         expect($?.to_i).to eq 0
       end
     end
+
+    context "with github pull request" do
+      let(:env) { create :env, task: create(:task, pull_request_id: 1) }
+      context "success" do
+        it "should return zero code" do
+          Dir.chdir(path) do
+            system( command )
+          end
+          expect($?.to_i).to eq 0
+        end
+      end
+    end
   end
 
 end

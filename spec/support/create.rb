@@ -36,7 +36,7 @@ def create(name, options = {})
       after_script_init: [],
       source:         options[:source] || create(:source),
       after_success:  [],
-      task:           create(:task),
+      task:           options[:task] || create(:task),
       cache_key:      [],
       cached_directories: []
     )
