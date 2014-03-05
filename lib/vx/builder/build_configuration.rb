@@ -17,6 +17,7 @@ module Vx
         gemfile
         services
         image
+        bundler_args
 
         before_install
         before_script

@@ -37,3 +37,5 @@ artifacts:
   - prefix: $CI_JOB_ID/
 
 deploy: "cap deploy production"
+
+bundler_args: --without development

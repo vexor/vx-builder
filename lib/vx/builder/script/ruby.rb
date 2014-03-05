@@ -27,7 +27,8 @@ module Vx
             end
 
             env.install.tap do |i|
-              i << trace_sh_command("bundle install")
+              bundler_args = env.source.bundler_args.first
+              i << trace_sh_command("bundle install #{bundler_args}")
               i << trace_sh_command("bundle clean --force")
             end
 
