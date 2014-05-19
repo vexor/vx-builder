@@ -33,7 +33,7 @@ module Vx
             end
 
             if env.source.script.empty?
-              script = "if [ -f Rakefile ] then #{trace_sh_command "bundle exec rake"} ; else true ; fi"
+              script = "if [ -f Rakefile ] then (#{trace_sh_command "bundle exec rake"}) ; fi"
               env.script << script
             end
 
