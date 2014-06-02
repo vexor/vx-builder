@@ -10,6 +10,7 @@ RSpec.configure do |config|
   config.mock_with :rr
 
   config.before(:each) do
+    Vx::Builder.reset_config!
   end
 end
 
