@@ -9,7 +9,7 @@ module Vx
       self.env_namespace      = 'vx'
       self.raise_missing_keys = true
 
-      define casher_ruby: "/opt/rbenv/versions/1.9.3-p545/bin/ruby"
+      define casher_ruby: "/opt/rbenv/versions/1.9.3-p547/bin/ruby"
 
     end
   end

@@ -26,8 +26,8 @@ eval "$(ssh-agent)"
 ssh-add $VX_PRIVATE_KEY
 cd ${VX_ROOT}/code/name
  export CASHER_DIR=$HOME/.casher && ( mkdir -p $CASHER_DIR/bin && /usr/bin/curl https://raw2.github.com/dima-exe/casher/master/bin/casher -s -o $HOME/.casher/bin/casher && chmod +x $HOME/.casher/bin/casher ) || true 
-test -f $HOME/.casher/bin/casher && /opt/rbenv/versions/1.9.3-p545/bin/ruby $HOME/.casher/bin/casher fetch http://example.com/master/rvm-2.0.0-gemfile.tgz || true
-test -f $HOME/.casher/bin/casher && /opt/rbenv/versions/1.9.3-p545/bin/ruby $HOME/.casher/bin/casher add ~/.rubygems || true
+test -f $HOME/.casher/bin/casher && /opt/rbenv/versions/1.9.3-p547/bin/ruby $HOME/.casher/bin/casher fetch http://example.com/master/rvm-2.0.0-gemfile.tgz || true
+test -f $HOME/.casher/bin/casher && /opt/rbenv/versions/1.9.3-p547/bin/ruby $HOME/.casher/bin/casher add ~/.rubygems || true
 unset CASHER_DIR
 
 # before install
