@@ -32,18 +32,14 @@ module Vx
               i << trace_sh_command("bundle clean --force")
             end
 
-            if env.source.script.empty?
-              script = "if [ -f Rakefile ] then (#{trace_sh_command "bundle exec rake"}) ; fi"
-              env.script << script
-            end
-
             do_install(env) do |i|
               i << trace_sh_command("bundle install")
               i << trace_sh_command("bundle clean --force")
             end
 
             do_script(env) do |i|
-              i << "test -f Rakefile && #{trace_sh_command "bundle exec rake"} || true"
+              script = "if [ -f Rakefile ] ; then \n #{trace_sh_command "bundle exec rake"}\nfi"
+              i << script
             end
 
             do_cached_directories(env) do |i|
