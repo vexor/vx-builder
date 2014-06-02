@@ -46,6 +46,8 @@ describe Vx::Builder::BuildConfiguration do
        "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}],
        "deploy"         => [{"command"=>"cap deploy production", "provider"=>"shell"}],
        "bundler_args"   => ["--without development"],
+       "before_deploy"  => ["echo before deploy"],
+       "after_deploy"   => ["echo after deploy"]
       }
     ) }
   end
@@ -151,6 +153,35 @@ describe Vx::Builder::BuildConfiguration do
       it "build_configuration#deploy? should be true" do
         expect(config).to be_deploy
       end
+    end
+
+    context "with on:" do
+      subject { config.deploy.providers.first.on }
+
+      context "when is string" do
+        let(:content) { {
+          "deploy" => {
+              "provider" => "some",
+              "branch"   => "production"
+            }
+        } }
+
+        it "should be branch" do
+          expect(subject).to eq(["production"])
+        end
+      end
+
+      context "when is array" do
+        let(:content) { {
+          "deploy" => {
+              "provider" => "some",
+              "branch"   => %w{ production master }
+            }
+        } }
+
+        it { should eq %w{ production master } }
+      end
+
     end
   end
 

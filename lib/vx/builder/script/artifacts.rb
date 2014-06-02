@@ -2,9 +2,7 @@ module Vx
   module Builder
     class Script
 
-      Artifacts = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Artifacts < Base
 
         FIND='find . -type f -path "./%s" | sed "s/^\.\///g"'
 

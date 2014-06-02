@@ -2,15 +2,15 @@ module Vx
   module Builder
     class Script
 
-      Java = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Java < Base
 
         def call(env)
           if java(env)
-            env.cache_key << "jdk-#{java env}"
+            do_cache_key(env) do |i|
+              i << "jdk-#{java env}"
+            end
 
-            env.before_install.tap do |i|
+            do_before_install(env) do |i|
               i << "source $(which jdk_switcher.sh)"
               i << trace_sh_command("jdk_switcher use #{java env}")
             end

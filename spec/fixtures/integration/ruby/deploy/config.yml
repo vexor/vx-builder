@@ -1,0 +1,12 @@
+language: ruby
+
+deploy:
+
+  - command: cap staging deploy
+    branch: master
+
+  - command: cap producation deploy
+    branch: production
+
+after_deploy: echo after deploy
+before_deploy: echo before deploy

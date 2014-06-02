@@ -2,24 +2,20 @@ module Vx
   module Builder
     class Script
 
-      Clojure = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Clojure < Base
 
         def call(env)
           if enabled?(env)
-            env.announce.tap do |i|
+            do_announce(env) do |i|
               i << trace_sh_command("lein version")
             end
 
-            env.install.tap do |i|
+            do_install(env) do |i|
               i << trace_sh_command("lein deps")
             end
 
-            if env.source.script.empty?
-              env.script.tap do |i|
-                i << trace_sh_command("lein test")
-              end
+            do_script(env) do |i|
+              i << trace_sh_command("lein test")
             end
           end
 

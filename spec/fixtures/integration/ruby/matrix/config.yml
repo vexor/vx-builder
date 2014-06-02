@@ -1,0 +1,11 @@
+rvm:
+  - 1.9.3
+  - 2.0.0
+
+before_script: echo before script
+
+script: rake
+
+after_script: echo after script
+
+deploy: cap staging deploy

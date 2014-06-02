@@ -30,6 +30,65 @@ describe Vx::Builder::Matrix do
     end
   end
 
+  context "deploy_configuration" do
+    let(:branch) { 'master' }
+    subject { matrix.deploy_configuration branch }
+
+    it "should be nil without :deploy key" do
+      expect(subject).to be_nil
+    end
+
+    context "with single deploy without condifitions" do
+      let(:attributes) { {
+        "deploy" => "cap deploy production"
+      } }
+
+      it { should be }
+      its("deploy.attributes"){ should eq(
+        [{"command"=>"cap deploy production", "provider"=>"shell", "branch"=>[]}]
+      ) }
+    end
+
+    context "with single deploy and condititions" do
+      let(:attributes) { {
+        "deploy" => {
+          "command" => "cap deploy production",
+          "branch" => ["master"]
+        }
+      } }
+
+      it { should be }
+      its("deploy.attributes"){ should eq(
+        [{"command"=>"cap deploy production", "provider"=>"shell", "branch"=>["master"]}]
+      ) }
+    end
+
+    context "with multiple deploys and condititions" do
+      let(:attributes) { {
+        "deploy" => [
+          {
+            "command" => "cap deploy staging",
+            "branch" => ["master"]
+          },
+          {
+            "command" => "cap deploy production",
+            "branch" => ["production"]
+          }
+         ]
+      } }
+
+      it { should be }
+      its("deploy.attributes"){ should eq(
+        [{"command"=>"cap deploy staging", "provider"=>"shell", "branch"=>["master"]}]
+      ) }
+
+      context "when no one matched" do
+        let(:branch) { 'staging' }
+        it { should be_nil }
+      end
+    end
+  end
+
   context 'build_configurations' do
 
     subject { matrix.build_configurations }

@@ -24,6 +24,20 @@ module Vx
         end
       end
 
+      def deploy_configuration(branch)
+        return unless build_configuration.deploy?
+
+        availabled_providers = build_configuration.deploy.providers.select do |provider|
+          provider.branch?(branch)
+        end
+
+        unless availabled_providers.empty?
+          build_configurations.first.dup.tap do |config|
+            config.deploy_attributes = availabled_providers.map(&:to_hash)
+          end
+        end
+      end
+
       def attributes_for_new_build_configurations_with_merged_env
         attrs = attributes_for_new_build_configurations
         attrs = [{}] if attrs.empty?

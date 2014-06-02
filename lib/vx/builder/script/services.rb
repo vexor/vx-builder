@@ -2,13 +2,11 @@ module Vx
   module Builder
     class Script
 
-      Services = Struct.new(:app) do
+      class Services < Base
 
         ALIASES = {
           'rabbitmq' => 'rabbitmq-server'
         }
-
-        include Helper::TraceShCommand
 
         def call(env)
           env.source.services.each do |srv|

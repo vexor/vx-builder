@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'vx/common'
 
 describe Vx::Builder::Task do
-  let(:task) { create :task, pull_request_id: 1 }
+  let(:task) { create :task, pull_request_id: 1, deploy: true }
   subject { task }
 
   context "just created" do
@@ -14,6 +14,7 @@ describe Vx::Builder::Task do
     its(:job_id)          { should eq 1 }
     its(:build_id)        { should eq 12 }
     its(:pull_request_id) { should eq 1 }
+    its(:deploy?)         { should be_true }
   end
 
 end
