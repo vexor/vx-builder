@@ -45,7 +45,7 @@ describe Vx::Builder::Matrix do
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy production", "provider"=>"shell", "on"=>[]}]
+        [{"command"=>"cap deploy production", "provider"=>"shell", "branch"=>[]}]
       ) }
     end
 
@@ -53,13 +53,13 @@ describe Vx::Builder::Matrix do
       let(:attributes) { {
         "deploy" => {
           "command" => "cap deploy production",
-          "on" => ["master"]
+          "branch" => ["master"]
         }
       } }
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy production", "provider"=>"shell", "on"=>["master"]}]
+        [{"command"=>"cap deploy production", "provider"=>"shell", "branch"=>["master"]}]
       ) }
     end
 
@@ -68,18 +68,18 @@ describe Vx::Builder::Matrix do
         "deploy" => [
           {
             "command" => "cap deploy staging",
-            "on" => ["master"]
+            "branch" => ["master"]
           },
           {
             "command" => "cap deploy production",
-            "on" => ["production"]
+            "branch" => ["production"]
           }
          ]
       } }
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy staging", "provider"=>"shell", "on"=>["master"]}]
+        [{"command"=>"cap deploy staging", "provider"=>"shell", "branch"=>["master"]}]
       ) }
 
       context "when no one matched" do

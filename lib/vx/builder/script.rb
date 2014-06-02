@@ -61,24 +61,25 @@ module Vx
 
         if deploy?
           a << "\n# before deploy"
-          a += env.before_deploy
         else
           a << "\n# before script"
-          a += env.before_script
         end
+        a += env.before_script
 
         a.join("\n")
       end
 
       def to_after_script
         a = []
+        a << "\n# after script init"
+        a += env.after_script_init
+
         if deploy?
+          a << "\n# after deploy"
         else
-          a << "\n# after script init"
-          a += env.after_script_init
           a << "\n# after script"
-          a += env.after_script
         end
+        a += env.after_script
         a.join("\n")
       end
 

@@ -25,6 +25,7 @@ module Vx
         after_success
 
         before_deploy
+        after_deploy
       }
 
       class << self

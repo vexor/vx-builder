@@ -19,7 +19,7 @@ module Vx
           def to_hash
             options.merge(
               "provider" => @name,
-              "on"       => on
+              "branch"   => on
             )
           end
 
@@ -35,7 +35,7 @@ module Vx
 
             def normalize(new_attributes)
               @name    = new_attributes.delete("provider")
-              @on      = new_attributes.delete("on")
+              @on      = new_attributes.delete("branch")
               @options = new_attributes
 
               @on =

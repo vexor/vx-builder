@@ -46,7 +46,8 @@ describe Vx::Builder::BuildConfiguration do
        "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}],
        "deploy"         => [{"command"=>"cap deploy production", "provider"=>"shell"}],
        "bundler_args"   => ["--without development"],
-       "before_deploy"  => [],
+       "before_deploy"  => ["echo before deploy"],
+       "after_deploy"   => ["echo after deploy"]
       }
     ) }
   end
@@ -161,7 +162,7 @@ describe Vx::Builder::BuildConfiguration do
         let(:content) { {
           "deploy" => {
               "provider" => "some",
-              "on"       => "production"
+              "branch"   => "production"
             }
         } }
 
@@ -174,7 +175,7 @@ describe Vx::Builder::BuildConfiguration do
         let(:content) { {
           "deploy" => {
               "provider" => "some",
-              "on"       => %w{ production master }
+              "branch"   => %w{ production master }
             }
         } }
 

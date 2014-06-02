@@ -45,6 +45,10 @@ module Vx
         def do_deploy(env)
           yield env.deploy
         end
+
+        def deploy?
+          env.task.deploy?
+        end
       end
 
     end
