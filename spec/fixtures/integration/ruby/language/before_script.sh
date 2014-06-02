@@ -51,9 +51,5 @@ echo \$\ bundle\ install\
 bundle install 
 echo \$\ bundle\ clean\ --force
 bundle clean --force
-echo \$\ bundle\ install
-bundle install
-echo \$\ bundle\ clean\ --force
-bundle clean --force
 
 # before script
