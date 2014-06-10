@@ -9,6 +9,20 @@ describe "(integration) ruby" do
   let(:script) { Vx::Builder::Script.new(task, source) }
   subject { matrix }
 
+  def write_script_to_filter(prefix)
+=begin
+    File.open(fixture_path("integration/ruby/#{prefix}before_script.sh"), 'w') do |io|
+      io << script.to_before_script
+    end
+    File.open(fixture_path("integration/ruby/#{prefix}after_script.sh"), 'w') do |io|
+      io << script.to_after_script
+    end
+    File.open(fixture_path("integration/ruby/#{prefix}script.sh"), 'w') do |io|
+      io << script.to_script
+    end
+=end
+  end
+
   context "language" do
     let(:config) { fixture("integration/ruby/language/config.yml") }
 
@@ -18,20 +32,7 @@ describe "(integration) ruby" do
       let(:source) { matrix.build_configurations.first }
       subject { script }
 
-
-      before do
-=begin
-        File.open(fixture_path("integration/ruby/language/before_script.sh"), 'w') do |io|
-          io << script.to_before_script
-        end
-        File.open(fixture_path("integration/ruby/language/after_script.sh"), 'w') do |io|
-          io << script.to_after_script
-        end
-        File.open(fixture_path("integration/ruby/language/script.sh"), 'w') do |io|
-          io << script.to_script
-        end
-=end
-      end
+      before { write_script_to_filter "language/" }
 
       it { should_not be_deploy }
       its(:to_before_script) { should eq fixture("integration/ruby/language/before_script.sh") }
@@ -48,19 +49,7 @@ describe "(integration) ruby" do
       let(:source) { matrix.deploy_configuration("master") }
       subject { script }
 
-      before do
-=begin
-        File.open(fixture_path("integration/ruby/deploy/d.before_script.sh"), 'w') do |io|
-          io << script.to_before_script
-        end
-        File.open(fixture_path("integration/ruby/deploy/d.after_script.sh"), 'w') do |io|
-          io << script.to_after_script
-        end
-        File.open(fixture_path("integration/ruby/deploy/d.script.sh"), 'w') do |io|
-          io << script.to_script
-        end
-=end
-      end
+      before { write_script_to_filter "deploy/d." }
 
       it "should have source" do
         expect(source).to be
@@ -82,19 +71,7 @@ describe "(integration) ruby" do
       let(:source) { matrix.build_configurations[0] }
       subject { script }
 
-      before do
-=begin
-        File.open(fixture_path("integration/ruby/matrix/0.before_script.sh"), 'w') do |io|
-          io << script.to_before_script
-        end
-        File.open(fixture_path("integration/ruby/matrix/0.after_script.sh"), 'w') do |io|
-          io << script.to_after_script
-        end
-        File.open(fixture_path("integration/ruby/matrix/0.script.sh"), 'w') do |io|
-          io << script.to_script
-        end
-=end
-      end
+      before { write_script_to_filter "matrix/0." }
 
       it { should_not be_deploy }
       its(:to_before_script) { should eq fixture("integration/ruby/matrix/0.before_script.sh") }
@@ -106,19 +83,7 @@ describe "(integration) ruby" do
       let(:source) { matrix.build_configurations[1] }
       subject { script }
 
-      before do
-=begin
-        File.open(fixture_path("integration/ruby/matrix/1.before_script.sh"), 'w') do |io|
-          io << script.to_before_script
-        end
-        File.open(fixture_path("integration/ruby/matrix/1.after_script.sh"), 'w') do |io|
-          io << script.to_after_script
-        end
-        File.open(fixture_path("integration/ruby/matrix/1.script.sh"), 'w') do |io|
-          io << script.to_script
-        end
-=end
-      end
+      before { write_script_to_filter "matrix/1." }
 
       it { should_not be_deploy }
       its(:to_before_script) { should eq fixture("integration/ruby/matrix/1.before_script.sh") }
@@ -131,19 +96,7 @@ describe "(integration) ruby" do
       let(:source) { matrix.deploy_configuration("master") }
       subject { script }
 
-      before do
-=begin
-        File.open(fixture_path("integration/ruby/matrix/d.before_script.sh"), 'w') do |io|
-          io << script.to_before_script
-        end
-        File.open(fixture_path("integration/ruby/matrix/d.after_script.sh"), 'w') do |io|
-          io << script.to_after_script
-        end
-        File.open(fixture_path("integration/ruby/matrix/d.script.sh"), 'w') do |io|
-          io << script.to_script
-        end
-=end
-      end
+      before { write_script_to_filter "matrix/d." }
 
       it "should have source" do
         expect(source).to be
