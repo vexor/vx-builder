@@ -24,18 +24,13 @@ module Vx
         end
       end
 
-      def deploy_configuration(branch)
+      def deploy_configuration(branch, base_build_configuration)
         return unless build_configuration.deploy?
 
-        availabled_providers = build_configuration.deploy.providers.select do |provider|
-          provider.branch?(branch)
-        end
+        deploy_modules = build_configuration.deploy.find(branch)
+        return if deploy_modules.empty?
 
-        unless availabled_providers.empty?
-          build_configurations.first.dup.tap do |config|
-            config.deploy_attributes = availabled_providers.map(&:to_hash)
-          end
-        end
+        build_configuration.deploy.merge(deploy_modules, base_build_configuration)
       end
 
       def attributes_for_new_build_configurations_with_merged_env

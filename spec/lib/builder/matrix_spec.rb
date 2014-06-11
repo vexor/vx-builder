@@ -32,7 +32,8 @@ describe Vx::Builder::Matrix do
 
   context "deploy_configuration" do
     let(:branch) { 'master' }
-    subject { matrix.deploy_configuration branch }
+    let(:base_build_configuration) { matrix.build_configurations.first }
+    subject { matrix.deploy_configuration branch, base_build_configuration }
 
     it "should be nil without :deploy key" do
       expect(subject).to be_nil
@@ -40,26 +41,26 @@ describe Vx::Builder::Matrix do
 
     context "with single deploy without condifitions" do
       let(:attributes) { {
-        "deploy" => "cap deploy production"
+        "deploy" => { "shell" => "cap deploy production" }
       } }
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy production", "provider"=>"shell", "branch"=>[]}]
+        [ {"shell"=>"cap deploy production" }]
       ) }
     end
 
     context "with single deploy and condititions" do
       let(:attributes) { {
         "deploy" => {
-          "command" => "cap deploy production",
+          "shell"  => "cap deploy production",
           "branch" => ["master"]
         }
       } }
 
       it { should be }
       its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy production", "provider"=>"shell", "branch"=>["master"]}]
+        [{"shell"=>"cap deploy production", "branch"=>["master"]}]
       ) }
     end
 
@@ -67,20 +68,23 @@ describe Vx::Builder::Matrix do
       let(:attributes) { {
         "deploy" => [
           {
-            "command" => "cap deploy staging",
+            "shell"  => "cap deploy staging",
             "branch" => ["master"]
           },
           {
-            "command" => "cap deploy production",
+            "shell"  => "cap deploy production",
             "branch" => ["production"]
           }
          ]
       } }
 
       it { should be }
-      its("deploy.attributes"){ should eq(
-        [{"command"=>"cap deploy staging", "provider"=>"shell", "branch"=>["master"]}]
-      ) }
+
+      context "deploy_modules" do
+        subject { matrix.deploy_configuration(branch, base_build_configuration).deploy_modules }
+        it { should have(1).item }
+        its("first.params") { should eq("shell"=>"cap deploy staging", "branch"=>["master"]) }
+      end
 
       context "when no one matched" do
         let(:branch) { 'staging' }

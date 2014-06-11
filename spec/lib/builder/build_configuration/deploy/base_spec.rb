@@ -25,12 +25,6 @@ describe Vx::Builder::BuildConfiguration::Deploy::Base do
     end
   end
 
-  context ".find" do
-    it "should find for shell" do
-      expect(described_class.find shell: "value").to eq Vx::Builder::BuildConfiguration::Deploy::Shell
-    end
-  end
-
   context ".loaded" do
     subject { described_class.loaded }
     it { should have(1).items }

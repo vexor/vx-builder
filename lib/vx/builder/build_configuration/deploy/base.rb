@@ -5,16 +5,16 @@ module Vx
 
         class Base
 
-          @@loaded = []
-
           class << self
+
+            @@loaded = []
 
             def loaded
               @@loaded
             end
 
             def provide(val)
-              @@loaded << self
+              loaded.push self
               @key = val
             end
 
@@ -28,11 +28,7 @@ module Vx
             end
 
             def detect(params)
-              params.key?(key) if key
-            end
-
-            def find(params)
-              loaded.select{|i| i.detect params }.first
+              params.key?(key.to_s) if key
             end
           end
 
@@ -45,6 +41,14 @@ module Vx
 
           def branch=(value)
             @branch = Array(value).map(&:to_s)
+          end
+
+          def branch?(name)
+            if branch.empty?
+              true
+            else
+              branch.include?(name)
+            end
           end
 
           def key

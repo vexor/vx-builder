@@ -3,6 +3,20 @@ module Vx
     class BuildConfiguration
       class Deploy
 
+        BLACK_LIST = %w{
+          image
+          before_script
+          after_script
+          script
+        }
+
+        FLAT_ATTRIBUTES = %w{
+          rvm
+          gemfile
+          scala
+          jdk
+        }
+
         attr_reader :attributes
 
         def initialize(new_env)
@@ -13,10 +27,28 @@ module Vx
           @attributes
         end
 
-        def providers
-          @providers ||= @attributes.map do |a|
-            Deploy::Provider.new(a)
+        def find(branch)
+          modules = []
+          Base.loaded.each do |l|
+            attributes.each do |attr|
+              if l.detect(attr)
+                modules << l.new(attr)
+              end
+            end
           end
+          modules.select{ |m| m.branch?(branch) }
+        end
+
+        def merge(deploy_modules, base_build_configuration)
+          hash = base_build_configuration.to_hash
+
+          BLACK_LIST.each do |attr|
+            hash.delete(attr)
+          end
+
+          hash["env"]            = base_build_configuration.env.global
+          hash["deploy_modules"] = deploy_modules
+          BuildConfiguration.new(hash)
         end
 
         private
@@ -28,8 +60,6 @@ module Vx
                 new_env
               when Hash
                 [new_env]
-              when String
-                [new_env]
               else
                 []
               end
@@ -39,18 +69,7 @@ module Vx
 
           def normalize_each(new_env)
             @attributes = []
-            new_env.each do |env|
-              case env
-              when Hash
-                if env["provider"]
-                  @attributes.push env
-                else
-                  @attributes.push env.merge("provider" => "shell")
-                end
-              when String
-                @attributes.push("provider" => "shell", "command" => env)
-              end
-            end
+            @attributes = new_env.select{|i| i.is_a?(Hash) }
           end
 
       end

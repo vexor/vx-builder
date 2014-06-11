@@ -44,7 +44,7 @@ describe Vx::Builder::BuildConfiguration do
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
        "services"       => ['rabbitmq'],
        "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}],
-       "deploy"         => [{"command"=>"cap deploy production", "provider"=>"shell"}],
+       "deploy"         => [{"shell"=>"cap deploy production"}],
        "bundler_args"   => ["--without development"],
        "before_deploy"  => ["echo before deploy"],
        "after_deploy"   => ["echo after deploy"]
@@ -59,6 +59,12 @@ describe Vx::Builder::BuildConfiguration do
       let(:content) { { 'env' => %w{ 1 2 3 } } }
       its(:matrix) { should eq %w{1 2 3} }
       its(:global) { should eq [] }
+
+      context "and only one element" do
+        let(:content) { { 'env' => %w{ 1 } } }
+        its(:matrix) { should eq [] }
+        its(:global) { should eq ["1"] }
+      end
     end
 
     context "when is hash" do
@@ -109,6 +115,7 @@ describe Vx::Builder::BuildConfiguration do
 
     context "when is empty" do
       let(:content) { {} }
+
       its(:files)      { should eq [] }
       its(:prefix)     { should be_nil }
       its(:attributes) { should eq [] }
@@ -131,11 +138,11 @@ describe Vx::Builder::BuildConfiguration do
       let(:content) { {
         "deploy" => [
           {
-            "provider" => "some"
+            "shell" => "some"
           }
         ]
       } }
-      its(:attributes){ should eq [{"provider" => "some"}] }
+      its(:attributes){ should eq [{"shell" => "some"}] }
 
       it "build_configuration#deploy? should be true" do
         expect(config).to be_deploy
@@ -145,43 +152,14 @@ describe Vx::Builder::BuildConfiguration do
     context "when is hash" do
       let(:content) { {
         "deploy" => {
-            "provider" => "some"
+            "shell" => "some"
           }
       } }
-      its(:attributes){ should eq [{"provider" => "some"}] }
+      its(:attributes){ should eq [{"shell" => "some"}] }
 
       it "build_configuration#deploy? should be true" do
         expect(config).to be_deploy
       end
-    end
-
-    context "with on:" do
-      subject { config.deploy.providers.first.on }
-
-      context "when is string" do
-        let(:content) { {
-          "deploy" => {
-              "provider" => "some",
-              "branch"   => "production"
-            }
-        } }
-
-        it "should be branch" do
-          expect(subject).to eq(["production"])
-        end
-      end
-
-      context "when is array" do
-        let(:content) { {
-          "deploy" => {
-              "provider" => "some",
-              "branch"   => %w{ production master }
-            }
-        } }
-
-        it { should eq %w{ production master } }
-      end
-
     end
   end
 
