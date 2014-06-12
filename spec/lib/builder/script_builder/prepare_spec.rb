@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'tmpdir'
 require 'fileutils'
 
-describe Vx::Builder::Script::Prepare do
+describe Vx::Builder::ScriptBuilder::Prepare do
   let(:app)    { ->(_) { 0 } }
   let(:script) { described_class.new app }
   let(:env)    { create :env }

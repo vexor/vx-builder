@@ -2,36 +2,36 @@ require 'vx/common'
 
 module Vx
   module Builder
-    class Script
+    class ScriptBuilder
 
-      autoload :Base,         File.expand_path("../script/base",          __FILE__)
-      autoload :Env,          File.expand_path("../script/env",           __FILE__)
-      autoload :Ruby,         File.expand_path("../script/ruby",          __FILE__)
-      autoload :Java,         File.expand_path("../script/java",          __FILE__)
-      autoload :Scala,        File.expand_path("../script/scala",         __FILE__)
-      autoload :Clojure,      File.expand_path("../script/clojure",       __FILE__)
-      autoload :Script,       File.expand_path("../script/script",        __FILE__)
-      autoload :Prepare,      File.expand_path("../script/prepare",       __FILE__)
-      autoload :Databases,    File.expand_path("../script/databases",     __FILE__)
-      autoload :Cache,        File.expand_path("../script/cache",         __FILE__)
-      autoload :Services,     File.expand_path("../script/services",      __FILE__)
-      autoload :Artifacts,    File.expand_path("../script/artifacts",     __FILE__)
-      autoload :Deploy,       File.expand_path("../script/deploy",        __FILE__)
+      autoload :Base,         File.expand_path("../script_builder/base",      __FILE__)
+      autoload :Env,          File.expand_path("../script_builder/env",       __FILE__)
+      autoload :Ruby,         File.expand_path("../script_builder/ruby",      __FILE__)
+      autoload :Java,         File.expand_path("../script_builder/java",      __FILE__)
+      autoload :Scala,        File.expand_path("../script_builder/scala",     __FILE__)
+      autoload :Clojure,      File.expand_path("../script_builder/clojure",   __FILE__)
+      autoload :Script,       File.expand_path("../script_builder/script",    __FILE__)
+      autoload :Prepare,      File.expand_path("../script_builder/prepare",   __FILE__)
+      autoload :Databases,    File.expand_path("../script_builder/databases", __FILE__)
+      autoload :Cache,        File.expand_path("../script_builder/cache",     __FILE__)
+      autoload :Services,     File.expand_path("../script_builder/services",  __FILE__)
+      autoload :Artifacts,    File.expand_path("../script_builder/artifacts", __FILE__)
+      autoload :Deploy,       File.expand_path("../script_builder/deploy",    __FILE__)
 
       include Common::Helper::Middlewares
 
       middlewares do
-        use Builder::Script::Cache
-        use Builder::Script::Artifacts
-        use Builder::Script::Env
-        use Builder::Script::Services
-        use Builder::Script::Prepare
-        use Builder::Script::Java
-        use Builder::Script::Scala
-        use Builder::Script::Clojure
-        use Builder::Script::Ruby
-        use Builder::Script::Deploy
-        use Builder::Script::Script
+        use Builder::ScriptBuilder::Cache
+        use Builder::ScriptBuilder::Artifacts
+        use Builder::ScriptBuilder::Env
+        use Builder::ScriptBuilder::Services
+        use Builder::ScriptBuilder::Prepare
+        use Builder::ScriptBuilder::Java
+        use Builder::ScriptBuilder::Scala
+        use Builder::ScriptBuilder::Clojure
+        use Builder::ScriptBuilder::Ruby
+        use Builder::ScriptBuilder::Deploy
+        use Builder::ScriptBuilder::Script
       end
 
       attr_reader :source, :task

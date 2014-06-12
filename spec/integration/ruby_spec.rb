@@ -6,7 +6,7 @@ describe "(integration) ruby" do
   }
   let(:matrix) { Vx::Builder.matrix build_configuration }
   let(:task)   { create :task }
-  let(:script) { Vx::Builder::Script.new(task, source) }
+  let(:script) { Vx::Builder.script(task, source) }
   subject { matrix }
 
   def write_script_to_filter(prefix)

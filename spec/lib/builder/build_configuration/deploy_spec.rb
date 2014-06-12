@@ -47,7 +47,4 @@ describe Vx::Builder::BuildConfiguration::Deploy do
     end
   end
 
-  context "merge" do
-    pending 'write me'
-  end
 end

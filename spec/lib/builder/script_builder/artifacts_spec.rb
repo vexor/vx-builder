@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Vx::Builder::Script::Artifacts do
+describe Vx::Builder::ScriptBuilder::Artifacts do
   let(:app)    { ->(env) { 0 } }
   let(:script) { described_class.new app }
   let(:task)   {  }

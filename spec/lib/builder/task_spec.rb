@@ -14,7 +14,6 @@ describe Vx::Builder::Task do
     its(:job_id)          { should eq 1 }
     its(:build_id)        { should eq 12 }
     its(:pull_request_id) { should eq 1 }
-    its(:deploy?)         { should be_true }
   end
 
 end
