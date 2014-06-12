@@ -41,15 +41,15 @@ module Vx
         end
       end
 
-      attr_reader :env, :cache, :artifacts, :deploy, :attributes
+      attr_reader :env, :cache, :deploy, :attributes, :deploy_modules
 
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
 
-        @env       = Env.new(new_attributes["env"])
-        @cache     = Cache.new(new_attributes["cache"])
-        @artifacts = Artifacts.new(new_attributes["artifacts"])
-        @deploy    = Deploy.new(new_attributes["deploy"])
+        @env            = Env.new       new_attributes.delete("env")
+        @cache          = Cache.new     new_attributes.delete("cache")
+        @deploy         = Deploy.new    new_attributes.delete("deploy")
+        @deploy_modules = new_attributes.delete("deploy_modules") || []
 
         @matrix_attributes = matrix_attributes
 
@@ -70,11 +70,11 @@ module Vx
       end
 
       def deploy?
-        !deploy.attributes.empty?
+        deploy.attributes.any?
       end
 
-      def deploy_attributes= (val)
-        @deploy = Deploy.new(val)
+      def deploy_modules?
+        deploy_modules.any?
       end
 
       # for tests
@@ -83,10 +83,9 @@ module Vx
       end
 
       def to_hash
-        attributes.merge("env"       => env.attributes)
-                  .merge("cache"     => cache.attributes)
-                  .merge("artifacts" => artifacts.attributes)
-                  .merge("deploy"    => deploy.attributes)
+        attributes.merge("env"    => env.attributes)
+                  .merge("cache"  => cache.attributes)
+                  .merge("deploy" => deploy.attributes)
       end
 
       def to_yaml
@@ -102,7 +101,7 @@ module Vx
       end
 
       def cached_directories
-        @cache.enabled? and @cache.directories
+        cache.enabled? and cache.directories
       end
 
       (ATTRIBUTES - %w{ language }).each do |attr|

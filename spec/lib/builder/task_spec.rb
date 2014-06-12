@@ -10,11 +10,9 @@ describe Vx::Builder::Task do
     its(:sha)             { should eq 'b665f90239563c030f1b280a434b3d84daeda1bd' }
     its(:deploy_key)      { should be }
     its(:cache_url_prefix){ should eq 'http://example.com' }
-    its(:artifacts_url_prefix){ should eq 'http://example.com' }
     its(:job_id)          { should eq 1 }
     its(:build_id)        { should eq 12 }
     its(:pull_request_id) { should eq 1 }
-    its(:deploy?)         { should be_true }
   end
 
 end

@@ -30,13 +30,8 @@ cache:
   directories:
   - ~/.cache
 
-artifacts:
-  - ../app/foo.txt
-  - /app/*.txt
-  - app/
-  - prefix: $CI_JOB_ID/
-
-deploy: "cap deploy production"
+deploy:
+  shell: "cap deploy production"
 
 after_deploy: echo after deploy
 before_deploy: echo before deploy

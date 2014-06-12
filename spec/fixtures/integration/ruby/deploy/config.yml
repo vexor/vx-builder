@@ -1,11 +1,15 @@
 language: ruby
 
+env:
+  global: "FOO"
+  matrix: "BAR"
+
 deploy:
 
-  - command: cap staging deploy
+  - shell: cap staging deploy
     branch: master
 
-  - command: cap producation deploy
+  - shell: cap producation deploy
     branch: production
 
 after_deploy: echo after deploy

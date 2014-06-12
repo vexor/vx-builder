@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Vx::Builder::Script::Ruby do
+describe Vx::Builder::ScriptBuilder::Ruby do
   let(:app)    { ->(env) { env } }
   let(:script) { described_class.new app }
   let(:env)    { create :env }

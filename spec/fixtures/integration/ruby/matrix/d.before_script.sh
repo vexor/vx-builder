@@ -52,4 +52,4 @@ bundle install
 echo \$\ bundle\ clean\ --force
 bundle clean --force
 
-# before deploy
+# before script

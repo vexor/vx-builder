@@ -13,10 +13,16 @@ module Vx
           @attributes
         end
 
-        def providers
-          @providers ||= @attributes.map do |a|
-            Deploy::Provider.new(a)
+        def find_modules(branch)
+          modules = []
+          Base.loaded.each do |l|
+            attributes.each do |attr|
+              if l.detect(attr)
+                modules << l.new(attr)
+              end
+            end
           end
+          modules.select{ |m| m.branch?(branch) }
         end
 
         private
@@ -28,8 +34,6 @@ module Vx
                 new_env
               when Hash
                 [new_env]
-              when String
-                [new_env]
               else
                 []
               end
@@ -39,18 +43,7 @@ module Vx
 
           def normalize_each(new_env)
             @attributes = []
-            new_env.each do |env|
-              case env
-              when Hash
-                if env["provider"]
-                  @attributes.push env
-                else
-                  @attributes.push env.merge("provider" => "shell")
-                end
-              when String
-                @attributes.push("provider" => "shell", "command" => env)
-              end
-            end
+            @attributes = new_env.select{|i| i.is_a?(Hash) }
           end
 
       end

@@ -8,4 +8,7 @@ script: rake
 
 after_script: echo after script
 
-deploy: cap staging deploy
+deploy:
+  shell: cap staging deploy
+
+after_deploy: echo after deploy

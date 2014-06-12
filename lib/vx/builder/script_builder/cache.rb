@@ -1,30 +1,23 @@
 module Vx
   module Builder
-    class Script
+    class ScriptBuilder
 
-      class Artifacts < Base
+      Cache = Struct.new(:app) do
 
-        FIND='find . -type f -path "./%s" | sed "s/^\.\///g"'
+        include Helper::Config
+
+        CASHER_URL = "https://raw2.github.com/dima-exe/casher/master/bin/casher"
+        CASHER_BIN = "$HOME/.casher/bin/casher"
 
         def call(env)
           rs = app.call env
 
-          if enabled?(env)
-            env.after_script << "echo"
-            env.source.artifacts.files.map{|a| compile(a) }.each do |artifact|
-              find = FIND % artifact
-              url = env.task.artifacts_url_prefix
-              prefix = env.source.artifacts.prefix
-              name = prefix ? "#{prefix}$i" : "$i"
-              cmd = %{
-                for i in $(#{find}) ; do
-                  echo "upload artifact #{name}"
-                  curl -s -S -X PUT -T $i #{url}/#{name} > /dev/null
-                done
-              }
-              env.after_script << cmd
-            end
-            env.after_script << "echo"
+          if env.task.cache_url_prefix && enabled?(env)
+            assign_url_to_env(env)
+            prepare(env)
+            fetch(env)
+            add(env)
+            push(env)
           end
 
           rs
@@ -32,18 +25,8 @@ module Vx
 
         private
 
-          def compile(artifact)
-            case
-            when artifact.end_with?("/")
-              "#{artifact}*"
-            else
-              artifact
-            end
-          end
-
           def enabled?(env)
-            !env.source.artifacts.files.empty? &&
-              env.task.artifacts_url_prefix
+            !env.cached_directories.empty?
           end
 
           def casher_cmd

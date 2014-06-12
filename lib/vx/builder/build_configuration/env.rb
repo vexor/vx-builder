@@ -23,16 +23,23 @@ module Vx
 
             @attributes =
               case new_env
+              when String
+                {
+                  "matrix" => [],
+                  "global" => Array(new_env)
+                }
               when Hash
                 {
                   "matrix" => Array(new_env['matrix']),
                   "global" => Array(new_env['global'])
                 }
               else
-                {
-                  "matrix" => Array(new_env).flatten.map(&:to_s),
-                  "global" => []
-                }
+                env = Array(new_env).flatten.map(&:to_s)
+                if env.size == 1
+                  { "matrix" => [], "global" => env }
+                else
+                  { "matrix" => env, "global" => [] }
+                end
               end
 
           end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Vx::Builder::Script do
+describe Vx::Builder::ScriptBuilder do
   let(:task)   { create :task }
   let(:source) { create :source }
   let(:script) { described_class.new task, source }

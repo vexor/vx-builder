@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Vx::Builder::Script::Java do
+describe Vx::Builder::ScriptBuilder::Java do
   let(:app)    { ->(env) { env } }
   let(:script) { described_class.new app }
   let(:source) { create :source, name: "scala.yml" }

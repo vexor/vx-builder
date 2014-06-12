@@ -7,6 +7,8 @@ export DEBIAN_FRONTEND=noninteractive
 export CI_JOB_ID=1
 export CI_BUILD_ID=12
 export CI_BRANCH=master
+echo \$\ export\ FOO
+export FOO
 export VX_ROOT=$(pwd)
 mkdir -p ${VX_ROOT}/data/name
 mkdir -p ${VX_ROOT}/code/name
@@ -52,6 +54,6 @@ bundle install
 echo \$\ bundle\ clean\ --force
 bundle clean --force
 
-# before deploy
+# before script
 echo \$\ echo\ before\ deploy
 echo before deploy

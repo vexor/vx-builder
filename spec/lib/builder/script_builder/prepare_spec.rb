@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'tmpdir'
 require 'fileutils'
 
-describe Vx::Builder::Script::Prepare do
+describe Vx::Builder::ScriptBuilder::Prepare do
   let(:app)    { ->(_) { 0 } }
   let(:script) { described_class.new app }
   let(:env)    { create :env }
@@ -15,7 +15,7 @@ describe Vx::Builder::Script::Prepare do
 
   it { should eq 0 }
 
-  context "run it" do
+  context "run it", git: true do
     let(:command) { create :command_from_env, env: env }
     before { run }
 
