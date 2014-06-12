@@ -54,113 +54,16 @@ describe Vx::Builder::BuildConfiguration do
 
   context "env" do
     subject { config.env }
-
-    context "when is array" do
-      let(:content) { { 'env' => %w{ 1 2 3 } } }
-      its(:matrix) { should eq %w{1 2 3} }
-      its(:global) { should eq [] }
-
-      context "and only one element" do
-        let(:content) { { 'env' => %w{ 1 } } }
-        its(:matrix) { should eq [] }
-        its(:global) { should eq ["1"] }
-      end
-    end
-
-    context "when is hash" do
-      let(:content) { { 'env' => {
-        'global' => "global",
-        "matrix" => "matrix"
-      } } }
-      its(:matrix) { should eq %w{matrix} }
-      its(:global) { should eq %w{global} }
-    end
-
-    context "when is empty" do
-      let(:content) { {} }
-      its(:matrix) { should eq [] }
-      its(:global) { should eq [] }
-    end
+    it { should be }
   end
 
   context "cache" do
     subject { config.cache }
-
-    context "when directories present" do
-      let(:content) { { "cache" => {
-        "directories" => ["~/.cache"]
-      } } }
-      its(:directories) { should eq ["~/.cache"] }
-      its(:enabled?)    { should be_true }
-    end
-
-    context "when directories is not exists" do
-      let(:content) { {} }
-      its(:directories) { should eq [] }
-      its(:enabled?)    { should be_true }
-    end
-
-    context "when disabled" do
-      let(:content) { { "cache" => false } }
-      its(:directories) { should eq [] }
-      its(:enabled?)    { should be_false }
-    end
-  end
-
-  context "artifacts" do
-    subject { config.artifacts }
-
-    its(:prefix) { should eq "$CI_JOB_ID/" }
-    its(:files)  { should eq ["app/foo.txt", "app/*.txt", "app/"] }
-
-    context "when is empty" do
-      let(:content) { {} }
-
-      its(:files)      { should eq [] }
-      its(:prefix)     { should be_nil }
-      its(:attributes) { should eq [] }
-    end
+    it { should be }
   end
 
   context "deploy" do
     subject { config.deploy }
-
-    context "when is empty" do
-      let(:content) { {} }
-      its(:attributes) { should eq [] }
-
-      it "build_configuration#deploy? should be false" do
-        expect(config).to_not be_deploy
-      end
-    end
-
-    context "when is array" do
-      let(:content) { {
-        "deploy" => [
-          {
-            "shell" => "some"
-          }
-        ]
-      } }
-      its(:attributes){ should eq [{"shell" => "some"}] }
-
-      it "build_configuration#deploy? should be true" do
-        expect(config).to be_deploy
-      end
-    end
-
-    context "when is hash" do
-      let(:content) { {
-        "deploy" => {
-            "shell" => "some"
-          }
-      } }
-      its(:attributes){ should eq [{"shell" => "some"}] }
-
-      it "build_configuration#deploy? should be true" do
-        expect(config).to be_deploy
-      end
-    end
+    it { should be }
   end
-
 end

@@ -30,7 +30,7 @@ module Vx
         deploy_modules = build_configuration.deploy.find(branch)
         return if deploy_modules.empty?
 
-        build_configuration.deploy.merge(deploy_modules, base_build_configuration)
+        build_configuration.deploy.build(deploy_modules, base_build_configuration)
       end
 
       def attributes_for_new_build_configurations_with_merged_env

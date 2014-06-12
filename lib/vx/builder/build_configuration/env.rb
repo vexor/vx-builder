@@ -17,12 +17,21 @@ module Vx
           @attributes["global"]
         end
 
+        def reset_matrix
+          @attributes["matrix"] = []
+        end
+
         private
 
           def normalize_attributes(new_env)
 
             @attributes =
               case new_env
+              when String
+                {
+                  "matrix" => [],
+                  "global" => Array(new_env)
+                }
               when Hash
                 {
                   "matrix" => Array(new_env['matrix']),

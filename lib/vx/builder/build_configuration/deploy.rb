@@ -10,13 +10,6 @@ module Vx
           script
         }
 
-        FLAT_ATTRIBUTES = %w{
-          rvm
-          gemfile
-          scala
-          jdk
-        }
-
         attr_reader :attributes
 
         def initialize(new_env)
@@ -39,16 +32,15 @@ module Vx
           modules.select{ |m| m.branch?(branch) }
         end
 
-        def merge(deploy_modules, base_build_configuration)
-          hash = base_build_configuration.to_hash
+        def build(deploy_modules, base_build_configuration)
+          base_build_configuration.remove_keys BLACK_LIST
 
-          BLACK_LIST.each do |attr|
-            hash.delete(attr)
-          end
-
-          hash["env"]            = base_build_configuration.env.global
-          hash["deploy_modules"] = deploy_modules
-          BuildConfiguration.new(hash)
+          base_build_configuration.env.reset_matrix
+          BuildConfiguration.new(
+            base_build_configuration.to_hash.merge(
+              "deploy_modules" => deploy_modules
+            )
+          )
         end
 
         private

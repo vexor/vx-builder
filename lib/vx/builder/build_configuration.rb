@@ -50,7 +50,7 @@ module Vx
         @cache          = Cache.new     new_attributes.delete("cache")
         @artifacts      = Artifacts.new new_attributes.delete("artifacts")
         @deploy         = Deploy.new    new_attributes.delete("deploy")
-        @deploy_modules = new_attributes.delete("deploy_modules")
+        @deploy_modules = new_attributes.delete("deploy_modules") || []
 
         @matrix_attributes = matrix_attributes
 
@@ -99,12 +99,18 @@ module Vx
       end
 
       def cached_directories
-        @cache.enabled? and @cache.directories
+        cache.enabled? and cache.directories
       end
 
       (ATTRIBUTES - %w{ language }).each do |attr|
         define_method attr do
           attributes[attr]
+        end
+      end
+
+      def remove_keys(keys)
+        keys.each do |k|
+          attributes.delete(k)
         end
       end
 
