@@ -43,7 +43,6 @@ describe Vx::Builder::BuildConfiguration do
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
        "services"       => ['rabbitmq'],
-       "artifacts"      => ["app/foo.txt", "app/*.txt", "app/", {"prefix"=>"$CI_JOB_ID/"}],
        "deploy"         => [{"shell"=>"cap deploy production"}],
        "bundler_args"   => ["--without development"],
        "before_deploy"  => ["echo before deploy"],

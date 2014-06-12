@@ -16,6 +16,9 @@ module Vx
           env.source.env.global.each do |e|
             env.init << trace_sh_command("export #{e}")
           end
+          env.source.env.matrix.each do |e|
+            env.init << trace_sh_command("export #{e}")
+          end
           app.call(env)
         end
 

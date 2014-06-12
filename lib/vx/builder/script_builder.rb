@@ -15,14 +15,12 @@ module Vx
       autoload :Databases,    File.expand_path("../script_builder/databases", __FILE__)
       autoload :Cache,        File.expand_path("../script_builder/cache",     __FILE__)
       autoload :Services,     File.expand_path("../script_builder/services",  __FILE__)
-      autoload :Artifacts,    File.expand_path("../script_builder/artifacts", __FILE__)
       autoload :Deploy,       File.expand_path("../script_builder/deploy",    __FILE__)
 
       include Common::Helper::Middlewares
 
       middlewares do
         use Builder::ScriptBuilder::Cache
-        use Builder::ScriptBuilder::Artifacts
         use Builder::ScriptBuilder::Env
         use Builder::ScriptBuilder::Services
         use Builder::ScriptBuilder::Prepare

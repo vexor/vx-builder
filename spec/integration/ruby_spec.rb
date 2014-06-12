@@ -10,6 +10,7 @@ describe "(integration) ruby" do
   subject { matrix }
 
   def write_script_to_filter(prefix)
+=begin
     File.open(fixture_path("integration/ruby/#{prefix}before_script.sh"), 'w') do |io|
       io << script.to_before_script
     end
@@ -19,6 +20,7 @@ describe "(integration) ruby" do
     File.open(fixture_path("integration/ruby/#{prefix}script.sh"), 'w') do |io|
       io << script.to_script
     end
+=end
   end
 
   context "language" do

@@ -22,11 +22,6 @@ module Vx
               @key
             end
 
-            def queue(val = nil)
-              @queue = val if val
-              @queue || :default
-            end
-
             def detect(params)
               params.key?(key.to_s) if key
             end
@@ -59,10 +54,6 @@ module Vx
 
           def to_commands
             nil
-          end
-
-          def queue
-            self.class.queue
           end
 
         end

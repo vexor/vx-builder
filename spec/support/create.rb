@@ -8,16 +8,15 @@ def create(name, options = {})
   when :task
     msg = create(:message)
     Vx::Builder::Task.new(
-      job_id:                1,
-      build_id:              12,
-      name:                  'name',
-      src:                   msg.src,
-      sha:                   msg.sha,
-      deploy_key:            msg.deploy_key,
-      branch:                msg.branch,
-      cache_url_prefix:      "http://example.com",
-      artifacts_url_prefix:  "http://example.com",
-      pull_request_id:       options[:pull_request_id]
+      job_id:           1,
+      build_id:         12,
+      name:             'name',
+      src:              msg.src,
+      sha:              msg.sha,
+      deploy_key:       msg.deploy_key,
+      branch:           msg.branch,
+      cache_url_prefix: "http://example.com",
+      pull_request_id:  options[:pull_request_id]
     )
 
   when :source

@@ -1,5 +1,9 @@
 language: ruby
 
+env:
+  global: "FOO"
+  matrix: "BAR"
+
 deploy:
 
   - shell: cap staging deploy

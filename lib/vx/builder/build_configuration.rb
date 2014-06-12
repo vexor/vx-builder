@@ -41,14 +41,13 @@ module Vx
         end
       end
 
-      attr_reader :env, :cache, :artifacts, :deploy, :attributes, :deploy_modules
+      attr_reader :env, :cache, :deploy, :attributes, :deploy_modules
 
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
 
         @env            = Env.new       new_attributes.delete("env")
         @cache          = Cache.new     new_attributes.delete("cache")
-        @artifacts      = Artifacts.new new_attributes.delete("artifacts")
         @deploy         = Deploy.new    new_attributes.delete("deploy")
         @deploy_modules = new_attributes.delete("deploy_modules") || []
 
@@ -84,10 +83,9 @@ module Vx
       end
 
       def to_hash
-        attributes.merge("env"       => env.attributes)
-                  .merge("cache"     => cache.attributes)
-                  .merge("artifacts" => artifacts.attributes)
-                  .merge("deploy"    => deploy.attributes)
+        attributes.merge("env"    => env.attributes)
+                  .merge("cache"  => cache.attributes)
+                  .merge("deploy" => deploy.attributes)
       end
 
       def to_yaml
