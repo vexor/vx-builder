@@ -1,3 +1,5 @@
+require File.expand_path("../base", __FILE__)
+
 module Vx
   module Builder
     class BuildConfiguration
