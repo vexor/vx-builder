@@ -50,6 +50,7 @@ module Vx
         @cache          = Cache.new     new_attributes.delete("cache")
         @deploy         = Deploy.new    new_attributes.delete("deploy")
         @deploy_modules = new_attributes.delete("deploy_modules") || []
+        @deploy_modules = Deploy.restore_modules(@deploy_modules)
 
         @matrix_attributes = matrix_attributes
 

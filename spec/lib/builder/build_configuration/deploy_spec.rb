@@ -47,4 +47,15 @@ describe Vx::Builder::BuildConfiguration::Deploy do
     end
   end
 
+  context "restore_modules" do
+    let(:attrs) { [
+      { "shell" => "/bin/true" }
+    ] }
+    it "should build deploy module instances" do
+      list = described_class.restore_modules(attrs)
+      expect(list).to have(1).item
+      expect(list.first).to be_an_instance_of(Vx::Builder::BuildConfiguration::Deploy::Shell)
+    end
+  end
+
 end

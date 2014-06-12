@@ -7,6 +7,7 @@ module Vx
         before_script
         after_success
         script
+        deploy_modules
       }
 
       attr_reader :base_build_configuration, :matrix_build_configuration, :branch
@@ -31,7 +32,7 @@ module Vx
 
           BuildConfiguration.new(
             hash.merge(
-              "deploy_modules" => deploy_modules,
+              "deploy_modules" => deploy_modules.map(&:to_hash),
               "deploy"         => nil
             )
           )

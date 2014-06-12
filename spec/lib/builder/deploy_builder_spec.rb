@@ -70,6 +70,7 @@ describe Vx::Builder::DeployBuilder do
       expect(config.image).to be_empty
       expect(config.before_script).to be_empty
       expect(config.script).to be_empty
+      expect(config.deploy).to be_empty
       expect(config.after_success).to be_empty
     end
 

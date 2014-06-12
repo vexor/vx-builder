@@ -30,4 +30,11 @@ describe Vx::Builder::BuildConfiguration::Deploy::Base do
     it { should have(1).items }
   end
 
+  context ".module_by_key" do
+    it "should find modules" do
+      expect(described_class.module_by_key :shell).to eq Vx::Builder::BuildConfiguration::Deploy::Shell
+      expect(described_class.module_by_key :not_shell).to be_nil
+    end
+  end
+
 end

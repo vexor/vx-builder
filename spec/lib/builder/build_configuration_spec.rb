@@ -65,4 +65,16 @@ describe Vx::Builder::BuildConfiguration do
     subject { config.deploy }
     it { should be }
   end
+
+  context "deploy_modules" do
+    let(:content) { {
+      "deploy_modules" => [
+        { "shell" => "/bin/true" }
+      ]
+    } }
+    it "should restore" do
+      expect(config).to have(1).deploy_modules
+      expect(config).to be_deploy_modules
+    end
+  end
 end

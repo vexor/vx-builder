@@ -3,6 +3,18 @@ module Vx
     class BuildConfiguration
       class Deploy
 
+        class << self
+          def restore_modules(values)
+            (values || []).inject([]) do |ac, pair|
+              k = pair.keys.first
+              if it = Base.module_by_key(k)
+                ac << it.new(pair)
+              end
+              ac
+            end
+          end
+        end
+
         attr_reader :attributes
 
         def initialize(new_env)
@@ -13,8 +25,13 @@ module Vx
           @attributes
         end
 
+        def empty?
+          attributes.empty?
+        end
+
         def find_modules(branch)
           modules = []
+
           Base.loaded.each do |l|
             attributes.each do |attr|
               if l.detect(attr)
