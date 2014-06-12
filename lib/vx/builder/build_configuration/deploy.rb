@@ -3,13 +3,6 @@ module Vx
     class BuildConfiguration
       class Deploy
 
-        BLACK_LIST = %w{
-          image
-          before_script
-          after_script
-          script
-        }
-
         attr_reader :attributes
 
         def initialize(new_env)
@@ -20,7 +13,7 @@ module Vx
           @attributes
         end
 
-        def find(branch)
+        def find_modules(branch)
           modules = []
           Base.loaded.each do |l|
             attributes.each do |attr|
@@ -30,17 +23,6 @@ module Vx
             end
           end
           modules.select{ |m| m.branch?(branch) }
-        end
-
-        def build(deploy_modules, base_build_configuration)
-          base_build_configuration.remove_keys BLACK_LIST
-
-          base_build_configuration.env.reset_matrix
-          BuildConfiguration.new(
-            base_build_configuration.to_hash.merge(
-              "deploy_modules" => deploy_modules
-            )
-          )
         end
 
         private

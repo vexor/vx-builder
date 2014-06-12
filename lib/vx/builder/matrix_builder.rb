@@ -1,6 +1,6 @@
 module Vx
   module Builder
-    Matrix = Struct.new(:build_configuration) do
+    MatrixBuilder = Struct.new(:build_configuration) do
 
       KEYS = %w{
         rvm
@@ -16,21 +16,14 @@ module Vx
         extract_keys_from_builds_configuration.map(&:first).sort
       end
 
-      def build_configurations
-        new_attributes = build_configuration.to_hash.dup
-        attributes_for_new_build_configurations_with_merged_env.map do |matrix_attributes|
-          new_attributes.merge!(matrix_attributes)
-          BuildConfiguration.new new_attributes, matrix_attributes
+      def build
+        @build ||= begin
+          new_attributes = build_configuration.to_hash.dup
+          attributes_for_new_build_configurations_with_merged_env.map do |matrix_attributes|
+            new_attributes.merge!(matrix_attributes)
+            BuildConfiguration.new new_attributes, matrix_attributes
+          end
         end
-      end
-
-      def deploy_configuration(branch, base_build_configuration)
-        return unless build_configuration.deploy?
-
-        deploy_modules = build_configuration.deploy.find(branch)
-        return if deploy_modules.empty?
-
-        build_configuration.deploy.build(deploy_modules, base_build_configuration)
       end
 
       def attributes_for_new_build_configurations_with_merged_env
@@ -39,7 +32,7 @@ module Vx
         attrs.map! do |a|
           env = a["env"]
           a["env"] = {
-            "global" => Array(env) + build_configuration.env.global,
+            "global" => build_configuration.env.global,
             "matrix" => Array(env)
           }
           a

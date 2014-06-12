@@ -24,9 +24,9 @@ describe Vx::Builder::BuildConfiguration::Deploy do
     end
   end
 
-  context "find" do
+  context "find_modules" do
     let(:branch) { 'master' }
-    subject { deploy.find branch }
+    subject { deploy.find_modules branch }
 
     context "when deploy branch is empty array" do
       let(:params) { {'shell' => 'true'} }
@@ -37,12 +37,12 @@ describe Vx::Builder::BuildConfiguration::Deploy do
       let(:params) { {'shell' => 'true', 'branch' => ['master', 'production']} }
 
       it "should be true if branch found" do
-        expect(deploy.find 'master').to_not be_empty
-        expect(deploy.find 'production').to_not be_empty
+        expect(deploy.find_modules 'master').to_not be_empty
+        expect(deploy.find_modules 'production').to_not be_empty
       end
 
       it "should be false if branch not found" do
-        expect(deploy.find 'staging').to eq []
+        expect(deploy.find_modules 'staging').to eq []
       end
     end
   end

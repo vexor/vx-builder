@@ -7,7 +7,8 @@ module Vx
     autoload :Task,               File.expand_path("../builder/task",                __FILE__)
     autoload :Configuration,      File.expand_path("../builder/configuration",       __FILE__)
     autoload :BuildConfiguration, File.expand_path("../builder/build_configuration", __FILE__)
-    autoload :Matrix,             File.expand_path("../builder/matrix",              __FILE__)
+    autoload :MatrixBuilder,      File.expand_path("../builder/matrix_builder",      __FILE__)
+    autoload :DeployBuilder,      File.expand_path("../builder/deploy_builder",      __FILE__)
 
     module Helper
       autoload :Config, File.expand_path("../builder/helper/config", __FILE__)
@@ -29,6 +30,14 @@ module Vx
 
     def reset_config!
       @config = nil
+    end
+
+    def matrix(build_configuration)
+      MatrixBuilder.new(build_configuration)
+    end
+
+    def deploy(matrix_builder, options = {})
+      DeployBuilder.new(matrix_builder, options)
     end
 
   end

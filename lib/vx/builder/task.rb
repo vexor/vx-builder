@@ -16,13 +16,8 @@ module Vx
         @pull_request_id      = options[:pull_request_id]
         @cache_url_prefix     = options[:cache_url_prefix]
         @artifacts_url_prefix = options[:artifacts_url_prefix]
-        @deploy               = !!options[:deploy]
 
         validate!
-      end
-
-      def deploy?
-        @deploy
       end
 
       private

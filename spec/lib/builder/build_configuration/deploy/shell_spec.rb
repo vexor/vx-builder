@@ -47,11 +47,11 @@ describe Vx::Builder::BuildConfiguration::Deploy::Shell do
   context ".detect" do
 
     it "should be true if key shell exists" do
-      expect(shell shell: "value").to be
+      expect(shell "shell" => "value").to be
     end
 
     it "should be false if key shell does not exists" do
-      expect(shell not_shell: "value").to_not be
+      expect(shell "not_shell" => "value").to_not be
     end
 
     def shell(params)

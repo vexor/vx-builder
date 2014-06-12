@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'yaml'
 
-describe Vx::Builder::Matrix do
+describe Vx::Builder::MatrixBuilder do
   let(:attributes) { {
     "env"            => %w{ FOO=1 BAR=2 },
     "rvm"            => %w{ 1.8.7 1.9.3 2.0.0 },
@@ -30,72 +30,9 @@ describe Vx::Builder::Matrix do
     end
   end
 
-  context "deploy_configuration" do
-    let(:branch) { 'master' }
-    let(:base_build_configuration) { matrix.build_configurations.first }
-    subject { matrix.deploy_configuration branch, base_build_configuration }
+  context 'build' do
 
-    it "should be nil without :deploy key" do
-      expect(subject).to be_nil
-    end
-
-    context "with single deploy without condifitions" do
-      let(:attributes) { {
-        "deploy" => { "shell" => "cap deploy production" }
-      } }
-
-      it { should be }
-      its("deploy.attributes"){ should eq(
-        [ {"shell"=>"cap deploy production" }]
-      ) }
-    end
-
-    context "with single deploy and condititions" do
-      let(:attributes) { {
-        "deploy" => {
-          "shell"  => "cap deploy production",
-          "branch" => ["master"]
-        }
-      } }
-
-      it { should be }
-      its("deploy.attributes"){ should eq(
-        [{"shell"=>"cap deploy production", "branch"=>["master"]}]
-      ) }
-    end
-
-    context "with multiple deploys and condititions" do
-      let(:attributes) { {
-        "deploy" => [
-          {
-            "shell"  => "cap deploy staging",
-            "branch" => ["master"]
-          },
-          {
-            "shell"  => "cap deploy production",
-            "branch" => ["production"]
-          }
-         ]
-      } }
-
-      it { should be }
-
-      context "deploy_modules" do
-        subject { matrix.deploy_configuration(branch, base_build_configuration).deploy_modules }
-        it { should have(1).item }
-        its("first.params") { should eq("shell"=>"cap deploy staging", "branch"=>["master"]) }
-      end
-
-      context "when no one matched" do
-        let(:branch) { 'staging' }
-        it { should be_nil }
-      end
-    end
-  end
-
-  context 'build_configurations' do
-
-    subject { matrix.build_configurations }
+    subject { matrix.build }
 
     it { should have(12).items }
 
@@ -119,7 +56,7 @@ describe Vx::Builder::Matrix do
       it { should have(1).item }
 
       context "attributes" do
-        subject { matrix.build_configurations.first.to_hash.select{|k,v| !v.empty? } }
+        subject { matrix.build.first.to_hash.select{|k,v| !v.empty? } }
 
         it { should eq(
           "env" => {
@@ -144,7 +81,7 @@ describe Vx::Builder::Matrix do
 
         expect(keys.first["rvm"]).to eq ['2.0.0']
         expect(keys.first['env']).to eq(
-          "matrix" => ["DB=postgresql"],
+          "matrix" => [],
           "global" => ["DB=postgresql"]
         )
       end
@@ -160,7 +97,7 @@ describe Vx::Builder::Matrix do
     end
 
     context "attributes" do
-      subject { matrix.build_configurations.map(&:matrix_id) }
+      subject { matrix.build.map(&:matrix_id) }
 
       it "should have true values" do
         expect(subject).to eq [
@@ -203,8 +140,9 @@ describe Vx::Builder::Matrix do
 
     it { should have(12).items }
 
-    it "should merge matrix env to global env" do
-      expect(subject.map{|i| i["env"]["global"] }.uniq.sort).to eq([["BAR=1", "FOO=1"], ["BAR=2", "FOO=1"]])
+    it "should create environments" do
+      expect(subject.map{|i| i["env"]["matrix"] }.uniq.sort).to eq([["BAR=1"], ["BAR=2"]])
+      expect(subject.map{|i| i["env"]["global"] }.uniq.sort).to eq([["FOO=1"]])
     end
   end
 

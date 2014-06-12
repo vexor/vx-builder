@@ -59,11 +59,7 @@ module Vx
         a << "\n# install"
         a += env.install
 
-        if deploy?
-          a << "\n# before deploy"
-        else
-          a << "\n# before script"
-        end
+        a << "\n# before script"
         a += env.before_script
 
         a.join("\n")
@@ -74,33 +70,21 @@ module Vx
         a << "\n# after script init"
         a += env.after_script_init
 
-        if deploy?
-          a << "\n# after deploy"
-        else
-          a << "\n# after script"
-        end
+        a << "\n# after script"
         a += env.after_script
         a.join("\n")
       end
 
       def to_script
         a = []
-        if deploy?
-          a << "\n# deploy"
-          a += env.deploy
-        else
-          a << "\n# script"
-          a += env.script
 
-          a << "\n# after success"
-          a += env.after_success
-        end
+        a << "\n# script"
+        a += env.script
+
+        a << "\n# after success"
+        a += env.after_success
 
         a.join("\n")
-      end
-
-      def deploy?
-        task.deploy?
       end
 
       private

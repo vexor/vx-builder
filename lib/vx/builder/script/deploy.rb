@@ -5,34 +5,28 @@ module Vx
       class Deploy < Base
 
         def call(env)
-          if enabled?(env)
-            env.source.deploy.providers.each do |provider|
-              if provider.shell?
-                deploy_using_shell(env, provider)
+          do_before_deploy(env) do |e|
+            env.source.before_deploy.each do |c|
+              e << trace_sh_command(c)
+            end
+          end
+
+          do_deploy_script(env) do |e|
+            env.source.deploy_modules.each do |m|
+              m.to_commands.each do |c|
+                e << trace_sh_command(c)
               end
             end
           end
 
-          do_before_deploy(env) do |i|
-            i += env.source.before_deploy
+          do_after_deploy(env) do |e|
+            env.source.after_deploy.each do |c|
+              e << trace_sh_command(c)
+            end
           end
 
           app.call(env)
         end
-
-        private
-
-          def enabled?(env)
-            env.task.deploy? && env.source.deploy?
-          end
-
-          def deploy_using_shell(env, provider)
-            do_deploy(env) do |i|
-              provider.command.each do |cmd|
-                i << trace_sh_command(cmd)
-              end
-            end
-          end
 
       end
     end

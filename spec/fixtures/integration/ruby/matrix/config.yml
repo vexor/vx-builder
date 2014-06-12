@@ -10,3 +10,5 @@ after_script: echo after script
 
 deploy:
   shell: cap staging deploy
+
+after_deploy: echo after deploy

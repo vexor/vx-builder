@@ -71,7 +71,11 @@ module Vx
       end
 
       def deploy?
-        !deploy.attributes.empty?
+        deploy.attributes.any?
+      end
+
+      def deploy_modules?
+        deploy_modules.any?
       end
 
       # for tests
@@ -105,12 +109,6 @@ module Vx
       (ATTRIBUTES - %w{ language }).each do |attr|
         define_method attr do
           attributes[attr]
-        end
-      end
-
-      def remove_keys(keys)
-        keys.each do |k|
-          attributes.delete(k)
         end
       end
 

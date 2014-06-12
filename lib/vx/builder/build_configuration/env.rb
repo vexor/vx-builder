@@ -17,10 +17,6 @@ module Vx
           @attributes["global"]
         end
 
-        def reset_matrix
-          @attributes["matrix"] = []
-        end
-
         private
 
           def normalize_attributes(new_env)

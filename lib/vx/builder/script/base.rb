@@ -11,7 +11,7 @@ module Vx
         end
 
         def do_script(env)
-          if env.source.script.empty?
+          if env.source.script.empty? && !env.source.deploy_modules?
             yield env.script
           end
         end
@@ -34,21 +34,24 @@ module Vx
           yield env.install
         end
 
+        def do_deploy_script(env)
+          if env.source.deploy_modules?
+            yield env.script
+          end
+        end
+
         def do_before_deploy(env)
-          yield env.before_deploy
+          if env.source.deploy_modules?
+            yield env.before_script
+          end
         end
 
         def do_after_deploy(env)
-          yield env.after_deploy
+          if env.source.deploy_modules?
+            yield env.after_success
+          end
         end
 
-        def do_deploy(env)
-          yield env.deploy
-        end
-
-        def deploy?
-          env.task.deploy?
-        end
       end
 
     end
