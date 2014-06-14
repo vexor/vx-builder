@@ -20,7 +20,7 @@ module Vx
 
       def build
         @build ||= begin
-          return false unless valid?
+          return [] unless valid?
 
           hash = matrix_build_configuration.to_hash
 
@@ -30,12 +30,13 @@ module Vx
 
           hash["env"]["matrix"] = []
 
-          BuildConfiguration.new(
+          build_configuration = BuildConfiguration.new(
             hash.merge(
               "deploy_modules" => deploy_modules.map(&:to_hash),
               "deploy"         => nil
             )
           )
+          [build_configuration]
         end
       end
 

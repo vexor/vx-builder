@@ -54,19 +54,20 @@ describe Vx::Builder::DeployBuilder do
 
   context "build" do
 
-    it "should create build_configuration with deploy_modules and without deploy" do
-      expect(deploy.build).to be
-      expect(deploy.build).to_not be_deploy
-      expect(deploy.build).to be_deploy_modules
+    it "should create build_configurations with deploy_modules and without deploy" do
+      config = deploy.build
+      expect(config).to have(1).item
+      expect(config.first).to_not be_deploy
+      expect(config.first).to be_deploy_modules
     end
 
-    it "should be false if not valid" do
+    it "should be empty if not valid" do
       deploy = described_class.new matrix, branch: "production"
-      expect(deploy.build).to be_false
+      expect(deploy.build).to be_empty
     end
 
     it "should remove attributes from BLACK_LIST" do
-      config = deploy.build
+      config = deploy.build.first
       expect(config.image).to be_empty
       expect(config.before_script).to be_empty
       expect(config.script).to be_empty
@@ -75,7 +76,7 @@ describe Vx::Builder::DeployBuilder do
     end
 
     it "should remove matrix env" do
-      config = deploy.build
+      config = deploy.build.first
       expect(config.env.global).to eq(['1'])
       expect(config.env.matrix).to eq([])
     end

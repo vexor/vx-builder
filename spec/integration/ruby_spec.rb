@@ -44,19 +44,22 @@ describe "(integration) ruby" do
     let(:config) { fixture("integration/ruby/deploy/config.yml") }
 
     context "configuration" do
-      let(:task)   { create :task, deploy: true }
-      let(:source) { Vx::Builder.deploy(matrix, branch: "master").build }
-      subject { script }
-
-      before { write_script_to_filter "deploy/d." }
+      let(:task)    { create :task, deploy: true }
+      let(:sources) { Vx::Builder.deploy(matrix, branch: "master").build }
 
       it "should have source" do
-        expect(source).to be
+        expect(sources).to have(1).item
       end
 
-      its(:to_before_script) { should eq fixture("integration/ruby/deploy/d.before_script.sh") }
-      its(:to_script)        { should eq fixture("integration/ruby/deploy/d.script.sh") }
-      its(:to_after_script)  { should eq fixture("integration/ruby/deploy/d.after_script.sh") }
+      context "first deploy configuration" do
+        let(:source) { sources.first }
+        before { write_script_to_filter "deploy/d." }
+        subject { script }
+
+        its(:to_before_script) { should eq fixture("integration/ruby/deploy/d.before_script.sh") }
+        its(:to_script)        { should eq fixture("integration/ruby/deploy/d.script.sh") }
+        its(:to_after_script)  { should eq fixture("integration/ruby/deploy/d.after_script.sh") }
+      end
     end
   end
 
@@ -88,20 +91,22 @@ describe "(integration) ruby" do
     end
 
     context "deploy configuration" do
-      let(:task)   { create :task }
-      let(:source) { Vx::Builder.deploy(matrix, branch: "master").build }
-      subject { script }
-
-      before { write_script_to_filter "matrix/d." }
+      let(:task)    { create :task }
+      let(:sources) { Vx::Builder.deploy(matrix, branch: "master").build }
 
       it "should have source" do
-        expect(source).to be
+        expect(sources).to have(1).item
       end
 
-      its(:to_before_script) { should eq fixture("integration/ruby/matrix/d.before_script.sh") }
-      its(:to_script) { should eq fixture("integration/ruby/matrix/d.script.sh") }
-      its(:to_after_script) { should eq fixture("integration/ruby/matrix/d.after_script.sh") }
+      context "first deploy configuration" do
+        let(:source) { sources.first }
+        subject { script }
+        before { write_script_to_filter "matrix/d." }
 
+        its(:to_before_script) { should eq fixture("integration/ruby/matrix/d.before_script.sh") }
+        its(:to_script) { should eq fixture("integration/ruby/matrix/d.script.sh") }
+        its(:to_after_script) { should eq fixture("integration/ruby/matrix/d.after_script.sh") }
+      end
     end
   end
 end
