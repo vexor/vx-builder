@@ -84,9 +84,12 @@ module Vx
       end
 
       def to_hash
-        attributes.merge("env"    => env.attributes)
-                  .merge("cache"  => cache.attributes)
-                  .merge("deploy" => deploy.attributes)
+        attributes.merge(
+          "env"            => env.attributes,
+          "cache"          => cache.attributes,
+          "deploy"         => deploy.attributes,
+          "deploy_modules" => deploy_modules.map(&:to_hash)
+        )
       end
 
       def to_yaml

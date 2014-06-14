@@ -43,7 +43,10 @@ module Vx
           end
 
           def branch?(name)
-            if branch.empty?
+            case
+            when branch.empty?
+              true
+            when !name
               true
             else
               branch.include?(name)

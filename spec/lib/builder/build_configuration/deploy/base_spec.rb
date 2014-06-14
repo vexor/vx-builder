@@ -8,6 +8,7 @@ describe Vx::Builder::BuildConfiguration::Deploy::Base do
   subject { described_class.new params }
 
   context "#branch" do
+
     it "should be empty if key 'branch' is not exists" do
       expect(get_branch nil).to eq []
     end
