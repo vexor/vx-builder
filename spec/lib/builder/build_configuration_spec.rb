@@ -44,6 +44,7 @@ describe Vx::Builder::BuildConfiguration do
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
        "services"       => ['rabbitmq'],
        "deploy"         => [{"shell"=>"cap deploy production"}],
+       "deploy_modules" => [],
        "bundler_args"   => ["--without development"],
        "before_deploy"  => ["echo before deploy"],
        "after_deploy"   => ["echo after deploy"]
