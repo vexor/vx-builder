@@ -14,7 +14,7 @@ module Vx
 
       def initialize(matrix_builder, options = {})
         @base_build_configuration    = matrix_builder.build_configuration
-        @matrix_build_configuration  = matrix_builder.build.first
+        @matrix_build_configuration  = matrix_builder.build.first || matrix_builder.build_configuration
         @branch                      = options[:branch]
       end
 

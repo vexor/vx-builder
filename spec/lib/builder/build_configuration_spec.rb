@@ -78,4 +78,24 @@ describe Vx::Builder::BuildConfiguration do
       expect(config).to be_deploy_modules
     end
   end
+
+  context "any?" do
+    subject { config.any? }
+    %w{ rvm scala jdk language script }.each do |required_key|
+      context "when key #{required_key} exists" do
+        let(:content) { {
+          required_key => "value"
+        } }
+        it { should be }
+      end
+    end
+
+    context "when required keys does not exists" do
+      let(:content) { {
+        "before_script" => "value",
+        "deploy"        => "value"
+      } }
+      it { should_not be }
+    end
+  end
 end

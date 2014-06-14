@@ -61,6 +61,20 @@ describe Vx::Builder::DeployBuilder do
       expect(config.first).to be_deploy_modules
     end
 
+    it "should create build_configurations when matrix_build_configurations is empty" do
+      empty_config = Vx::Builder::BuildConfiguration.new("before_install" => "value", "deploy" => { "shell" => "value" })
+      matrix = Vx::Builder.matrix empty_config
+      deploy = Vx::Builder.deploy matrix
+      config = deploy.build
+
+      expect(matrix.build).to be_empty
+
+      expect(config).to have(1).item
+      expect(config.first).to_not be_deploy
+      expect(config.first).to be_deploy_modules
+      expect(config.first.before_install).to eq ["value"]
+    end
+
     it "should be empty if not valid" do
       deploy = described_class.new matrix, branch: "production"
       expect(deploy.build).to be_empty

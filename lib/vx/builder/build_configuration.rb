@@ -8,6 +8,14 @@ module Vx
   module Builder
     class BuildConfiguration
 
+      REQUIRED_KEYS = %w{
+        rvm
+        scala
+        jdk
+        language
+        script
+      }
+
       ATTRIBUTES = %w{
         rvm
         scala
@@ -55,6 +63,12 @@ module Vx
         @matrix_attributes = matrix_attributes
 
         build_attributes new_attributes
+      end
+
+      def any?
+        REQUIRED_KEYS.any? do |key|
+          attributes[key].any?
+        end
       end
 
       def matrix_attributes
