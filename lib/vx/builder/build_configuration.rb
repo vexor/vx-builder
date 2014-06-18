@@ -54,11 +54,11 @@ module Vx
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
 
-        @env            = Env.new       new_attributes.delete("env")
-        @cache          = Cache.new     new_attributes.delete("cache")
-        @deploy         = Deploy.new    new_attributes.delete("deploy")
-        @deploy_modules = new_attributes.delete("deploy_modules") || []
-        @deploy_modules = Deploy.restore_modules(@deploy_modules)
+        @env               = Env.new       new_attributes.delete("env")
+        @cache             = Cache.new     new_attributes.delete("cache")
+        @deploy            = Deploy.new    new_attributes.delete("deploy")
+        @deploy_modules    = new_attributes.delete("deploy_modules") || []
+        @deploy_modules    = Deploy.restore_modules(@deploy_modules)
 
         @matrix_attributes = matrix_attributes
 
@@ -69,6 +69,11 @@ module Vx
         REQUIRED_KEYS.any? do |key|
           attributes[key].any?
         end
+      end
+
+      # for deploy builder
+      def flat_matrix_attributes
+        @matrix_attributes
       end
 
       def matrix_attributes

@@ -48,6 +48,10 @@ describe Vx::Builder::MatrixBuilder do
       expect(subject.map(&:before_install).flatten).to eq ["echo before_install"] * 12
     end
 
+    it "should assign matrix_attributes" do
+      expect(subject.map(&:matrix_attributes).flatten).to have(12).items
+    end
+
     context "when empty configuration" do
       let(:attributes) { {
         "deploy" => "value"

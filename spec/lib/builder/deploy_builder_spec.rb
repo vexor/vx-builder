@@ -94,5 +94,10 @@ describe Vx::Builder::DeployBuilder do
       expect(config.env.global).to eq(['1'])
       expect(config.env.matrix).to eq([])
     end
+
+    it "should assign matrix_attributes to configuration" do
+      config = deploy.build.first
+      expect(config.matrix_attributes).to eq("rvm"=>"1.8.7", "scala"=>"2.10.1")
+    end
   end
 end

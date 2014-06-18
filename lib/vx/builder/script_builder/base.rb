@@ -35,21 +35,25 @@ module Vx
         end
 
         def do_deploy_script(env)
-          if env.source.deploy_modules?
+          if deploy?(env)
             yield env.script
           end
         end
 
         def do_before_deploy(env)
-          if env.source.deploy_modules?
+          if deploy?(env)
             yield env.before_script
           end
         end
 
         def do_after_deploy(env)
-          if env.source.deploy_modules?
+          if deploy?(env)
             yield env.after_success
           end
+        end
+
+        def deploy?(env)
+          env.source.deploy_modules?
         end
 
       end

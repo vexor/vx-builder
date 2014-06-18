@@ -29,12 +29,18 @@ module Vx
           end
 
           hash["env"]["matrix"] = []
+          hash.merge!(
+            "deploy_modules" => deploy_modules.map(&:to_hash),
+            "deploy"         => nil
+          )
+
+          matrix_hash = matrix_build_configuration.flat_matrix_attributes
+          (BLACK_LIST + %w{ env }).each do |key|
+            matrix_hash.delete(key)
+          end
 
           build_configuration = BuildConfiguration.new(
-            hash.merge(
-              "deploy_modules" => deploy_modules.map(&:to_hash),
-              "deploy"         => nil
-            )
+            hash, matrix_hash
           )
           [build_configuration]
         end

@@ -2,7 +2,7 @@ module Vx
   module Builder
     class ScriptBuilder
 
-      Cache = Struct.new(:app) do
+      class Cache < Base
 
         include Helper::Config
 
@@ -83,7 +83,7 @@ module Vx
           end
 
           def push(env)
-            if env.cache_push_url
+            if env.cache_push_url && !deploy?(env)
               env.after_script << "#{casher_cmd} push #{env.cache_push_url}"
             end
           end
