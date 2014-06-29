@@ -43,6 +43,7 @@ describe Vx::Builder::BuildConfiguration do
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
        "services"       => ['rabbitmq'],
+       "vexor"          => {"timeout"=>10, "read_timeout"=>20},
        "deploy"         => [{"shell"=>"cap deploy production"}],
        "deploy_modules" => [],
        "bundler_args"   => ["--without development"],

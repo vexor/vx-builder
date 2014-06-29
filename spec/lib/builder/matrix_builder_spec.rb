@@ -79,7 +79,8 @@ describe Vx::Builder::MatrixBuilder do
             "directories" => [],
             "enabled"     => true
           },
-          "script" => ["/bin/true"]
+          "script" => ["/bin/true"],
+          "vexor"  => {"timeout"=>nil, "read_timeout"=>nil}
         ) }
       end
     end

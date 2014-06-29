@@ -16,6 +16,19 @@ describe Vx::Builder::ScriptBuilder do
     it { should eq 'one' }
   end
 
+  context "vexor" do
+    it "should avaialble timeout and read_timeout attributes" do
+      expect(script.vexor.timeout).to eq 10
+      expect(script.vexor.read_timeout).to eq 20
+
+      simple_source = create :source, name: "simple.yml"
+      simple_script = described_class.new task, simple_source
+      expect(simple_script.vexor.timeout).to be_nil
+      expect(simple_script.vexor.read_timeout).to be_nil
+    end
+
+  end
+
   context "#to_before_script" do
     subject { script.to_before_script }
     it { should be }
