@@ -37,3 +37,7 @@ after_deploy: echo after deploy
 before_deploy: echo before deploy
 
 bundler_args: --without development
+
+vexor:
+  timeout: 10
+  read_timeout: 20

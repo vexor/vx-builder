@@ -85,6 +85,10 @@ module Vx
         a.join("\n")
       end
 
+      def vexor
+        source.vexor
+      end
+
       private
 
         def env

@@ -2,19 +2,16 @@ require 'ostruct'
 
 def create(name, options = {})
   case name
-  when :message
-    Vx::Message::PerformBuild.test_message
 
   when :task
-    msg = create(:message)
     Vx::Builder::Task.new(
       job_id:           1,
       build_id:         12,
       name:             'name',
-      src:              msg.src,
-      sha:              msg.sha,
-      deploy_key:       msg.deploy_key,
-      branch:           msg.branch,
+      src:              "git@github.com:dima-exe/ci-worker-test-repo.git",
+      sha:              "b665f90239563c030f1b280a434b3d84daeda1bd",
+      deploy_key:       fixture("insecure_private_key"),
+      branch:           "master",
       cache_url_prefix: "http://example.com",
       pull_request_id:  options[:pull_request_id]
     )
