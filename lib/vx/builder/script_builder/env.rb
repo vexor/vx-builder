@@ -27,7 +27,9 @@ module Vx
           def export_vars(env, collection)
             collection << "export CI=1"
             collection << "export CI_JOB_ID=#{env.task.job_id}"
+            collection << "export CI_JOB_NUMBER=#{env.task.job_number}"
             collection << "export CI_BUILD_ID=#{env.task.build_id}"
+            collection << "export CI_BUILD_NUMBER=#{env.task.build_number}"
             collection << "export CI_PROJECT_NAME=#{env.task.name}"
             collection << "export CI_BUILD_SHA=#{env.task.sha}"
 

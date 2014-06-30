@@ -13,7 +13,9 @@ def create(name, options = {})
       deploy_key:       fixture("insecure_private_key"),
       branch:           "master",
       cache_url_prefix: "http://example.com",
-      pull_request_id:  options[:pull_request_id]
+      pull_request_id:  options[:pull_request_id],
+      job_number:       100,
+      build_number:     101,
     )
 
   when :source

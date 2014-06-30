@@ -3,7 +3,7 @@ module Vx
     class Task
 
       attr_reader :name, :src, :sha, :deploy_key, :branch, :pull_request_id,
-        :cache_url_prefix, :job_id, :build_id
+        :cache_url_prefix, :job_id, :build_id, :build_number, :job_number
 
       def initialize(options = {})
         @name                 = options[:name]
@@ -15,6 +15,8 @@ module Vx
         @branch               = options[:branch]
         @pull_request_id      = options[:pull_request_id]
         @cache_url_prefix     = options[:cache_url_prefix]
+        @build_number         = options[:build_number]
+        @job_number           = options[:job_number]
 
         validate!
       end
@@ -22,7 +24,8 @@ module Vx
       private
 
         def validate!
-          (name && src && sha && deploy_key && branch && job_id && build_id) or
+          (name && src && sha && deploy_key && branch && job_id && build_id &&
+            build_number && job_number) or
             raise(MissingKeys)
         end
 
