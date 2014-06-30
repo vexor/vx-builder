@@ -23,7 +23,7 @@ namespace :print do
     task = create :task
     source = create :source
 
-    builder = Vx::Builder::Script.new(task, source)
+    builder = Vx::Builder::ScriptBuilder.new(task, source)
 
     puts "\n#===> BEGIN BEFORE SCRIPT"
     puts builder.to_before_script
