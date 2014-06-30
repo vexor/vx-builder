@@ -16,10 +16,12 @@ module Vx
       autoload :Cache,        File.expand_path("../script_builder/cache",     __FILE__)
       autoload :Services,     File.expand_path("../script_builder/services",  __FILE__)
       autoload :Deploy,       File.expand_path("../script_builder/deploy",    __FILE__)
+      autoload :Timeouts,     File.expand_path("../script_builder/timeouts",  __FILE__)
 
       include Common::Helper::Middlewares
 
       middlewares do
+        use Builder::ScriptBuilder::Timeouts
         use Builder::ScriptBuilder::Cache
         use Builder::ScriptBuilder::Env
         use Builder::ScriptBuilder::Services
