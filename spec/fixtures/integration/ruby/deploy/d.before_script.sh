@@ -4,8 +4,11 @@ set -e
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export LC_ALL=en_US.UTF8
 export DEBIAN_FRONTEND=noninteractive
+export CI=1
 export CI_JOB_ID=1
 export CI_BUILD_ID=12
+export CI_PROJECT_NAME=name
+export CI_BUILD_SHA=b665f90239563c030f1b280a434b3d84daeda1bd
 export CI_BRANCH=master
 echo \$\ export\ FOO
 export FOO

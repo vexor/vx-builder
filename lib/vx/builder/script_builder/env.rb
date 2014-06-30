@@ -25,8 +25,15 @@ module Vx
         private
 
           def export_vars(env, collection)
+            collection << "export CI=1"
             collection << "export CI_JOB_ID=#{env.task.job_id}"
             collection << "export CI_BUILD_ID=#{env.task.build_id}"
+            collection << "export CI_PROJECT_NAME=#{env.task.name}"
+            collection << "export CI_BUILD_SHA=#{env.task.sha}"
+
+            if p = env.task.pull_request_id
+              collection << "export CI_PULL_REQUEST_ID=#{p}"
+            end
 
             if b = env.task.branch
               collection << "export CI_BRANCH=#{b}"
