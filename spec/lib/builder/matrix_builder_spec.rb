@@ -34,7 +34,15 @@ describe Vx::Builder::MatrixBuilder do
 
     subject { matrix.build }
 
-    it { should have(12).items }
+    def create_matrix(attrs = nil)
+      described_class.new(
+        Vx::Builder::BuildConfiguration.new(attrs || attributes)
+      ).build
+    end
+
+    it "should generate 12 configurations" do
+      expect(create_matrix).to have(12).items
+    end
 
     it "should copy script from source" do
       expect(subject.map(&:script).flatten).to eq ["echo script"] * 12
@@ -52,12 +60,14 @@ describe Vx::Builder::MatrixBuilder do
       expect(subject.map(&:matrix_attributes).flatten).to have(12).items
     end
 
-    context "when empty configuration" do
-      let(:attributes) { {
-        "deploy" => "value"
-      } }
+    it "should copy vexor attributes to all matrixes" do
+      m = create_matrix("vexor" => {"timeout" => 20}, "rvm" => %w{ 2.1 2.0 })
+      expect(m).to have(2).items
+      expect(m.map(&:vexor).map(&:timeout)).to eq [20, 20]
+    end
 
-      it { should be_empty }
+    it "should be empty if configuration is empty" do
+      expect(create_matrix "deploy" => "value").to be_empty
     end
 
     context "without any matrix keys" do
@@ -65,23 +75,27 @@ describe Vx::Builder::MatrixBuilder do
         "script" => %w{ /bin/true },
       } }
 
-      it { should have(1).item }
+      it "should have one configuration" do
+        expect(create_matrix).to have(1).item
+      end
 
-      context "attributes" do
-        subject { matrix.build.first.to_hash.select{|k,v| !v.empty? } }
-
-        it { should eq(
+      it "should have valid attributes" do
+        m = create_matrix
+        m.map! do |c|
+          c.to_hash.select{ |k,v|  !v.empty? }
+        end
+        expect(m).to eq([{
           "env" => {
-            "matrix" => [],
-            "global" => []
-          },
+              "matrix" => [],
+              "global" => []
+            },
           "cache" => {
             "directories" => [],
             "enabled"     => true
           },
           "script" => ["/bin/true"],
           "vexor"  => {"timeout"=>nil, "read_timeout"=>nil}
-        ) }
+        }])
       end
     end
 

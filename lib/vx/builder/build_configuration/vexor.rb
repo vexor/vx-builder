@@ -22,7 +22,6 @@ module Vx
         private
 
           def normalize_attributes(new_attributes)
-
             @attributes =
               case new_attributes
               when Hash
