@@ -10,7 +10,7 @@ module Vx
           if enabled?(env)
             do_before_install(env) do |i|
 
-              vxvm_install = "vxvm install go #{go_version env}"
+              vxvm_install = "sudo vxvm install go #{go_version env}"
               i << trace_sh_command(vxvm_install)
               i << %{VX_VM_EVAL="$(#{vxvm_install}"}
               i << %{eval "$VX_VM_EVAL"}
