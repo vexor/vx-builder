@@ -11,7 +11,6 @@ module Vx
       autoload :Java,         File.expand_path("../script_builder/java",      __FILE__)
       autoload :Scala,        File.expand_path("../script_builder/scala",     __FILE__)
       autoload :Clojure,      File.expand_path("../script_builder/clojure",   __FILE__)
-      autoload :Script,       File.expand_path("../script_builder/script",    __FILE__)
       autoload :Prepare,      File.expand_path("../script_builder/prepare",   __FILE__)
       autoload :Databases,    File.expand_path("../script_builder/databases", __FILE__)
       autoload :Cache,        File.expand_path("../script_builder/cache",     __FILE__)
@@ -28,13 +27,14 @@ module Vx
         use Builder::ScriptBuilder::Env
         use Builder::ScriptBuilder::Services
         use Builder::ScriptBuilder::Prepare
+
         use Builder::ScriptBuilder::Java
         use Builder::ScriptBuilder::Scala
         use Builder::ScriptBuilder::Clojure
         use Builder::ScriptBuilder::Ruby
         use Builder::ScriptBuilder::Go
+
         use Builder::ScriptBuilder::Deploy
-        use Builder::ScriptBuilder::Script
         use Builder::ScriptBuilder::Defaults
       end
 

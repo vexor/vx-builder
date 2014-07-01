@@ -2,13 +2,15 @@ module Vx
   module Builder
     class ScriptBuilder
 
-      Script = Struct.new(:app) do
-
-        include Helper::TraceShCommand
+      class Defaults < Base
 
         def call(env)
           env.source.before_install.each do |c|
             env.before_install << trace_sh_command(c)
+          end
+
+          env.source.install.each do |c|
+            env.install << trace_sh_command(c)
           end
 
           env.source.before_script.each do |c|
@@ -23,7 +25,7 @@ module Vx
             env.after_success << trace_sh_command(c)
           end
 
-          app.call(env)
+          app.call env
         end
 
       end
