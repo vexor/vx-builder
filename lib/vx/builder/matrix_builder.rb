@@ -7,6 +7,7 @@ module Vx
         gemfile
         scala
         jdk
+        go
 
         image
         env_matrix:env
