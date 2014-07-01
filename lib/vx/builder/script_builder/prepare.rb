@@ -24,7 +24,9 @@ module Vx
 
           env.init.tap do |i|
             i << 'export VX_ROOT=$(pwd)'
+            i << 'export PATH=$VX_ROOT/bin:$PATH'
 
+            i << "mkdir -p $VX_ROOT/bin"
             i << "mkdir -p #{data_path}"
             i << "mkdir -p #{repo_path}"
 
@@ -41,11 +43,15 @@ module Vx
             i << scm.fetch_cmd
             i << "unset GIT_SSH"
 
-            i << 'echo "Starting SSH Agent"'
-            i << 'eval "$(ssh-agent)"'
-            i << "ssh-add $VX_PRIVATE_KEY"
+            i << 'echo "starting SSH Agent"'
+            i << 'eval "$(ssh-agent)" > /dev/null'
+            i << "ssh-add $VX_PRIVATE_KEY 2> /dev/null"
 
             i << "cd #{repo_path}"
+
+            i << 'echo "download latest version of vxvm"'
+            i << "curl --fail --silent --show-error https://raw.githubusercontent.com/vexor/vx-packages/master/vxvm > $VX_ROOT/bin/vxvm"
+            i << "chmod +x $VX_ROOT/bin/vxvm"
           end
 
           env.after_script_init.tap do |i|

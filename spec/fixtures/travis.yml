@@ -4,6 +4,8 @@ gemfile: 'Gemfile'
 
 before_script: "echo before_script"
 
+install: "echo install"
+
 before_install: "echo before_install"
 
 script: "RAILS_ENV=test ls -1 && echo DONE!"

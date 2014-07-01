@@ -26,6 +26,7 @@ describe Vx::Builder::BuildConfiguration do
       {
        "after_success"  => ["echo after success"],
        "before_install" => ["echo before_install"],
+       "install"        => ["echo install"],
        "before_script"  => ["echo before_script"],
        "cache" => {
          "directories"  => ["~/.cache"],

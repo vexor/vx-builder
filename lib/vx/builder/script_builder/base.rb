@@ -31,7 +31,9 @@ module Vx
         end
 
         def do_install(env)
-          yield env.install
+          if env.source.install.empty?
+            yield env.install
+          end
         end
 
         def do_deploy_script(env)

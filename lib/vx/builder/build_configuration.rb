@@ -28,6 +28,7 @@ module Vx
         bundler_args
 
         before_install
+        install
         before_script
         script
         after_success

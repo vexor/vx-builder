@@ -14,11 +14,15 @@ describe Vx::Builder::ScriptBuilder::Ruby do
     subject { env }
 
     context "should be success" do
-      before { run }
+      before do
+        stub(env.source).install { [] }
+        run
+      end
+
       its(:before_install)     { should_not be_empty }
       its(:announce)           { should_not be_empty }
       its(:install)            { should_not be_empty }
-      its(:cached_directories) {  should eq %w{ ~/.rubygems } }
+      its(:cached_directories) { should eq %w{ ~/.rubygems } }
     end
 
     context "when script is empty" do
