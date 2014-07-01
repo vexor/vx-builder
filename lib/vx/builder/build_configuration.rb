@@ -12,6 +12,7 @@ module Vx
         rvm
         scala
         jdk
+        go
         language
         script
       }
@@ -20,6 +21,7 @@ module Vx
         rvm
         scala
         jdk
+        go
         language
 
         gemfile

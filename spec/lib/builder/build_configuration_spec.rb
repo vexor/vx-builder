@@ -40,6 +40,7 @@ describe Vx::Builder::BuildConfiguration do
        "image"          => ["one", "two"],
        "jdk"            => ['openjdk7'],
        "language"       => ["ruby"],
+       "go"             => ['1.2.2'],
        "rvm"            => ["2.0.0"],
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],

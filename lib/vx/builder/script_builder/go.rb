@@ -9,11 +9,11 @@ module Vx
         def call(env)
           if enabled?(env)
             do_before_install(env) do |i|
+
               vxvm_install = "vxvm install go #{go_version env}"
-              i << trace_sh_command(
-                %{eval "$(#{vxvm_install})" },
-                trace: vxvm_install
-              )
+              i << trace_sh_command(vxvm_install)
+              i << %{VX_VM_EVAL="$(#{vxvm_install}"}
+              i << %{eval "$VX_VM_EVAL"}
 
               i << trace_sh_command('export GOPATH=$VX_ROOT/gopath')
               i << trace_sh_command('export PATH=$GOPATH/bin:$PATH')
