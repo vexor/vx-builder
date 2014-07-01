@@ -11,9 +11,8 @@ module Vx
             do_before_install(env) do |i|
 
               vxvm_install = "sudo vxvm install go #{go_version env}"
-              i << trace_sh_command(vxvm_install)
-              i << %{VX_VM_EVAL="$(#{vxvm_install}"}
-              i << %{eval "$VX_VM_EVAL"}
+              i << trace_sh_command(%{VX_VM_SOURCE="$(#{vxvm_install})"}, trace: vxvm_install)
+              i << %{source "$VX_VM_SOURCE"}
 
               i << trace_sh_command('export GOPATH=$VX_ROOT/gopath')
               i << trace_sh_command('export PATH=$GOPATH/bin:$PATH')

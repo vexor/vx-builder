@@ -37,10 +37,9 @@ curl --fail --silent --show-error https://raw.githubusercontent.com/vexor/vx-pac
 chmod +x $VX_ROOT/bin/vxvm
 
 # before install
-echo \$\ vxvm\ install\ go\ 1.2
-vxvm install go 1.2
-VX_VM_EVAL="$(vxvm install go 1.2"
-eval "$VX_VM_EVAL"
+echo \$\ sudo\ vxvm\ install\ go\ 1.2
+VX_VM_SOURCE="$(sudo vxvm install go 1.2)"
+source "$VX_VM_SOURCE"
 echo \$\ export\ GOPATH\=\$VX_ROOT/gopath
 export GOPATH=$VX_ROOT/gopath
 echo \$\ export\ PATH\=\$GOPATH/bin:\$PATH
