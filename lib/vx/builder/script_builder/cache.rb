@@ -63,7 +63,7 @@ module Vx
             cmd = %{
               export CASHER_DIR=$HOME/.casher &&
               ( mkdir -p $CASHER_DIR/bin &&
-                /usr/bin/curl #{CASHER_URL} -s -o #{CASHER_BIN} &&
+                /usr/bin/curl #{CASHER_URL} --tcp-nodelay --retry 3 --fail --silent --show-error -o #{CASHER_BIN} &&
                 chmod +x #{CASHER_BIN} ) ||
               true
             }.gsub(/\n/, ' ').gsub(/ +/, ' ')

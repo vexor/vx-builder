@@ -5,11 +5,11 @@ export CI_JOB_ID=1
 export CI_JOB_NUMBER=100
 export CI_BUILD_ID=12
 export CI_BUILD_NUMBER=101
-export CI_PROJECT_NAME=project/name
-export CI_BUILD_SHA=b665f90239563c030f1b280a434b3d84daeda1bd
-export CI_BRANCH=master
+export CI_PROJECT_NAME=vexor/vx-test-repo
+export CI_BUILD_SHA=8f53c077072674972e21c82a286acc07fada91f5
+export CI_BRANCH=test/pull-request
 export VX_ROOT=$(pwd)
-cd ${VX_ROOT}/code/project/name
+cd ${VX_ROOT}/code/vexor/vx-test-repo
 
 # after script
-test -f $HOME/.casher/bin/casher && /opt/rbenv/versions/1.9.3-p547/bin/ruby $HOME/.casher/bin/casher push http://example.com/master/rvm-2.0.0-gemfile.tgz
+test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher push http://example.com/test/pull-request/rvm-2.0.0-gemfile.tgz

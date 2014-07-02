@@ -8,16 +8,13 @@ module Vx
 
         def call(env)
           if enabled?(env)
+            vxvm_install(env, 'go', go_version(env))
+
             do_before_install(env) do |i|
-
-              vxvm_install = "sudo vxvm install go #{go_version env}"
-              i << trace_sh_command(%{VX_VM_SOURCE="$(#{vxvm_install})"}, trace: vxvm_install)
-              i << %{source "$VX_VM_SOURCE"}
-
-              i << trace_sh_command('export VX_GOPATH=$VX_ROOT/gopath:$GOPATH')
-              i << trace_sh_command('export PATH=$VX_GOPATH/bin:$PATH')
+              i << trace_sh_command('export GOPATH=$VX_ROOT/gopath:$GOPATH')
+              i << trace_sh_command('export PATH=$VX_ROOT/gopath/bin:$PATH')
               i << trace_sh_command('export VX_ORIG_CODE_ROOT=$(pwd)')
-              i << trace_sh_command("export VX_NEW_CODE_ROOT=$VX_GOPATH/src/#{project_path env}")
+              i << trace_sh_command("export VX_NEW_CODE_ROOT=$VX_ROOT/gopath/src/#{project_path env}")
 
               i << trace_sh_command('mkdir -p $VX_NEW_CODE_ROOT')
               i << trace_sh_command('rmdir $VX_NEW_CODE_ROOT')

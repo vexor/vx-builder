@@ -1,16 +1,19 @@
 require 'spec_helper'
+require 'fileutils'
+require 'tempfile'
+require 'yaml'
 
 describe "(integration) ruby" do
-  let(:build_configuration) {
-    Vx::Builder::BuildConfiguration.from_yaml(config)
-  }
-  let(:matrix) { Vx::Builder.matrix build_configuration }
-  let(:task)   { create :task }
-  let(:script) { Vx::Builder.script(task, source) }
-  subject { matrix }
+  let(:path) { Dir.tmpdir + "/vx-builder-test" }
 
-  def write_script_to_filter(prefix)
-=begin
+  before do
+    FileUtils.rm_rf(path)
+    FileUtils.mkdir_p(path)
+  end
+
+  after { FileUtils.rm_rf(path) }
+
+  def write_script_to_filter(prefix, script)
     File.open(fixture_path("integration/ruby/#{prefix}before_script.sh"), 'w') do |io|
       io << script.to_before_script
     end
@@ -20,93 +23,94 @@ describe "(integration) ruby" do
     File.open(fixture_path("integration/ruby/#{prefix}script.sh"), 'w') do |io|
       io << script.to_script
     end
-=end
   end
 
-  context "language" do
+  def build(file, options = {})
+    config = Vx::Builder::BuildConfiguration.from_yaml(file)
+    matrix = Vx::Builder.matrix config
+    options[:task] ||= create(:task)
+    rs = OpenStruct.new matrix: matrix, scripts: []
+    matrix.build.each do |b|
+      rs.scripts << Vx::Builder.script(options[:task], b)
+    end
+    rs
+  end
+
+  context "generation" do
     let(:config) { fixture("integration/ruby/language/config.yml") }
 
-    its(:build) { should have(1).item }
+    it "should successfuly generate scripts using language: ruby" do
+      c = fixture("integration/ruby/language/config.yml")
+      b = build(c)
+      expect(b.scripts).to have(1).item
+      script = b.scripts[0]
+      write_script_to_filter("language/", script)
+      expect(script.to_before_script).to eq fixture("integration/ruby/language/before_script.sh")
+      expect(script.to_script).to        eq fixture("integration/ruby/language/script.sh")
+      expect(script.to_after_script).to  eq fixture("integration/ruby/language/after_script.sh")
+    end
 
-    context "first configuration" do
-      let(:source) { matrix.build.first }
-      subject { script }
+    it "should successfuly generate scripts for deploy" do
+      c = fixture("integration/ruby/deploy/config.yml")
+      b = build(c)
+      expect(b.scripts).to have(1).item
+      script = b.scripts[0]
+      write_script_to_filter("deploy/", script)
+      expect(script.to_before_script).to eq fixture("integration/ruby/deploy/before_script.sh")
+      expect(script.to_script).to        eq fixture("integration/ruby/deploy/script.sh")
+      expect(script.to_after_script).to  eq fixture("integration/ruby/deploy/after_script.sh")
+    end
 
-      before { write_script_to_filter "language/" }
+    it "should successfuly generate scripts for rvm matrix" do
+      c = fixture("integration/ruby/matrix/config.yml")
+      b = build(c)
 
-      its(:to_before_script) { should eq fixture("integration/ruby/language/before_script.sh") }
-      its(:to_script)        { should eq fixture("integration/ruby/language/script.sh") }
-      its(:to_after_script)  { should eq fixture("integration/ruby/language/after_script.sh") }
+      expect(b.scripts).to have(2).items
+
+      script = b.scripts[0]
+      write_script_to_filter("matrix/0.", script)
+
+      expect(script.to_before_script).to eq fixture("integration/ruby/matrix/0.before_script.sh")
+      expect(script.to_script).to        eq fixture("integration/ruby/matrix/0.script.sh")
+      expect(script.to_after_script).to  eq fixture("integration/ruby/matrix/0.after_script.sh")
+
+      script = b.scripts[1]
+      write_script_to_filter("matrix/1.", script)
+
+      expect(script.to_before_script).to eq fixture("integration/ruby/matrix/1.before_script.sh")
+      expect(script.to_script).to        eq fixture("integration/ruby/matrix/1.script.sh")
+      expect(script.to_after_script).to  eq fixture("integration/ruby/matrix/1.after_script.sh")
+
+      deploy = Vx::Builder.deploy(b.matrix, branch: "master").build
+      expect(deploy).to have(1).item
+
+      script = Vx::Builder.script(create(:task), deploy[0])
+      write_script_to_filter("matrix/d.", script)
+
+      expect(script.to_before_script).to eq fixture("integration/ruby/matrix/d.before_script.sh")
+      expect(script.to_script).to        eq fixture("integration/ruby/matrix/d.script.sh")
+      expect(script.to_after_script).to  eq fixture("integration/ruby/matrix/d.after_script.sh")
     end
   end
 
-  context "deploy" do
-    let(:config) { fixture("integration/ruby/deploy/config.yml") }
+  it "should succesfuly run lang/ruby", real: true do
+    file = {"language" => "ruby"}.to_yaml
+    task = create(
+      :task,
+      sha: "HEAD",
+      branch: "lang/ruby"
+    )
 
-    context "configuration" do
-      let(:task)    { create :task, deploy: true }
-      let(:sources) { Vx::Builder.deploy(matrix, branch: "master").build }
-
-      it "should have source" do
-        expect(sources).to have(1).item
+    b = build(file, task: task)
+    Dir.chdir(path) do
+      File.open("script.sh", "w") do |io|
+        io.write "set -e\n"
+        io.write b.scripts[0].to_before_script
+        io.write b.scripts[0].to_script
       end
-
-      context "first deploy configuration" do
-        let(:source) { sources.first }
-        before { write_script_to_filter "deploy/d." }
-        subject { script }
-
-        its(:to_before_script) { should eq fixture("integration/ruby/deploy/d.before_script.sh") }
-        its(:to_script)        { should eq fixture("integration/ruby/deploy/d.script.sh") }
-        its(:to_after_script)  { should eq fixture("integration/ruby/deploy/d.after_script.sh") }
-      end
+      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      expect($?.to_i).to eq 0
     end
   end
 
-  context "matrix" do
-    let(:config) { fixture("integration/ruby/matrix/config.yml") }
-
-    its(:build) { should have(2).item }
-
-    context "0th configuration" do
-      let(:source) { matrix.build[0] }
-      subject { script }
-
-      before { write_script_to_filter "matrix/0." }
-
-      its(:to_before_script) { should eq fixture("integration/ruby/matrix/0.before_script.sh") }
-      its(:to_script) { should eq fixture("integration/ruby/matrix/0.script.sh") }
-      its(:to_after_script) { should eq fixture("integration/ruby/matrix/0.after_script.sh") }
-    end
-
-    context "1th configuration" do
-      let(:source) { matrix.build[1] }
-      subject { script }
-
-      before { write_script_to_filter "matrix/1." }
-
-      its(:to_before_script) { should eq fixture("integration/ruby/matrix/1.before_script.sh") }
-      its(:to_script) { should eq fixture("integration/ruby/matrix/1.script.sh") }
-      its(:to_after_script) { should eq fixture("integration/ruby/matrix/1.after_script.sh") }
-    end
-
-    context "deploy configuration" do
-      let(:task)    { create :task }
-      let(:sources) { Vx::Builder.deploy(matrix, branch: "master").build }
-
-      it "should have source" do
-        expect(sources).to have(1).item
-      end
-
-      context "first deploy configuration" do
-        let(:source) { sources.first }
-        subject { script }
-        before { write_script_to_filter "matrix/d." }
-
-        its(:to_before_script) { should eq fixture("integration/ruby/matrix/d.before_script.sh") }
-        its(:to_script) { should eq fixture("integration/ruby/matrix/d.script.sh") }
-        its(:to_after_script) { should eq fixture("integration/ruby/matrix/d.after_script.sh") }
-      end
-    end
-  end
 end

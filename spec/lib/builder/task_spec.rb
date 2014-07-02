@@ -6,8 +6,8 @@ describe Vx::Builder::Task do
   subject { task }
 
   context "just created" do
-    its(:name)            { should eq 'project/name' }
-    its(:sha)             { should eq 'b665f90239563c030f1b280a434b3d84daeda1bd' }
+    its(:name)            { should eq 'vexor/vx-test-repo' }
+    its(:sha)             { should eq '8f53c077072674972e21c82a286acc07fada91f5' }
     its(:deploy_key)      { should be }
     its(:cache_url_prefix){ should eq 'http://example.com' }
     its(:job_id)          { should eq 1 }

@@ -12,6 +12,10 @@ export CI_BUILD_NUMBER=101
 export CI_PROJECT_NAME=vexor/vx-test-repo
 export CI_BUILD_SHA=8f53c077072674972e21c82a286acc07fada91f5
 export CI_BRANCH=test/pull-request
+echo \$\ export\ FOO
+export FOO
+echo \$\ export\ BAR
+export BAR
 export VX_ROOT=$(pwd)
 export PATH=$VX_ROOT/bin:$PATH
 mkdir -p $VX_ROOT/bin
@@ -35,38 +39,32 @@ cd ${VX_ROOT}/code/vexor/vx-test-repo
 echo "download latest version of vxvm"
 curl --tcp-nodelay --retry 3 --fail --silent --show-error -o $VX_ROOT/bin/vxvm https://raw.githubusercontent.com/vexor/vx-packages/master/vxvm
 chmod +x $VX_ROOT/bin/vxvm
+ export CASHER_DIR=$HOME/.casher && ( mkdir -p $CASHER_DIR/bin && /usr/bin/curl https://raw2.github.com/dima-exe/casher/master/bin/casher --tcp-nodelay --retry 3 --fail --silent --show-error -o $HOME/.casher/bin/casher && chmod +x $HOME/.casher/bin/casher ) || true 
+test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher fetch http://example.com/test/pull-request/rvm-1.9.3-gemfile.tgz http://example.com/master/rvm-1.9.3-gemfile.tgz || true
+test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher add ~/.rubygems || true
+unset CASHER_DIR
 
 # before install
-echo \$\ sudo\ env\ PATH\=\$PATH\ vxvm\ install\ go\ 1.2
-VX_VM_SOURCE="$(sudo env PATH=$PATH vxvm install go 1.2)"
+echo \$\ sudo\ env\ PATH\=\$PATH\ vxvm\ install\ ruby\ 1.9.3
+VX_VM_SOURCE="$(sudo env PATH=$PATH vxvm install ruby 1.9.3)"
 source "$VX_VM_SOURCE"
-echo \$\ export\ GOPATH\=\$VX_ROOT/gopath:\$GOPATH
-export GOPATH=$VX_ROOT/gopath:$GOPATH
-echo \$\ export\ PATH\=\$VX_ROOT/gopath/bin:\$PATH
-export PATH=$VX_ROOT/gopath/bin:$PATH
-echo \$\ export\ VX_ORIG_CODE_ROOT\=\$\(pwd\)
-export VX_ORIG_CODE_ROOT=$(pwd)
-echo \$\ export\ VX_NEW_CODE_ROOT\=\$VX_ROOT/gopath/src/github.com/vexor/vx-test-repo
-export VX_NEW_CODE_ROOT=$VX_ROOT/gopath/src/github.com/vexor/vx-test-repo
-echo \$\ mkdir\ -p\ \$VX_NEW_CODE_ROOT
-mkdir -p $VX_NEW_CODE_ROOT
-echo \$\ rmdir\ \$VX_NEW_CODE_ROOT
-rmdir $VX_NEW_CODE_ROOT
-echo \$\ mv\ \$VX_ORIG_CODE_ROOT\ \$VX_NEW_CODE_ROOT
-mv $VX_ORIG_CODE_ROOT $VX_NEW_CODE_ROOT
-echo \$\ ln\ -s\ \$VX_NEW_CODE_ROOT\ \$VX_ORIG_CODE_ROOT
-ln -s $VX_NEW_CODE_ROOT $VX_ORIG_CODE_ROOT
-echo \$\ cd\ \$VX_NEW_CODE_ROOT
-cd $VX_NEW_CODE_ROOT
+echo \$\ export\ BUNDLE_GEMFILE\=\$\{PWD\}/Gemfile
+export BUNDLE_GEMFILE=${PWD}/Gemfile
+echo \$\ export\ GEM_HOME\=\~/.rubygems
+export GEM_HOME=~/.rubygems
 
 # announce
-echo \$\ go\ version
-go version
-echo \$\ go\ env
-go env
+echo \$\ ruby\ --version
+ruby --version
+echo \$\ gem\ --version
+gem --version
+echo \$\ bundle\ --version
+bundle --version
 
 # install
-echo \$\ go\ get\ -v\ ./...
-go get -v ./...
+echo \$\ bundle\ install\ 
+bundle install 
+echo \$\ bundle\ clean\ --force
+bundle clean --force
 
 # before script

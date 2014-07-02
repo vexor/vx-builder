@@ -5,6 +5,7 @@ module Vx
       Base = Struct.new(:app) do
 
         include Helper::TraceShCommand
+        include Helper::VxvmInstall
 
         def do_cache_key(env)
           yield env.cache_key
