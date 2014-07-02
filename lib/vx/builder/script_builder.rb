@@ -95,6 +95,10 @@ module Vx
         source.vexor
       end
 
+      def cached_directories
+        env.cached_directories + source.cache.directories
+      end
+
       private
 
         def env

@@ -13,6 +13,7 @@ module Vx
           rs = app.call env
 
           if env.task.cache_url_prefix && enabled?(env)
+
             assign_url_to_env(env)
             prepare(env)
             fetch(env)
@@ -26,7 +27,11 @@ module Vx
         private
 
           def enabled?(env)
-            !env.cached_directories.empty?
+            env.source.cache.enabled? && !cached_directories(env).empty?
+          end
+
+          def cached_directories(env)
+            env.cached_directories + env.source.cached_directories
           end
 
           def casher_cmd
@@ -76,7 +81,7 @@ module Vx
           end
 
           def add(env)
-            env.cached_directories.each do |d|
+            cached_directories(env).each do |d|
               env.init << "#{casher_cmd} add #{d} || true"
             end
             env.init << "unset CASHER_DIR"
