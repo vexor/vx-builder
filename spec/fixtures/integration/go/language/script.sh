@@ -1,6 +1,6 @@
 
 # script
-echo \$\ go\ test
-go test
+echo \$\ go\ test\ -v\ ./...
+go test -v ./...
 
 # after success

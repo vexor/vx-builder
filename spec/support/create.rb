@@ -7,7 +7,7 @@ def create(name, options = {})
     Vx::Builder::Task.new(
       job_id:           1,
       build_id:         12,
-      name:             'name',
+      name:             'project/name',
       src:              "git@github.com:dima-exe/ci-worker-test-repo.git",
       sha:              "b665f90239563c030f1b280a434b3d84daeda1bd",
       deploy_key:       fixture("insecure_private_key"),
@@ -16,6 +16,7 @@ def create(name, options = {})
       pull_request_id:  options[:pull_request_id],
       job_number:       100,
       build_number:     101,
+      project_host:     'github.com'
     )
 
   when :source

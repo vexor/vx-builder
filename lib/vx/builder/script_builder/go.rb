@@ -14,10 +14,10 @@ module Vx
               i << trace_sh_command(%{VX_VM_SOURCE="$(#{vxvm_install})"}, trace: vxvm_install)
               i << %{source "$VX_VM_SOURCE"}
 
-              i << trace_sh_command('export GOPATH=$VX_ROOT/gopath')
-              i << trace_sh_command('export PATH=$GOPATH/bin:$PATH')
+              i << trace_sh_command('export VX_GOPATH=$VX_ROOT/gopath:$GOPATH')
+              i << trace_sh_command('export PATH=$VX_GOPATH/bin:$PATH')
               i << trace_sh_command('export VX_ORIG_CODE_ROOT=$(pwd)')
-              i << trace_sh_command('export VX_NEW_CODE_ROOT=$GOPATH/src/vexor.io/$CI_PROJECT_NAME')
+              i << trace_sh_command("export VX_NEW_CODE_ROOT=$VX_GOPATH/src/#{project_path env}")
 
               i << trace_sh_command('mkdir -p $VX_NEW_CODE_ROOT')
               i << trace_sh_command('rmdir $VX_NEW_CODE_ROOT')
@@ -28,14 +28,15 @@ module Vx
 
             do_announce(env) do |i|
               i << trace_sh_command("go version")
+              i << trace_sh_command("go env")
             end
 
             do_install(env) do |i|
-              i << trace_sh_command("go get -t")
+              i << trace_sh_command("go get -v ./...")
             end
 
             do_script(env) do |i|
-              i << trace_sh_command("go test")
+              i << trace_sh_command("go test -v ./...")
             end
           end
 
@@ -43,6 +44,10 @@ module Vx
         end
 
         private
+
+          def project_path(env)
+            "#{env.task.project_host}/#{env.task.name}"
+          end
 
           def enabled?(env)
             env.source.go.first || env.source.language == 'go'
