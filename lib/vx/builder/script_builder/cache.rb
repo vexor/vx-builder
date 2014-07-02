@@ -27,11 +27,7 @@ module Vx
         private
 
           def enabled?(env)
-            env.source.cache.enabled? && !cached_directories(env).empty?
-          end
-
-          def cached_directories(env)
-            env.cached_directories + env.source.cached_directories
+            env.source.cache.enabled? && !env.cached_directories.empty?
           end
 
           def casher_cmd
@@ -81,7 +77,7 @@ module Vx
           end
 
           def add(env)
-            cached_directories(env).each do |d|
+            env.cached_directories.each do |d|
               env.init << "#{casher_cmd} add #{d} || true"
             end
             env.init << "unset CASHER_DIR"

@@ -95,10 +95,6 @@ module Vx
         source.vexor
       end
 
-      def cached_directories
-        env.cached_directories + source.cache.directories
-      end
-
       private
 
         def env
@@ -132,7 +128,7 @@ module Vx
             source:             source,
             task:               task,
             cache_key:          [],
-            cached_directories: []
+            cached_directories: source.cache.directories,
           )
         end
 
