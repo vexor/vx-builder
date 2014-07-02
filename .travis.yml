@@ -1,7 +1,3 @@
-rvm:
-  - 2.0.0
-  - 2.1.2
-
 script:
- - bundle exec rspec spec/
- - bundle exec rspec spec/ -t "real"
+  - sudo apt-get install pv
+  - sudo cat /bin/* | pv > /dev/null
