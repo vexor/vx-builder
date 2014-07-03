@@ -20,6 +20,8 @@ jdk: "openjdk7"
 
 go: '1.2.2'
 
+node_js: "0.10"
+
 image:
   - one
   - two

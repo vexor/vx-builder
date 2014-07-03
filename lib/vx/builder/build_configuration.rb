@@ -15,6 +15,7 @@ module Vx
         go
         language
         script
+        node_js
       }
 
       ATTRIBUTES = %w{
@@ -22,6 +23,7 @@ module Vx
         scala
         jdk
         go
+        node_js
         language
 
         gemfile

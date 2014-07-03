@@ -38,6 +38,7 @@ chmod +x $VX_ROOT/bin/vxvm
  export CASHER_DIR=$HOME/.casher && ( mkdir -p $CASHER_DIR/bin && /usr/bin/curl https://raw2.github.com/dima-exe/casher/master/bin/casher --tcp-nodelay --retry 3 --fail --silent --show-error -o $HOME/.casher/bin/casher && chmod +x $HOME/.casher/bin/casher ) || true 
 test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher fetch http://example.com/test/pull-request/rvm-1.9.3-gemfile.tgz http://example.com/master/rvm-1.9.3-gemfile.tgz || true
 test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher add ~/.rubygems || true
+test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher add ~/.rubygems || true
 unset CASHER_DIR
 
 # before install

@@ -8,6 +8,7 @@ module Vx
       autoload :Env,          File.expand_path("../script_builder/env",       __FILE__)
       autoload :Ruby,         File.expand_path("../script_builder/ruby",      __FILE__)
       autoload :Go,           File.expand_path("../script_builder/go",        __FILE__)
+      autoload :Nodejs,       File.expand_path("../script_builder/nodejs",    __FILE__)
       autoload :Java,         File.expand_path("../script_builder/java",      __FILE__)
       autoload :Scala,        File.expand_path("../script_builder/scala",     __FILE__)
       autoload :Clojure,      File.expand_path("../script_builder/clojure",   __FILE__)
@@ -33,6 +34,7 @@ module Vx
         use Builder::ScriptBuilder::Clojure
         use Builder::ScriptBuilder::Ruby
         use Builder::ScriptBuilder::Go
+        use Builder::ScriptBuilder::Nodejs
 
         use Builder::ScriptBuilder::Deploy
         use Builder::ScriptBuilder::Defaults

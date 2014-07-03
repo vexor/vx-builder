@@ -8,6 +8,7 @@ module Vx
         scala
         jdk
         go
+        node_js
 
         image
         env_matrix:env
