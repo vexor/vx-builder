@@ -13,9 +13,11 @@ module Vx
         scala
         jdk
         go
+        node_js
+        rust
+
         language
         script
-        node_js
       }
 
       ATTRIBUTES = %w{
@@ -24,8 +26,9 @@ module Vx
         jdk
         go
         node_js
-        language
+        rust
 
+        language
         gemfile
         services
         image

@@ -22,6 +22,8 @@ go: '1.2.2'
 
 node_js: "0.10"
 
+rust: "0.11.0"
+
 image:
   - one
   - two
