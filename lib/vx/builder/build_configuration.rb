@@ -57,7 +57,8 @@ module Vx
         end
       end
 
-      attr_reader :env, :cache, :deploy, :attributes, :deploy_modules, :vexor
+      attr_reader :env, :cache, :deploy, :attributes, :deploy_modules, :vexor,
+        :matrix
 
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
@@ -65,6 +66,7 @@ module Vx
         @env               = Env.new       new_attributes.delete("env")
         @cache             = Cache.new     new_attributes.delete("cache")
         @vexor             = Vexor.new     new_attributes.delete("vexor")
+        @matrix            = Matrix.new    new_attributes.delete("matrix")
 
         @deploy            = Deploy.new    new_attributes.delete("deploy")
         @deploy_modules    = new_attributes.delete("deploy_modules") || []
@@ -117,6 +119,7 @@ module Vx
           "env"            => env.attributes,
           "cache"          => cache.attributes,
           "vexor"          => vexor.attributes,
+          "matrix"         => matrix.attributes,
           "deploy"         => deploy.attributes,
           "deploy_modules" => deploy_modules.map(&:to_hash)
         )

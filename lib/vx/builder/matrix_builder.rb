@@ -9,6 +9,7 @@ module Vx
         jdk
         go
         node_js
+        rust
 
         image
         env_matrix:env
@@ -27,7 +28,12 @@ module Vx
               matrix_attributes
             )
           end
-          build_configurations.select{|bc| bc.any? }
+          filter_not_empty(
+            filter_exclude(
+              build_configuration.matrix.exclude,
+              build_configurations
+            )
+          )
         end
       end
 
@@ -89,6 +95,26 @@ module Vx
       end
 
       private
+
+        def filter_not_empty(configurations)
+          configurations.select{|c| c.any? }
+        end
+
+        def filter_exclude(exclude, configurations)
+          configurations.select do |c|
+            !exclude.any? do |pair|
+              pair.all? do |k,v|
+                if k == 'env'
+                  k = 'env_matrix'
+                end
+
+                c.respond_to?(k)              &&
+                c.public_send(k).is_a?(Array) &&
+                c.public_send(k).include?(v)
+              end
+            end
+          end
+        end
 
         def not_matrix?(pairs)
           pairs.all?{|i| i.size == 1 }

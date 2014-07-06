@@ -52,7 +52,8 @@ describe Vx::Builder::BuildConfiguration do
        "deploy_modules" => [],
        "bundler_args"   => ["--without development"],
        "before_deploy"  => ["echo before deploy"],
-       "after_deploy"   => ["echo after deploy"]
+       "after_deploy"   => ["echo after deploy"],
+       "matrix"         => {"exclude"=>[{"rvm"=>2.1}]}
       }
     ) }
   end

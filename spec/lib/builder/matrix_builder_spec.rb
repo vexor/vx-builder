@@ -40,6 +40,25 @@ describe Vx::Builder::MatrixBuilder do
       ).build
     end
 
+    it "should exclude configurations" do
+      yaml = YAML.load %{
+        env:
+        - B=frontend
+        - B=backend
+        rvm:
+        - 2.0
+        - 2.1
+        matrix:
+          exclude:
+          - rvm: 2.1
+            env: B=frontend
+      }
+      configurations = create_matrix(yaml)
+      expect(configurations).to have(3).items
+      expect(configurations.map(&:rvm)).to eq [[2.0], [2.0], [2.1]]
+      expect(configurations.map(&:env_matrix)).to eq [["B=backend"], ["B=frontend"], ["B=backend"]]
+    end
+
     it "should generate 12 configurations" do
       expect(create_matrix).to have(12).items
     end
@@ -151,6 +170,7 @@ describe Vx::Builder::MatrixBuilder do
         it { should eq ['rvm:2.0.0'] }
       end
     end
+
   end
 
   context "attributes_for_new_confgurations_with_merged_env" do
