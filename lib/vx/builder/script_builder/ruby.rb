@@ -6,6 +6,10 @@ module Vx
 
         DEFAULT_RUBY = '1.9.3'
 
+        ALIASES = {
+          'jruby-19mode' => 'jruby'
+        }
+
         def call(env)
           if enabled?(env)
 
@@ -53,7 +57,8 @@ module Vx
           end
 
           def ruby_version(env)
-            env.source.rvm.first || DEFAULT_RUBY
+            v = env.source.rvm.first || DEFAULT_RUBY
+            ALIASES[v] || v
           end
 
           def gemfile(env)
