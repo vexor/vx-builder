@@ -68,8 +68,15 @@ module Vx
             Common::Git.new(env.task.src,
                          sha,
                          path,
-                         branch: env.task.branch,
+                         branch: branch_name(env),
                          pull_request_id: env.task.pull_request_id)
+          end
+
+          def branch_name(env)
+            b = env.task && env.task.branch
+            if b && b != 'HEAD'
+              b
+            end
           end
 
       end
