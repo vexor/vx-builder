@@ -7,10 +7,7 @@ module Vx
         def call(env)
           if env.source.parallel?
             env.init << trace_sh_command("export CI_PARALLEL_JOBS=#{env.source.parallel}")
-
-            if env.source.parallel_job_number?
-              env.init << trace_sh_command("export CI_PARALLEL_JOB_NUMBER=#{env.source.parallel_job_number}")
-            end
+            env.init << trace_sh_command("export CI_PARALLEL_JOB_NUMBER=#{env.source.parallel_job_number}")
           end
 
           app.call(env)
