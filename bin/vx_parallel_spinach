@@ -16,7 +16,7 @@ NORMAL="\033[0;39m"
 JOBS=${CI_PARALLEL_JOBS:-1}
 JOB_NUMBER=${CI_PARALLEL_JOB_NUMBER:-0}
 
-for file in $(find ./spec -name "*_spec.rb" | sort)
+for file in $(find ./features -name "*.feature" | sort)
 do
   if [ $(($i % $JOBS)) -eq $JOB_NUMBER ]
   then
