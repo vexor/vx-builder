@@ -63,6 +63,7 @@ module Vx
 
           env.after_script_init.tap do |i|
             i << 'export VX_ROOT=$(pwd)'
+            i << "test -d #{repo_path} || exit 1"
             i << "cd #{repo_path}"
           end
 
