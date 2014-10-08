@@ -14,6 +14,7 @@ describe "(integration) ruby" do
   after { FileUtils.rm_rf(path) }
 
   def write_script_to_filter(prefix, script)
+=begin
     File.open(fixture_path("integration/ruby/#{prefix}before_script.sh"), 'w') do |io|
       io << script.to_before_script
     end
@@ -23,6 +24,7 @@ describe "(integration) ruby" do
     File.open(fixture_path("integration/ruby/#{prefix}script.sh"), 'w') do |io|
       io << script.to_script
     end
+=end
   end
 
   def build(file, options = {})
@@ -95,6 +97,26 @@ describe "(integration) ruby" do
 
   it "should succesfuly run lang/ruby", real: true do
     file = {"language" => "ruby"}.to_yaml
+    task = create(
+      :task,
+      sha: "HEAD",
+      branch: "lang/ruby"
+    )
+
+    b = build(file, task: task)
+    Dir.chdir(path) do
+      File.open("script.sh", "w") do |io|
+        io.write "set -e\n"
+        io.write b.scripts[0].to_before_script
+        io.write b.scripts[0].to_script
+      end
+      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      expect($?.to_i).to eq 0
+    end
+  end
+
+  it "should succesfuly run lang/ruby with parallel_rspec", real: true do
+    file = {"language" => "ruby", "parallel" => 3, "script" => "parallel_rspec"}.to_yaml
     task = create(
       :task,
       sha: "HEAD",

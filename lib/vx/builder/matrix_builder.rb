@@ -22,7 +22,7 @@ module Vx
       def build
         @build ||= begin
           new_attributes = build_configuration.to_hash.dup
-          build_configurations = attributes_for_new_build_configurations_with_merged_env.map do |matrix_attributes|
+          build_configurations = attributes_for_new_build_configurations_with_parallel.map do |matrix_attributes|
             BuildConfiguration.new(
               new_attributes.merge(matrix_attributes),
               matrix_attributes
@@ -34,6 +34,21 @@ module Vx
               build_configurations
             )
           )
+        end
+      end
+
+      def attributes_for_new_build_configurations_with_parallel
+        new_attrs = []
+        attrs     = attributes_for_new_build_configurations_with_merged_env
+        if build_configuration.parallel?
+          attrs.each do |attr|
+            1.upto(build_configuration.parallel) do |n|
+              new_attrs << attr.merge("parallel_job_number" => n - 1)
+            end
+          end
+          new_attrs
+        else
+          attrs
         end
       end
 

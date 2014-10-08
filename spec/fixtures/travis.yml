@@ -38,6 +38,8 @@ env:
   global: 'global'
   matrix: 'matrix'
 
+parallel: 3
+
 cache:
   directories:
   - ~/.cache

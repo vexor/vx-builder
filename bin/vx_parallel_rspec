@@ -1,0 +1,30 @@
+#!/bin/bash
+
+i=0
+files=()
+
+BLACK="\033[30m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+PINK="\033[35m"
+CYAN="\033[36m"
+WHITE="\033[37m"
+NORMAL="\033[0;39m"
+
+JOBS=${CI_PARALLEL_JOBS:-1}
+JOB_NUMBER=${CI_PARALLEL_JOB_NUMBER:-0}
+
+for file in $(find ./spec -name "*_spec.rb" | sort)
+do
+  if [ $(($i % $JOBS)) -eq $JOB_NUMBER ]
+  then
+    files+=" $file"
+  fi
+  ((i++))
+done
+
+echo -e "${GREEN}Parallel running $((${JOB_NUMBER} + 1)) of ${JOBS} ${NORMAL}"
+echo "bundle exec rspec $@ ${files[@]}"
+exec bundle exec rspec $@ ${files[@]}

@@ -26,7 +26,20 @@ describe Vx::Builder::ScriptBuilder do
       expect(simple_script.vexor.timeout).to be_nil
       expect(simple_script.vexor.read_timeout).to be_nil
     end
+  end
 
+  context "parallel" do
+    it "should create parallel jobs" do
+      matrix = Vx::Builder::MatrixBuilder.new(source)
+      configurations = matrix.build
+      configuration = configurations[1]
+      expect(configuration.parallel).to eq 3
+      expect(configuration.parallel_job_number).to eq 1
+      parallel_script = described_class.new task, configuration
+      content = parallel_script.to_before_script
+      expect(content).to match("CI_PARALLEL_JOBS\=3")
+      expect(content).to match("CI_PARALLEL_JOB_NUMBER\=1")
+    end
   end
 
   context "#to_before_script" do

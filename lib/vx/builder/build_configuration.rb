@@ -42,6 +42,9 @@ module Vx
 
         before_deploy
         after_deploy
+
+        parallel
+        parallel_job_number
       }
 
       class << self
@@ -63,16 +66,16 @@ module Vx
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
 
-        @env               = Env.new       new_attributes.delete("env")
-        @cache             = Cache.new     new_attributes.delete("cache")
-        @vexor             = Vexor.new     new_attributes.delete("vexor")
-        @matrix            = Matrix.new    new_attributes.delete("matrix")
+        @env                 = Env.new       new_attributes.delete("env")
+        @cache               = Cache.new     new_attributes.delete("cache")
+        @vexor               = Vexor.new     new_attributes.delete("vexor")
+        @matrix              = Matrix.new    new_attributes.delete("matrix")
 
-        @deploy            = Deploy.new    new_attributes.delete("deploy")
-        @deploy_modules    = new_attributes.delete("deploy_modules") || []
-        @deploy_modules    = Deploy.restore_modules(@deploy_modules)
+        @deploy              = Deploy.new    new_attributes.delete("deploy")
+        @deploy_modules      = new_attributes.delete("deploy_modules") || []
+        @deploy_modules      = Deploy.restore_modules(@deploy_modules)
 
-        @matrix_attributes = matrix_attributes
+        @matrix_attributes   = matrix_attributes
 
         build_attributes new_attributes
       end
@@ -137,11 +140,27 @@ module Vx
         @attributes["language"].first
       end
 
+      def parallel
+        @attributes["parallel"].first.to_i
+      end
+
+      def parallel?
+        parallel > 0
+      end
+
+      def parallel_job_number
+        @attributes["parallel_job_number"].first.to_i
+      end
+
+      def parallel_job_number?
+        parallel_job_number > 0
+      end
+
       def cached_directories
         cache.enabled? and cache.directories
       end
 
-      (ATTRIBUTES - %w{ language }).each do |attr|
+      (ATTRIBUTES - %w{ language parallel parallel_job_number }).each do |attr|
         define_method attr do
           attributes[attr]
         end

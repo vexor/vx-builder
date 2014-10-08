@@ -9,7 +9,9 @@ Dir[File.expand_path("../..", __FILE__) + "/spec/support/**/*.rb"].each {|f| req
 RSpec.configure do |config|
   config.mock_with :rr
 
-  config.filter_run_excluding real: true
+  unless ENV['VX_BUILDER_REAL']
+    config.filter_run_excluding real: true
+  end
 
   config.before(:each) do
     Vx::Builder.reset_config!
