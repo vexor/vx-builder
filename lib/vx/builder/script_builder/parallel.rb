@@ -5,20 +5,16 @@ module Vx
       class Parallel < Base
 
         def call(env)
-          if enabled?(env)
+          if env.source.parallel?
+            env.init << trace_sh_command("export CI_PARALLEL_JOBS=#{env.source.parallel}")
 
-            vxvm_install(env, 'nodejs', node_version(env))
-
+            if env.source.parallel_job_number?
+              env.init << trace_sh_command("export CI_PARALLEL_JOB_NUMBER=#{env.source.parallel_job_number}")
+            end
           end
 
           app.call(env)
         end
-
-        private
-
-          def enabled?(env)
-            env.parallel_job_number?
-          end
 
       end
     end

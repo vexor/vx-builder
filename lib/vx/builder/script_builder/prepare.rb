@@ -30,6 +30,13 @@ module Vx
             i << "mkdir -p #{data_path}"
             i << "mkdir -p #{repo_path}"
 
+            %w{ vx_parallel_rspec }.each do |bin|
+              src = File.expand_path("../../../../../bin/#{bin}", __FILE__)
+              dst = "$(pwd)/bin/#{bin.sub("vx_", "")}"
+              i << upload_sh_command(dst, File.read(src))
+              i << "chmod 0750 #{dst}"
+            end
+
             if deploy_key
               i << upload_sh_command(key_file, deploy_key)
               i << "chmod 0600 #{key_file}"
