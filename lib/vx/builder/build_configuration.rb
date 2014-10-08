@@ -75,7 +75,14 @@ module Vx
         @deploy_modules      = new_attributes.delete("deploy_modules") || []
         @deploy_modules      = Deploy.restore_modules(@deploy_modules)
 
-        @matrix_attributes   = matrix_attributes
+        @matrix_attributes   = matrix_attributes.inject({}) do |a, pair|
+          k,v = pair
+          if k == 'parallel_job_number'
+            k = 'parallel'
+          end
+          a[k] = v
+          a
+        end
 
         build_attributes new_attributes
       end

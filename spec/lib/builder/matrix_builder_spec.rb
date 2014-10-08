@@ -200,6 +200,53 @@ describe Vx::Builder::MatrixBuilder do
 
         it { should eq ['rvm:2.0.0'] }
       end
+
+      context "with parallel" do
+        before do
+          attributes.merge!("parallel" => "3")
+        end
+
+        it "should have parallel key" do
+          expect(matrix.build.map(&:matrix_id)).to eq [
+           "env:BAR=2, parallel:0, rvm:1.8.7, scala:2.10.1",
+           "env:BAR=2, parallel:1, rvm:1.8.7, scala:2.10.1",
+           "env:BAR=2, parallel:2, rvm:1.8.7, scala:2.10.1",
+           "env:FOO=1, parallel:0, rvm:1.8.7, scala:2.10.1",
+           "env:FOO=1, parallel:1, rvm:1.8.7, scala:2.10.1",
+           "env:FOO=1, parallel:2, rvm:1.8.7, scala:2.10.1",
+           "env:BAR=2, parallel:0, rvm:1.8.7, scala:2.9.2",
+           "env:BAR=2, parallel:1, rvm:1.8.7, scala:2.9.2",
+           "env:BAR=2, parallel:2, rvm:1.8.7, scala:2.9.2",
+           "env:FOO=1, parallel:0, rvm:1.8.7, scala:2.9.2",
+           "env:FOO=1, parallel:1, rvm:1.8.7, scala:2.9.2",
+           "env:FOO=1, parallel:2, rvm:1.8.7, scala:2.9.2",
+           "env:BAR=2, parallel:0, rvm:1.9.3, scala:2.10.1",
+           "env:BAR=2, parallel:1, rvm:1.9.3, scala:2.10.1",
+           "env:BAR=2, parallel:2, rvm:1.9.3, scala:2.10.1",
+           "env:FOO=1, parallel:0, rvm:1.9.3, scala:2.10.1",
+           "env:FOO=1, parallel:1, rvm:1.9.3, scala:2.10.1",
+           "env:FOO=1, parallel:2, rvm:1.9.3, scala:2.10.1",
+           "env:BAR=2, parallel:0, rvm:1.9.3, scala:2.9.2",
+           "env:BAR=2, parallel:1, rvm:1.9.3, scala:2.9.2",
+           "env:BAR=2, parallel:2, rvm:1.9.3, scala:2.9.2",
+           "env:FOO=1, parallel:0, rvm:1.9.3, scala:2.9.2",
+           "env:FOO=1, parallel:1, rvm:1.9.3, scala:2.9.2",
+           "env:FOO=1, parallel:2, rvm:1.9.3, scala:2.9.2",
+           "env:BAR=2, parallel:0, rvm:2.0.0, scala:2.10.1",
+           "env:BAR=2, parallel:1, rvm:2.0.0, scala:2.10.1",
+           "env:BAR=2, parallel:2, rvm:2.0.0, scala:2.10.1",
+           "env:FOO=1, parallel:0, rvm:2.0.0, scala:2.10.1",
+           "env:FOO=1, parallel:1, rvm:2.0.0, scala:2.10.1",
+           "env:FOO=1, parallel:2, rvm:2.0.0, scala:2.10.1",
+           "env:BAR=2, parallel:0, rvm:2.0.0, scala:2.9.2",
+           "env:BAR=2, parallel:1, rvm:2.0.0, scala:2.9.2",
+           "env:BAR=2, parallel:2, rvm:2.0.0, scala:2.9.2",
+           "env:FOO=1, parallel:0, rvm:2.0.0, scala:2.9.2",
+           "env:FOO=1, parallel:1, rvm:2.0.0, scala:2.9.2",
+           "env:FOO=1, parallel:2, rvm:2.0.0, scala:2.9.2"
+          ]
+        end
+      end
     end
 
   end
