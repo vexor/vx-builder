@@ -53,7 +53,9 @@ describe Vx::Builder::BuildConfiguration do
        "bundler_args"   => ["--without development"],
        "before_deploy"  => ["echo before deploy"],
        "after_deploy"   => ["echo after deploy"],
-       "matrix"         => {"exclude"=>[{"rvm"=>2.1}]}
+       "matrix"         => {"exclude"=>[{"rvm"=>2.1}]},
+       "parallel"       => [3],
+       "parallel_job_number" => []
       }
     ) }
   end

@@ -59,6 +59,37 @@ describe Vx::Builder::MatrixBuilder do
       expect(configurations.map(&:env_matrix)).to eq [["B=backend"], ["B=frontend"], ["B=backend"]]
     end
 
+    it "should generate parallel jobs" do
+      yaml = YAML.load %{
+        env:
+          global:
+          - FOO=BAR
+          matrix:
+          - B=frontend
+          - B=backend
+        rvm:
+        - 2.0
+        - 2.1
+        parallel: 3
+      }
+      configurations = create_matrix(yaml)
+      expect(configurations).to have(4 * 3).items
+      parallel_attrs = [
+        [{"matrix"=>["B=backend"],  "global"=>["FOO=BAR"]}, [2.0], 3, 0],
+        [{"matrix"=>["B=backend"],  "global"=>["FOO=BAR"]}, [2.0], 3, 1],
+        [{"matrix"=>["B=backend"],  "global"=>["FOO=BAR"]}, [2.0], 3, 2],
+        [{"matrix"=>["B=frontend"], "global"=>["FOO=BAR"]}, [2.0], 3, 0],
+        [{"matrix"=>["B=frontend"], "global"=>["FOO=BAR"]}, [2.0], 3, 1],
+        [{"matrix"=>["B=frontend"], "global"=>["FOO=BAR"]}, [2.0], 3, 2],
+        [{"matrix"=>["B=backend"],  "global"=>["FOO=BAR"]}, [2.1], 3, 0],
+        [{"matrix"=>["B=backend"],  "global"=>["FOO=BAR"]}, [2.1], 3, 1],
+        [{"matrix"=>["B=backend"],  "global"=>["FOO=BAR"]}, [2.1], 3, 2],
+        [{"matrix"=>["B=frontend"], "global"=>["FOO=BAR"]}, [2.1], 3, 0],
+        [{"matrix"=>["B=frontend"], "global"=>["FOO=BAR"]}, [2.1], 3, 1],
+        [{"matrix"=>["B=frontend"], "global"=>["FOO=BAR"]}, [2.1], 3, 2]]
+      expect(configurations.map{|i| [i.env.attributes, i.rvm, i.parallel, i.parallel_job_number] }).to eq parallel_attrs
+    end
+
     it "should generate 12 configurations" do
       expect(create_matrix).to have(12).items
     end
