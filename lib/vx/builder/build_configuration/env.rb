@@ -34,7 +34,7 @@ module Vx
                   "global" => Array(new_env['global'])
                 }
               else
-                env = Array(new_env).flatten.map(&:to_s)
+                env = Array(new_env).flatten.select{|i| i.is_a?(String) }
                 if env.size == 1
                   { "matrix" => [], "global" => env }
                 else

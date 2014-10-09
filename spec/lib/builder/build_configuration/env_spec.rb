@@ -16,13 +16,13 @@ describe Vx::Builder::BuildConfiguration::Env do
     end
 
     context "when env is array" do
-      let(:params) { [:foo, :bar] }
+      let(:params) { %w{foo bar} }
       its(:matrix)     { should eq ['foo', 'bar'] }
       its(:global)     { should eq [] }
     end
 
     context "when env is array of one element" do
-      let(:params) { [:foo] }
+      let(:params) { ["foo"] }
       its(:matrix)     { should eq [] }
       its(:global)     { should eq ['foo'] }
     end
@@ -37,6 +37,11 @@ describe Vx::Builder::BuildConfiguration::Env do
       let(:params) { { "key" => "foo" } }
       its(:matrix)     { should eq [] }
       its(:global)     { should eq [] }
+    end
+
+    context "hen env has secure keys" do
+      let(:params) { [{secure: "foo"}] }
+      its(:attributes) { should eq({"global" => [], "matrix" => []}) }
     end
 
   end
