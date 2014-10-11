@@ -132,14 +132,18 @@ module Vx
       end
 
       def to_hash
-        attributes.merge(
-          "env"            => env.attributes,
-          "cache"          => cache.attributes,
-          "vexor"          => vexor.attributes,
-          "matrix"         => matrix.attributes,
-          "deploy"         => deploy.attributes,
-          "deploy_modules" => deploy_modules.map(&:to_hash)
-        )
+        if empty?
+          {}
+        else
+          attributes.merge(
+            "env"            => env.attributes,
+            "cache"          => cache.attributes,
+            "vexor"          => vexor.attributes,
+            "matrix"         => matrix.attributes,
+            "deploy"         => deploy.attributes,
+            "deploy_modules" => deploy_modules.map(&:to_hash)
+          )
+        end
       end
 
       def to_yaml

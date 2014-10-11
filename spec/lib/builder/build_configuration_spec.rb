@@ -113,5 +113,10 @@ describe Vx::Builder::BuildConfiguration do
     it "should be false if not empty hash" do
       expect(described_class.new({"script" => "value"})).to_not be_empty
     end
+
+    it "should to_hash to be empty" do
+      expect(described_class.new(nil).to_hash).to eq({})
+    end
+
   end
 end
