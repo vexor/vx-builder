@@ -21,19 +21,21 @@ module Vx
 
       def build
         @build ||= begin
-          new_attributes = build_configuration.to_hash.dup
-          build_configurations = attributes_for_new_build_configurations_with_parallel.map do |matrix_attributes|
-            BuildConfiguration.new(
-              new_attributes.merge(matrix_attributes),
-              matrix_attributes
+          if_empty do
+            new_attributes = build_configuration.to_hash.dup
+            build_configurations = attributes_for_new_build_configurations_with_parallel.map do |matrix_attributes|
+              BuildConfiguration.new(
+                new_attributes.merge(matrix_attributes),
+                matrix_attributes
+              )
+            end
+            filter_required_keys(
+              filter_exclude(
+                build_configuration.matrix.exclude,
+                build_configurations
+              )
             )
           end
-          filter_not_empty(
-            filter_exclude(
-              build_configuration.matrix.exclude,
-              build_configurations
-            )
-          )
         end
       end
 
@@ -111,7 +113,15 @@ module Vx
 
       private
 
-        def filter_not_empty(configurations)
+        def if_empty
+          if build_configuration.empty?
+            [build_configuration]
+          else
+            yield
+          end
+        end
+
+        def filter_required_keys(configurations)
           configurations.select{|c| c.any? }
         end
 

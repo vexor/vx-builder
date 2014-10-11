@@ -28,7 +28,7 @@ describe "(integration) ruby" do
   end
 
   def build(file, options = {})
-    config = Vx::Builder::BuildConfiguration.from_yaml(file)
+    config = file ? Vx::Builder::BuildConfiguration.from_yaml(file) : Vx::Builder::BuildConfiguration.new(nil)
     matrix = Vx::Builder.matrix config
     options[:task] ||= create(:task)
     rs = OpenStruct.new matrix: matrix, scripts: []
@@ -135,4 +135,60 @@ describe "(integration) ruby" do
     end
   end
 
+  it "should succesfuly run lang/ruby with auto build", real: true do
+    task = create(
+      :task,
+      sha: "HEAD",
+      branch: "lang/ruby"
+    )
+
+    b = build(nil, task: task)
+    Dir.chdir(path) do
+      File.open("script.sh", "w") do |io|
+        io.write "set -e\n"
+        io.write b.scripts[0].to_before_script
+        io.write b.scripts[0].to_script
+      end
+      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      expect($?.to_i).to eq 0
+    end
+  end
+
+  it "should succesfuly run lang/ruby-rails-pg with auto build", real: true do
+    task = create(
+      :task,
+      sha: "HEAD",
+      branch: "lang/ruby-rails-pg"
+    )
+
+    b = build(nil, task: task)
+    Dir.chdir(path) do
+      File.open("script.sh", "w") do |io|
+        io.write "set -e\n"
+        io.write b.scripts[0].to_before_script
+        io.write b.scripts[0].to_script
+      end
+      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      expect($?.to_i).to eq 0
+    end
+  end
+
+  it "should succesfuly run lang/ruby-rails-mysql with auto build", real: true do
+    task = create(
+      :task,
+      sha: "HEAD",
+      branch: "lang/ruby-rails-mysql"
+    )
+
+    b = build(nil, task: task)
+    Dir.chdir(path) do
+      File.open("script.sh", "w") do |io|
+        io.write "set -e\n"
+        io.write b.scripts[0].to_before_script
+        io.write b.scripts[0].to_script
+      end
+      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      expect($?.to_i).to eq 0
+    end
+  end
 end
