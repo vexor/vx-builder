@@ -50,16 +50,14 @@ rails_db_create () {
   echo $ bundle exec rake db:create
   bundle exec rake db:create
 
-  (
-    test -f db/schema.rb && (
-      echo $ bundle exec rake db:schema:load
-      bundle exec rake db:schema:load
-    )
-  ) || (
-    test -d db/migrate && (
-      echo $ bundle exec rake db:migrate
-      bundle exec rake db:migrate
-    )
+  test -f db/schema.rb && (
+    echo $ bundle exec rake db:schema:load
+    bundle exec rake db:schema:load
+  )
+
+  test -d db/migrate && (
+    echo $ bundle exec rake db:migrate
+    bundle exec rake db:migrate
   )
 }
 
