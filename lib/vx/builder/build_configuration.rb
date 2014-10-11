@@ -66,6 +66,7 @@ module Vx
       def initialize(new_attributes = {}, matrix_attributes = {})
         new_attributes = {} unless new_attributes.is_a?(Hash)
 
+        @is_empty            = new_attributes == {}
         @env                 = Env.new       new_attributes.delete("env")
         @cache               = Cache.new     new_attributes.delete("cache")
         @vexor               = Vexor.new     new_attributes.delete("vexor")
@@ -87,6 +88,12 @@ module Vx
         build_attributes new_attributes
       end
 
+      # nil or empty configuration file
+      def empty?
+        @is_empty
+      end
+
+      # have any required attributes
       def any?
         REQUIRED_KEYS.any? do |key|
           attributes[key].any?

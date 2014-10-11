@@ -48,6 +48,10 @@ unset CASHER_DIR
 echo \$\ sudo\ env\ PATH\=\$PATH\ vxvm\ install\ ruby\ 2.0.0
 VX_VM_SOURCE="$(sudo env PATH=$PATH vxvm install ruby 2.0.0)"
 source "$VX_VM_SOURCE"
+echo \$\ export\ RAILS_ENV\=test
+export RAILS_ENV=test
+echo \$\ export\ RACK_ENV\=test
+export RACK_ENV=test
 echo \$\ export\ BUNDLE_GEMFILE\=\$\{PWD\}/Gemfile
 export BUNDLE_GEMFILE=${PWD}/Gemfile
 echo \$\ export\ GEM_HOME\=\~/.rubygems
@@ -62,10 +66,8 @@ echo \$\ bundle\ --version
 bundle --version
 
 # install
-echo \$\ bundle\ install\ 
-bundle install 
-echo \$\ bundle\ clean\ --force
-bundle clean --force
+echo \$\ bundle\ install\ --clean\ --retry\=3\ --jobs\=4
+bundle install --clean --retry=3 --jobs=4
 
 # before script
 echo \$\ echo\ before\ script

@@ -40,14 +40,18 @@ echo "download latest version of vxvm"
 curl --tcp-nodelay --retry 3 --fail --silent --show-error -o $VX_ROOT/bin/vxvm https://raw.githubusercontent.com/vexor/vx-packages/master/vxvm
 chmod +x $VX_ROOT/bin/vxvm
  export CASHER_DIR=$HOME/.casher && ( mkdir -p $CASHER_DIR/bin && /usr/bin/curl https://raw2.github.com/dima-exe/casher/master/bin/casher --tcp-nodelay --retry 3 --fail --silent --show-error -o $HOME/.casher/bin/casher && chmod +x $HOME/.casher/bin/casher ) || true 
-test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher fetch http://example.com/test/pull-request/rvm-1.9.3-gemfile.tgz http://example.com/master/rvm-1.9.3-gemfile.tgz || true
+test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher fetch http://example.com/test/pull-request/rvm-2.0.0-gemfile.tgz http://example.com/master/rvm-2.0.0-gemfile.tgz || true
 test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher add ~/.rubygems || true
 unset CASHER_DIR
 
 # before install
-echo \$\ sudo\ env\ PATH\=\$PATH\ vxvm\ install\ ruby\ 1.9.3
-VX_VM_SOURCE="$(sudo env PATH=$PATH vxvm install ruby 1.9.3)"
+echo \$\ sudo\ env\ PATH\=\$PATH\ vxvm\ install\ ruby\ 2.0.0
+VX_VM_SOURCE="$(sudo env PATH=$PATH vxvm install ruby 2.0.0)"
 source "$VX_VM_SOURCE"
+echo \$\ export\ RAILS_ENV\=test
+export RAILS_ENV=test
+echo \$\ export\ RACK_ENV\=test
+export RACK_ENV=test
 echo \$\ export\ BUNDLE_GEMFILE\=\$\{PWD\}/Gemfile
 export BUNDLE_GEMFILE=${PWD}/Gemfile
 echo \$\ export\ GEM_HOME\=\~/.rubygems
@@ -62,9 +66,7 @@ echo \$\ bundle\ --version
 bundle --version
 
 # install
-echo \$\ bundle\ install\ 
-bundle install 
-echo \$\ bundle\ clean\ --force
-bundle clean --force
+echo \$\ bundle\ install\ --clean\ --retry\=3\ --jobs\=4
+bundle install --clean --retry=3 --jobs=4
 
 # before script

@@ -1,0 +1,116 @@
+#!/bin/bash
+
+set -e
+
+notice () {
+  echo "$@"
+}
+
+ruby_detect () {
+  (
+    test -f Gemfile && test -f Rakefile
+  ) && (
+    notice "found ruby project"
+  )
+}
+
+rails_detect () {
+  test -f Gemfile && cat Gemfile | grep gem | grep -q rails
+}
+
+rails_gen_database_spec_for_pg () {
+  bundle show pg > /dev/null && (
+    notice 'create config/database.yml for postgresql'
+    cat > config/database.yml <<EOL
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: rails_test
+  username: postgres
+  host: localhost
+EOL
+  )
+}
+
+rails_gen_database_spec_for_mysql () {
+  bundle show mysql2 > /dev/null && (
+    notice 'create config/database.yml for mysql'
+    cat > config/database.yml <<EOL
+test:
+   adapter: mysql2
+   encoding: utf8
+   database: rails_test
+   username: root
+   host: localhost
+EOL
+  )
+}
+
+rails_db_create () {
+  echo $ bundle exec rake db:create
+  bundle exec rake db:create
+
+  (
+    test -f db/schema.rb && (
+      echo $ bundle exec rake db:schema:load
+      bundle exec rake db:schema:load
+    )
+  ) || (
+    test -d db/migrate && (
+      echo $ bundle exec rake db:migrate
+      bundle exec rake db:migrate
+    )
+  )
+}
+
+rails_setup_database () {
+  rails_detect && (
+    (
+      rails_gen_database_spec_for_pg ||
+      rails_gen_database_spec_for_mysql
+    ) &&
+    rails_db_create
+  )
+}
+
+ruby_setup_env () {
+  echo $ export RAILS_ENV=test
+  export RAILS_ENV=test
+
+  echo $ export RACK_ENV=test
+  export RACK_ENV=test
+
+  echo $ export GEM_HOME=~/.rubygems
+  export GEM_HOME=~/.rubygems
+
+  test -f Gemfile && (
+    echo $ 'export BUNDLE_GEMFILE=${PWD}/Gemfile'
+    export BUNDLE_GEMFILE=${PWD}/Gemfile
+  )
+}
+
+bundle_install () {
+  test -f Gemfile && (
+    notice '$ bundle install --retry=3 --jobs=4 --clean'
+    bundle install --retry=3 --jobs=4 --clean
+  )
+}
+
+run_rake_default () {
+  echo $ bundle exec rake
+  bundle exec rake
+}
+
+ruby_build () {
+  notice 'build ruby project'
+
+  ruby_setup_env &&
+  bundle_install &&
+  ( rails_setup_database || true ) &&
+  run_rake_default
+}
+
+ruby_detect || exit 1
+ruby_build || (
+  exit $?
+)

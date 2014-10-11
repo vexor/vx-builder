@@ -249,6 +249,13 @@ describe Vx::Builder::MatrixBuilder do
       end
     end
 
+    context "when build_configuration is empty" do
+      let(:config) {  Vx::Builder::BuildConfiguration.new nil }
+
+      it "should return build configuration" do
+        expect(subject).to eq [config]
+      end
+    end
   end
 
   context "attributes_for_new_confgurations_with_merged_env" do

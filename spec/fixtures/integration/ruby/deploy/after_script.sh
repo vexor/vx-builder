@@ -13,4 +13,4 @@ test -d ${VX_ROOT}/code/vexor/vx-test-repo || exit 1
 cd ${VX_ROOT}/code/vexor/vx-test-repo
 
 # after script
-test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher push http://example.com/test/pull-request/rvm-1.9.3-gemfile.tgz
+test -f $HOME/.casher/bin/casher && casher-ruby $HOME/.casher/bin/casher push http://example.com/test/pull-request/rvm-2.0.0-gemfile.tgz

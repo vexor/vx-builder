@@ -24,6 +24,10 @@ module Vx
           end
         end
 
+        def do_init(env)
+          yield env.init
+        end
+
         def do_announce(env)
           yield env.announce
         end
