@@ -46,6 +46,18 @@ EOL
   )
 }
 
+ruby_setup_version () {
+  ver=$(bundle platform --ruby)
+
+  echo $ver | grep -q 'No ruby version' || (
+    ver=$(echo $ver | sed -e 's/ruby //')
+
+    notice "sudo env PATH=\$PATH vxvm install ruby $ver"
+    VX_VM_SOURCE=$(sudo env PATH=$PATH vxvm install ruby $ver)
+    source $VX_VM_SOURCE
+  )
+}
+
 rails_gen_database_spec_for_sqlite () {
   bundle show sqlite3 > /dev/null && (
     notice 'create config/database.yml for sqlite3'
@@ -114,6 +126,7 @@ run_rake_default () {
 ruby_build () {
   notice 'build ruby project'
 
+  ruby_setup_version &&
   ruby_setup_env &&
   bundle_install &&
   ( rails_setup_database || true ) &&
