@@ -32,6 +32,7 @@ module Vx
             collection << "export CI_BUILD_NUMBER=#{env.task.build_number}"
             collection << "export CI_PROJECT_NAME=#{env.task.name}"
             collection << "export CI_BUILD_SHA=#{env.task.sha}"
+            collection << "export DISPLAY=:99"
 
             if p = env.task.pull_request_id
               collection << "export CI_PULL_REQUEST_ID=#{p}"
