@@ -11,6 +11,7 @@ export CI_BUILD_ID=12
 export CI_BUILD_NUMBER=101
 export CI_PROJECT_NAME=vexor/vx-test-repo
 export CI_BUILD_SHA=8f53c077072674972e21c82a286acc07fada91f5
+export DISPLAY=:99
 export CI_BRANCH=test/pull-request
 echo \$\ export\ FOO
 export FOO
