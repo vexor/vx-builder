@@ -6,6 +6,7 @@ module Vx
 
         DEFAULT_NODE = '0.10'
         NPM_PACKAGES = '~/.npm-packages'
+        BOWER_COMPONENTS = '~/.bower_components'
 
         def call(env)
           if enabled?(env)
@@ -31,12 +32,15 @@ module Vx
 
             do_before_install(env) do |i|
               i << "mkdir -p #{NPM_PACKAGES}"
+              i << "mkdir -p #{BOWER_COMPONENTS}"
               i << trace_sh_command("npm config set prefix=#{NPM_PACKAGES}")
+              i << trace_sh_command("export bower_directory=#{BOWER_COMPONENTS}")
               i << "export PATH=$PATH:#{NPM_PACKAGES}/bin"
             end
 
             do_cached_directories(env) do |i|
               i << NPM_PACKAGES
+              i << BOWER_COMPONENTS
             end
           end
 
