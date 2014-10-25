@@ -1,0 +1,107 @@
+#!/bin/bash
+
+set -e
+
+ruby_version () {
+  local ver="$(bundle platform --ruby)"
+
+  if [[ $ver =~ "^ruby [0-9]" ]] ; then
+    echo $ver | sed -e 's/ruby //'
+  else
+    echo '2.0.0'
+  fi
+}
+
+ruby_install () {
+  local re
+  local ver
+
+  if [[ "x$1" == "x" ]] ;
+  then
+    ver=$(ruby_version)
+  else
+    ver=$1
+  fi
+
+  echo "$ sudo env PATH=\$PATH vxvm install ruby $ver"
+  re=$(sudo env PATH=$PATH vxvm install ruby $ver.2.2)
+  source $re
+}
+
+ruby_rails_gen_database_spec_for_pg () {
+  bundle show pg > /dev/null && (
+    echo 'create config/database.yml for postgresql'
+    cat > config/database.yml <<EOL
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: rails_test
+  username: postgres
+  host: localhost
+EOL
+  )
+}
+
+ruby_rails_gen_database_spec_for_mysql () {
+  bundle show mysql2 > /dev/null && (
+    echo 'create config/database.yml for mysql'
+    cat > config/database.yml <<EOL
+test:
+   adapter: mysql2
+   encoding: utf8
+   database: rails_test
+   username: root
+   host: localhost
+EOL
+  )
+}
+
+ruby_rails_gen_database_spec_for_sqlite () {
+  bundle show sqlite3 > /dev/null && (
+    echo 'create config/database.yml for sqlite3'
+    cat > config/database.yml <<EOL
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+EOL
+  )
+}
+
+ruby_rails_db_create () {
+  echo $ bundle exec rake db:create
+  bundle exec rake db:create
+
+  test -f db/schema.rb && (
+    echo $ bundle exec rake db:schema:load
+    bundle exec rake db:schema:load
+  )
+
+  test -d db/migrate && (
+    echo $ bundle exec rake db:migrate
+    bundle exec rake db:migrate
+  )
+}
+
+ruby_rails_setup () {
+  local re
+  re=$(bundle show rails > /dev/null && echo "Yes" || echo "No")
+  if [[ "x$re" == 'xYes' ]] ; then
+    (
+      ruby_rails_gen_database_spec_for_pg ||
+      ruby_rails_gen_database_spec_for_mysql ||
+      ruby_rails_gen_database_spec_for_sqlite
+    ) &&
+    ruby_rails_db_create
+  fi
+}
+
+case "$1" in
+  "ruby:install")
+    ruby_install $2
+    ruby_rails_setup
+    ;;
+  *)
+    echo "Unknown command $@"
+    exit 1
+    ;;
+esac
