@@ -30,9 +30,10 @@ module Vx
             i << "mkdir -p #{data_path}"
             i << "mkdir -p #{repo_path}"
 
-            %w{ vx_parallel_rspec vx_parallel_spinach }.each do |bin|
+            %w{ vx_parallel_rspec vx_parallel_spinach vx_builder }.each do |bin|
               src = File.expand_path("../../../../../bin/#{bin}", __FILE__)
-              dst = "$(pwd)/bin/#{bin.sub("vx_", "")}"
+              bin.sub!("vx_", '') unless bin == 'vx_builder'
+              dst = "$(pwd)/bin/#{bin}"
               i << upload_sh_command(dst, File.read(src))
               i << "chmod 0750 #{dst}"
             end

@@ -2,14 +2,22 @@
 
 set -e
 
+# TODO: remove after image updated
+default_bundle="/opt/vexor/packages/ruby-1.9.3-p547/bin/bundle"
+
 ruby_version () {
-  local ver="$(bundle platform --ruby)"
+  local ver
+  local st
+  ver="$($default_bundle platform --ruby)"
+  st=$?
 
   if [[ $ver =~ "^ruby [0-9]" ]] ; then
     echo $ver | sed -e 's/ruby //'
   else
     echo '2.0.0'
   fi
+
+  return $st
 }
 
 ruby_install () {
@@ -24,7 +32,8 @@ ruby_install () {
   fi
 
   echo "$ sudo env PATH=\$PATH vxvm install ruby $ver"
-  re=$(sudo env PATH=$PATH vxvm install ruby $ver.2.2)
+  re=$(sudo env PATH=$PATH vxvm install ruby $ver)
+  echo $re > .ruby-activate
   source $re
 }
 
@@ -98,6 +107,8 @@ ruby_rails_setup () {
 case "$1" in
   "ruby:install")
     ruby_install $2
+    ;;
+  "ruby:rails:install")
     ruby_rails_setup
     ;;
   *)
@@ -105,3 +116,4 @@ case "$1" in
     exit 1
     ;;
 esac
+

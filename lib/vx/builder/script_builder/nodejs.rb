@@ -22,20 +22,20 @@ module Vx
               i << trace_sh_command("npm --version")
             end
 
-            do_install(env) do |i|
-              i << trace_sh_command("npm install")
-            end
-
-            do_script(env) do |i|
-              i << trace_sh_command("npm test")
-            end
-
             do_before_install(env) do |i|
               i << "mkdir -p #{NPM_PACKAGES}"
               i << "mkdir -p #{BOWER_COMPONENTS}"
               i << trace_sh_command("npm config set prefix=#{NPM_PACKAGES}")
               i << trace_sh_command("export bower_directory=#{BOWER_COMPONENTS}")
               i << "export PATH=$PATH:#{NPM_PACKAGES}/bin"
+            end
+
+            do_install(env) do |i|
+              i << trace_sh_command("npm install")
+            end
+
+            do_script(env) do |i|
+              i << trace_sh_command("npm test")
             end
 
             do_cached_directories(env) do |i|
