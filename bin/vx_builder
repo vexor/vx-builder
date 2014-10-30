@@ -49,6 +49,8 @@ test:
         - localhost:27017
 EOL
     ln -s $(pwd)/config/mongoid.yml $(pwd)/mongoid.yml
+    echo "$ sudo service mongodb start"
+    sudo service mongodb start
   )
 }
 
