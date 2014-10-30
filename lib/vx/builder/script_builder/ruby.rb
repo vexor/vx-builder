@@ -38,6 +38,9 @@ module Vx
             do_install(env) do |i|
               bundler_args = env.source.bundler_args.first || DEFAULT_BUNDLE_INSTALL_ARGS
               i << trace_sh_command("bundle install #{bundler_args}")
+            end
+
+            do_before_script(env) do |i|
               i << trace_sh_command("vx_builder ruby:rails:install")
             end
 

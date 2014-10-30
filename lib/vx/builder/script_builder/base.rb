@@ -42,6 +42,12 @@ module Vx
           end
         end
 
+        def do_before_script(env)
+          if env.source.before_script.empty?
+            yield env.before_script
+          end
+        end
+
         def do_deploy_script(env)
           if deploy?(env)
             yield env.script
