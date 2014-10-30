@@ -37,6 +37,21 @@ ruby_install () {
   source $re
 }
 
+ruby_gen_database_spec_for_mongoid () {
+  bundle show mongoid > /dev/null && (
+    echo 'create config/mongoid.yml'
+    cat > config/mongoid.yml <<EOL
+test:
+  sessions:
+    default:
+      database: mongoid
+      hosts:
+        - localhost:27017
+EOL
+    ln -s $(pwd)/config/mongoid.yml $(pwd)/mongoid.yml
+  )
+}
+
 ruby_rails_gen_database_spec_for_pg () {
   bundle show pg > /dev/null && (
     echo 'create config/database.yml for postgresql'
@@ -109,6 +124,7 @@ case "$1" in
     ruby_install $2
     ;;
   "ruby:rails:install")
+    ruby_gen_database_spec_for_mongoid || true
     ruby_rails_setup
     ;;
   *)

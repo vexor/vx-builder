@@ -24,13 +24,13 @@ module Vx
               if jruby?(env)
                 i << trace_sh_command('export JRUBY_OPTS="-Xcext.enabled=true"')
               end
-            end
-
-            do_before_install(env) do |i|
               i << trace_sh_command("export RAILS_ENV=test")
               i << trace_sh_command("export RACK_ENV=test")
               i << trace_sh_command("export BUNDLE_GEMFILE=${PWD}/#{gemfile(env)}")
               i << trace_sh_command('export GEM_HOME=~/.rubygems')
+            end
+
+            do_before_install(env) do |i|
               i << trace_sh_command("vx_builder ruby:install #{ruby_version env}")
               i << "source $(cat .ruby-activate)"
             end
