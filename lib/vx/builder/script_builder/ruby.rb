@@ -20,6 +20,12 @@ module Vx
               i << gemfile(env)
             end
 
+            do_init(env) do |i|
+              if jruby?(env)
+                i << trace_sh_command('export JRUBY_OPTS="-Xcext.enabled=true"')
+              end
+            end
+
             do_before_install(env) do |i|
               i << trace_sh_command("export RAILS_ENV=test")
               i << trace_sh_command("export RACK_ENV=test")
@@ -70,6 +76,10 @@ module Vx
           def ruby_version(env)
             v = env.source.rvm.first
             ALIASES[v] || v
+          end
+
+          def jruby?(env)
+            ruby_version(env) =~ /jruby/
           end
 
           def gemfile(env)
