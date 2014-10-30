@@ -13,7 +13,6 @@ describe "(integration) go" do
   after { FileUtils.rm_rf(path) }
 
   def write_script_to_filter(prefix, script)
-=begin
     File.open(fixture_path("integration/go/#{prefix}before_script.sh"), 'w') do |io|
       io << script.to_before_script
     end
@@ -23,7 +22,6 @@ describe "(integration) go" do
     File.open(fixture_path("integration/go/#{prefix}script.sh"), 'w') do |io|
       io << script.to_script
     end
-=end
   end
 
   def build(file, options = {})
