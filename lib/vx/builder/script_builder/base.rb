@@ -43,7 +43,7 @@ module Vx
         end
 
         def do_before_script(env)
-          if env.source.before_script.empty?
+          if env.source.before_script.empty? && !deploy?(env)
             yield env.before_script
           end
         end
