@@ -13,6 +13,10 @@ module Vx
 
             vxvm_install(env, 'python', py_v)
 
+            do_init(env) do |i|
+              i << "export TRAVIS_PYTHON_VERSION=#{py_v}" # for tornado
+            end
+
             do_cache_key(env) do |i|
               i << "python-#{py_v}"
             end
