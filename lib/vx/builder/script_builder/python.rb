@@ -9,11 +9,12 @@ module Vx
         def call(env)
           if enabled?(env)
 
-            vxvm_install(env, 'python', python_version(env))
+            py_v = python_version(env)
+
+            vxvm_install(env, 'python', py_v)
 
             do_cache_key(env) do |i|
-              ruby_v = python_version(env) || DEFAULT_PYTHON
-              i << "python-#{ruby_v}"
+              i << "python-#{py_v}"
             end
 
             do_announce(env) do |i|
@@ -51,7 +52,7 @@ EOF
           end
 
           def python_version(env)
-            v = env.source.rvm.first
+            v = env.source.python.first
             v || DEFAULT_PYTHON
           end
 
