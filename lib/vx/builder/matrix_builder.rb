@@ -10,6 +10,7 @@ module Vx
         go
         node_js
         rust
+        python
 
         image
         env_matrix:env

@@ -24,6 +24,8 @@ node_js: "0.10"
 
 rust: "0.11.0"
 
+python: "2.7"
+
 matrix:
   exclude:
   - rvm: 2.1

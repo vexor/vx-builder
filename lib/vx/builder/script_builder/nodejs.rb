@@ -26,6 +26,7 @@ module Vx
               i << "mkdir -p #{NPM_PACKAGES}"
               i << "mkdir -p #{BOWER_COMPONENTS}"
               i << trace_sh_command("npm config set prefix=#{NPM_PACKAGES}")
+              i << trace_sh_command("npm config set spin false")
               i << "test -f .bowerrc || (" + trace_sh_command("export bower_directory=#{BOWER_COMPONENTS}") + ")"
               i << "export PATH=$PATH:#{NPM_PACKAGES}/bin"
             end

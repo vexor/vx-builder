@@ -40,6 +40,7 @@ describe Vx::Builder::BuildConfiguration do
        "image"          => ["one", "two"],
        "jdk"            => ['openjdk7'],
        "language"       => ["ruby"],
+       "python"         => ["2.7"],
        "rust"           => ['0.11.0'],
        "go"             => ['1.2.2'],
        "node_js"        => ['0.10'],

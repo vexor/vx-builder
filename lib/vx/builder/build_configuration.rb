@@ -15,6 +15,7 @@ module Vx
         go
         node_js
         rust
+        python
 
         language
         script
@@ -27,6 +28,7 @@ module Vx
         go
         node_js
         rust
+        python
 
         language
         gemfile
