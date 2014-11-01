@@ -50,10 +50,6 @@ EOF
             do_cache_key(env) do |i|
               i << "python-#{py_v}"
             end
-
-            do_cached_directories(env) do |i|
-              i << VIRTUALENV_ROOT
-            end
           end
 
           app.call(env)
