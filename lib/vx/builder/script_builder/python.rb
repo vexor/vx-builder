@@ -5,6 +5,7 @@ module Vx
       class Python < Base
 
         DEFAULT_PYTHON = '2.7'
+        VIRTUALENV_ROOT = "~/.python-virtualenv"
 
         def call(env)
           if enabled?(env)
@@ -17,8 +18,9 @@ module Vx
               i << "export TRAVIS_PYTHON_VERSION=#{py_v}" # for tornado
             end
 
-            do_cache_key(env) do |i|
-              i << "python-#{py_v}"
+            do_before_install(env) do |i|
+              i << trace_sh_command("virtualenv #{VIRTUALENV_ROOT}")
+              i << trace_sh_command("source #{VIRTUALENV_ROOT}/bin/activate")
             end
 
             do_announce(env) do |i|
@@ -27,9 +29,9 @@ module Vx
             end
 
             do_install(env) do |i|
-              i << "if [ -f Requirements.txt ] ; then \n #{trace_sh_command "sudo pip install -r Requirements.txt"}\nfi"
-              i << "if [ -f requirements.txt ] ; then \n #{trace_sh_command "sudo pip install -r requirements.txt"}\nfi"
-              i << "if [ -f setup.py ] ; then \n #{trace_sh_command "sudo python setup.py install"}\nfi"
+              i << "if [ -f Requirements.txt ] ; then \n #{trace_sh_command "pip install -r Requirements.txt"}\nfi"
+              i << "if [ -f requirements.txt ] ; then \n #{trace_sh_command "pip install -r requirements.txt"}\nfi"
+              i << "if [ -f setup.py ] ; then \n #{trace_sh_command "python setup.py install"}\nfi"
             end
 
             do_script(env) do |i|
@@ -43,6 +45,14 @@ module Vx
               fi
 EOF
               i << script
+            end
+
+            do_cache_key(env) do |i|
+              i << "python-#{py_v}"
+            end
+
+            do_cached_directories(env) do |i|
+              i << VIRTUALENV_ROOT
             end
           end
 
