@@ -41,7 +41,7 @@ module Vx
               elif [[ -f setup.py ]] ; then
                 #{trace_sh_command 'python setup.py test'}
               else
-                #{trace_sh_command 'nosetest'}
+                #{trace_sh_command 'nosetests'}
               fi
 EOF
               i << script
