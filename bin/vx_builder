@@ -106,6 +106,8 @@ ruby_rails_db_create () {
     echo $ bundle exec rake db:migrate
     bundle exec rake db:migrate
   )
+
+  true
 }
 
 ruby_rails_setup () {
