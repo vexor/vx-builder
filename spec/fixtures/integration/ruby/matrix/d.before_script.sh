@@ -74,5 +74,3 @@ echo \$\ bundle\ install\ --clean\ --retry\=3\ --jobs\=4
 bundle install --clean --retry=3 --jobs=4
 
 # before script
-echo \$\ vx_builder\ ruby:rails:install
-vx_builder ruby:rails:install
