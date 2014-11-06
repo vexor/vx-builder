@@ -93,6 +93,14 @@ EOL
   )
 }
 
+ruby_rails_gen_secrets () {
+  cat > config/secrets.yml <<EOL
+test:
+  secret_key_base: "secret"
+EOL
+  true
+}
+
 ruby_rails_db_create () {
   echo $ bundle exec rake db:create
   bundle exec rake db:create
@@ -119,6 +127,7 @@ ruby_rails_setup () {
       ruby_rails_gen_database_spec_for_mysql ||
       ruby_rails_gen_database_spec_for_sqlite
     ) &&
+    ruby_rails_gen_secrets &&
     ruby_rails_db_create
   fi
 }
