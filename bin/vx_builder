@@ -11,7 +11,7 @@ ruby_version () {
   ver="$($default_bundle platform --ruby)"
   st=$?
 
-  if [[ $ver =~ "^ruby [0-9]" ]] ; then
+  if [[ $ver =~ ^ruby\ [0-9] ]] ; then
     echo $ver | sed -e 's/ruby //'
   else
     echo '2.0.0'
