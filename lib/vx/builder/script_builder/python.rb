@@ -6,6 +6,8 @@ module Vx
 
         DEFAULT_PYTHON = '2.7'
         VIRTUALENV_ROOT = "~/.python-virtualenv"
+        PIP_DOWNLOADS = "~/.pip-downloads"
+        PIP_OPTS = " --download-cache=#{PIP_DOWNLOADS}"
 
         def call(env)
           if enabled?(env)
@@ -29,8 +31,8 @@ module Vx
             end
 
             do_install(env) do |i|
-              i << "if [ -f Requirements.txt ] ; then \n #{trace_sh_command "pip install -r Requirements.txt"}\nfi"
-              i << "if [ -f requirements.txt ] ; then \n #{trace_sh_command "pip install -r requirements.txt"}\nfi"
+              i << "if [ -f Requirements.txt ] ; then \n #{trace_sh_command "pip install -r Requirements.txt #{PIP_OPTS}"}\nfi"
+              i << "if [ -f requirements.txt ] ; then \n #{trace_sh_command "pip install -r requirements.txt #{PIP_OPTS}"}\nfi"
               i << "if [ -f setup.py ] ; then \n #{trace_sh_command "python setup.py install"}\nfi"
             end
 
@@ -53,6 +55,10 @@ EOF
 
             do_cache_key(env) do |i|
               i << "python-#{py_v}"
+            end
+
+            do_cached_directories(env) do |i|
+              i << PIP_DOWNLOADS
             end
           end
 
