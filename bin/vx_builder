@@ -94,6 +94,7 @@ EOL
 }
 
 ruby_rails_gen_secrets () {
+  echo 'create config/secrets.yml'
   cat > config/secrets.yml <<EOL
 test:
   secret_key_base: "secret"
