@@ -133,6 +133,21 @@ ruby_rails_setup () {
   fi
 }
 
+python_django_settings () {
+  local app_name=$(basename $(pwd))
+
+  if [ ! -f settings.py ] ; then
+    if [ -d $app_name/settings ] &&
+       [ -f $app_name/settings/dev.py ] &&
+       [ ! -f $app_name/settings/__init__.py ]; then
+      echo "$ ln -s $app_name/settings/dev.py $app_name/settings/__init__.py"
+      ln -s $app_name/settings/dev.py $app_name/settings/__init__.py
+    fi
+  fi
+
+  true
+}
+
 case "$1" in
   "ruby:install")
     ruby_install $2
@@ -140,6 +155,9 @@ case "$1" in
   "ruby:rails:install")
     ruby_gen_database_spec_for_mongoid || true
     ruby_rails_setup
+    ;;
+  "python:django:settings")
+    python_django_settings
     ;;
   *)
     echo "Unknown command $@"

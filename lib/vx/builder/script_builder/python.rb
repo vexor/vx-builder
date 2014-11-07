@@ -34,6 +34,10 @@ module Vx
               i << "if [ -f setup.py ] ; then \n #{trace_sh_command "python setup.py install"}\nfi"
             end
 
+            do_before_script(env) do |i|
+              i << trace_sh_command("vx_builder python:django:settings")
+            end
+
             do_script(env) do |i|
               script =<<EOF
               if [[ -f manage.py ]] ; then
