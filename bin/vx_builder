@@ -141,7 +141,7 @@ python_django_settings () {
        [ -f $app_name/settings/dev.py ] &&
        [ ! -f $app_name/settings/__init__.py ]; then
       echo "$ ln -s $app_name/settings/dev.py $app_name/settings/__init__.py"
-      ln -s $app_name/settings/dev.py $app_name/settings/__init__.py
+      ln -s $(pwd)/$app_name/settings/dev.py $(pwd)/$app_name/settings/__init__.py
     fi
   fi
 
