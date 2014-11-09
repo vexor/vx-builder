@@ -3,7 +3,8 @@
 set -e
 
 # TODO: remove after image updated
-default_bundle="/opt/vexor/packages/ruby-1.9.3-p547/bin/bundle"
+# TODO: create default ruby and bundle links in docker image
+default_bundle="/opt/vexor/packages/ruby-2.0.0-p481/bin/bundle"
 
 ruby_version () {
   local ver
