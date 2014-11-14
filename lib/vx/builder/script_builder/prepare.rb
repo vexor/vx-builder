@@ -16,11 +16,11 @@ module Vx
           repo_path    = "${VX_ROOT}/code/#{name}"
           data_path    = "${VX_ROOT}/data/#{name}"
           key_file     = "#{data_path}/key"
-          git_ssh_file = "#{data_path}/git_ssh"
+          #git_ssh_file = "#{data_path}/git_ssh"
 
           sha          = env.task.sha
           scm          = build_scm(env, sha, repo_path)
-          git_ssh      = scm.git_ssh_content(deploy_key && "#{key_file}")
+          #git_ssh      = scm.git_ssh_content(deploy_key && "#{key_file}")
 
           env.init.tap do |i|
             i << 'export VX_ROOT=$(pwd)'
@@ -38,22 +38,22 @@ module Vx
               i << "chmod 0750 #{dst}"
             end
 
+            i << 'echo "starting SSH Agent"'
+            i << 'eval "$(ssh-agent)" > /dev/null'
+
             if deploy_key
               i << upload_sh_command(key_file, deploy_key)
               i << "chmod 0600 #{key_file}"
               i << "export VX_PRIVATE_KEY=#{key_file}"
+              i << "ssh-add $VX_PRIVATE_KEY 2> /dev/null"
             end
 
-            i << upload_sh_command(git_ssh_file, git_ssh)
-            i << "chmod 0750 #{git_ssh_file}"
+            #i << upload_sh_command(git_ssh_file, git_ssh)
+            #i << "chmod 0750 #{git_ssh_file}"
 
-            i << "export GIT_SSH=#{git_ssh_file}"
+            #i << "export GIT_SSH=#{git_ssh_file}"
             i << "#{scm.fetch_cmd} || exit 1"
-            i << "unset GIT_SSH"
-
-            i << 'echo "starting SSH Agent"'
-            i << 'eval "$(ssh-agent)" > /dev/null'
-            i << "ssh-add $VX_PRIVATE_KEY 2> /dev/null"
+            #i << "unset GIT_SSH"
 
             i << "cd #{repo_path}"
 
