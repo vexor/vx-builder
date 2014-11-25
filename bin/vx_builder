@@ -74,11 +74,12 @@ ruby_rails_gen_database_spec_for_mysql () {
     echo 'create config/database.yml for mysql'
     cat > config/database.yml <<EOL
 test:
-   adapter: mysql2
-   encoding: utf8
-   database: rails_test
-   username: root
-   host: localhost
+   adapter:   mysql2
+   encoding:  utf8
+   database:  rails_test
+   username:  root
+   host:      localhost
+   collation: utf8_unicode_ci
 EOL
   )
 }
