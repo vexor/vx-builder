@@ -110,12 +110,20 @@ ruby_rails_db_create () {
 
   test -f db/schema.rb && (
     echo $ bundle exec rake db:schema:load
-    bundle exec rake db:schema:load
+    bundle exec rake db:schema:load > /tmp/schema.log || (
+      echo "The command bundle exec rake db:schema:load failed, log bellow"
+      cat /tmp/schema.log
+      exit 1
+    )
   )
 
   test -d db/migrate && (
     echo $ bundle exec rake db:migrate
-    bundle exec rake db:migrate
+    bundle exec rake db:migrate > /tmp/migrate.log || (
+      echo "The command bundle exec rake db:migrate failed, log bellow"
+      cat /tmp/migrate.log
+      exit 1
+    )
   )
 
   true
