@@ -79,7 +79,7 @@ test:
    database:  rails_test
    username:  root
    host:      localhost
-   collation: utf8_unicode_ci
+   collation: utf8_general_ci
 EOL
   )
 }
