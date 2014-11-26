@@ -87,7 +87,6 @@ EOL
 ruby_rails_gen_database_spec_for_sqlite () {
   bundle show sqlite3 > /dev/null && (
     echo 'create config/database.yml for sqlite3'
-    mkdir -p config
     cat > config/database.yml <<EOL
 test:
   adapter: sqlite3
@@ -133,7 +132,7 @@ ruby_rails_db_create () {
 ruby_rails_setup () {
   local re
   re=$(bundle show rails > /dev/null && echo "Yes" || echo "No")
-  if [[ "x$re" == 'xYes' ]] ; then
+  if [ "x$re" == 'xYes' ] && [ -f config/application.rb ] ; then
     (
       ruby_rails_gen_database_spec_for_pg ||
       ruby_rails_gen_database_spec_for_mysql ||
