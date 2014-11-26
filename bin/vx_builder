@@ -87,6 +87,7 @@ EOL
 ruby_rails_gen_database_spec_for_sqlite () {
   bundle show sqlite3 > /dev/null && (
     echo 'create config/database.yml for sqlite3'
+    mkdir -p config
     cat > config/database.yml <<EOL
 test:
   adapter: sqlite3
