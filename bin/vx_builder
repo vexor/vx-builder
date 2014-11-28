@@ -51,7 +51,7 @@ test:
 EOL
     ln -s $(pwd)/config/mongoid.yml $(pwd)/mongoid.yml
     echo "$ sudo service mongodb start"
-    sudo service mongodb start
+    sudo service mongodb start || true
   )
 }
 
@@ -133,13 +133,17 @@ ruby_rails_setup () {
   local re
   re=$(bundle show rails > /dev/null && echo "Yes" || echo "No")
   if [ "x$re" == 'xYes' ] && [ -f config/application.rb ] ; then
+    ruby_rails_gen_secrets
     (
       ruby_rails_gen_database_spec_for_pg ||
       ruby_rails_gen_database_spec_for_mysql ||
       ruby_rails_gen_database_spec_for_sqlite
-    ) &&
-    ruby_rails_gen_secrets &&
-    ruby_rails_db_create
+    ) && (
+      ruby_rails_db_create
+    )
+    true
+  else
+    true
   fi
 }
 
