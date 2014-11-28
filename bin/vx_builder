@@ -51,7 +51,7 @@ test:
 EOL
     ln -s $(pwd)/config/mongoid.yml $(pwd)/mongoid.yml
     echo "$ sudo service mongodb start"
-    sudo service mongodb start
+    sudo service mongodb start || true
   )
 }
 
@@ -140,6 +140,8 @@ ruby_rails_setup () {
     ) &&
     ruby_rails_gen_secrets &&
     ruby_rails_db_create
+  else
+    true
   fi
 }
 
