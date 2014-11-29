@@ -12,7 +12,7 @@ def create(name, options = {})
       sha:              options[:sha] || "8f53c077072674972e21c82a286acc07fada91f5",
       deploy_key:       fixture("vx_test_repo_insecure_key"),
       branch:           options[:branch] || "test/pull-request",
-      cache_url_prefix: "http://example.com",
+      cache_url_prefix: "http://localhost:3001",
       pull_request_id:  options[:pull_request_id],
       job_number:       100,
       build_number:     101,
