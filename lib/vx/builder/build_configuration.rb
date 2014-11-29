@@ -47,6 +47,8 @@ module Vx
 
         parallel
         parallel_job_number
+
+        database
       }
 
       class << self

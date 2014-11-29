@@ -1,0 +1,29 @@
+set -o pipefail
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export LC_ALL=en_US.UTF8
+export DEBIAN_FRONTEND=noninteractive
+
+cd ~/
+
+rm -rf ~/citool
+git clone -q --depth=1 --branch=master https://github.com/vexor/vx-citool.git ~/citool || (
+  rs=$?
+  exit rs
+)
+
+<% if ENV['RAILS_ENV'] == 'test' %>
+echo
+
+echo <%= Base64.encode64(to_yaml).gsub("\n", '') %> \
+  | base64 --decode
+
+echo
+echo "------------------------------------------------"
+echo
+<% end %>
+
+echo <%= Base64.encode64(to_yaml).gsub("\n", '') %> \
+  | base64 --decode | ~/citool/bin/vx-citool -
+
+exit $?

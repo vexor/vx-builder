@@ -28,6 +28,7 @@ describe Vx::Builder::BuildConfiguration do
        "before_install" => ["echo before_install"],
        "install"        => ["echo install"],
        "before_script"  => ["echo before_script"],
+       "database"       => [],
        "cache" => {
          "directories"  => ["~/.cache"],
          "enabled"      => true
