@@ -1,5 +1,8 @@
 set -o pipefail
 
+RED="\033[31m"
+NORMAL="\033[0;39m"
+
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export LC_ALL=en_US.UTF8
 export DEBIAN_FRONTEND=noninteractive
@@ -9,7 +12,10 @@ cd ~/
 rm -rf ~/citool
 git clone -q --depth=1 --branch=master https://github.com/vexor/vx-citool.git ~/citool || (
   rs=$?
-  exit rs
+
+  echo -e "${RED}The command 'git clone -q --depth=1 --branch=master https://github.com/vexor/vx-citool.git ~/citool' failed with code $rs${NORMAL}"
+
+  exit $rs
 )
 
 <% if ENV['RAILS_ENV'] == 'test' %>
