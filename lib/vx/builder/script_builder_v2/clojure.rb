@@ -6,9 +6,10 @@ module Vx
 
         def call(env)
           if enabled?(env)
+
             env.stage("install").tap do |i|
+              i.add_task "shell", "lein version"
               do_install(env) do
-                i.add_task "shell", "lein version"
                 i.add_task "shell", "lein deps"
               end
             end

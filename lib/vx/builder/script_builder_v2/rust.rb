@@ -13,12 +13,13 @@ module Vx
               i << "rust-#{rust_version env}"
             end
 
-            do_install(env) do
-              env.stage("install").tap do |i|
-                i.add_task "vxvm", "rust #{rust_version(env)}"
+            env.stage("install").tap do |i|
+              i.add_task "vxvm", "rust #{rust_version(env)}"
+              i.add_task "shell", "rustc --version"
+
+              do_install(env) do
                 i.add_task "shell", "git submodule init"
                 i.add_task "shell", "git submodule update"
-                i.add_task "shell", "rustc --version"
               end
             end
 

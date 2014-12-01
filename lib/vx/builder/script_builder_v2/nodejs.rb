@@ -20,14 +20,14 @@ module Vx
               i << BOWER_COMPONENTS
             end
 
-            do_install(env) do
-              env.stage("install").tap do |i|
-                i.add_env 'PATH', "${PATH}:${PWD}/#{NPM_PACKAGES}/bin"
+            env.stage("install").tap do |i|
+              i.add_env 'PATH', "${PATH}:${PWD}/#{NPM_PACKAGES}/bin"
+              i.add_task "vxvm", "nodejs #{node_version(env)}"
+              i.add_task "shell", 'npm config set spin false'
+              i.add_task 'shell', 'node --version'
+              i.add_task 'shell', 'npm --version'
 
-                i.add_task "vxvm", "nodejs #{node_version(env)}"
-                i.add_task "shell", 'npm config set spin false'
-                i.add_task 'shell', 'node --version'
-                i.add_task 'shell', 'npm --version'
+              do_install(env) do
                 i.add_task 'shell', 'npm install'
               end
             end

@@ -33,7 +33,7 @@ module Vx
         end
 
         def do_database(env)
-          if env.source.database.empty?
+          if env.source.database.empty? && env.source.database?
             yield
           end
         end

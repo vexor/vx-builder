@@ -166,6 +166,10 @@ module Vx
         @attributes["parallel"].first.to_i
       end
 
+      def database?
+        @attributes['database'].first != false
+      end
+
       def parallel?
         parallel > 0
       end

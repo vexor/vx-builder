@@ -17,9 +17,9 @@ module Vx
               i << "~/.ivy2"
             end
 
-            do_install(env) do
-              env.stage("install").tap do |i|
-                i.add_task 'scala', 'action' => 'install', 'scala' => scala(env)
+            env.stage("install").tap do |i|
+              i.add_task 'scala', 'action' => 'install', 'scala' => scala(env)
+              do_install(env) do
                 i.add_task 'scala', "sbt:update"
               end
             end

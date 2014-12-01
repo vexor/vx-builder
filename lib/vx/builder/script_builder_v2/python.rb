@@ -25,12 +25,12 @@ module Vx
               i.add_env 'TRAVIS_PYTHON_VERSION', "py_version"
             end
 
-            do_install(env) do
-              env.stage("install").tap do |i|
-                i.add_task "python", "action" => "install", "python" => DEFAULT_PYTHON
-                i.add_task "python", "virtualenv"
-                i.add_task "python", "announce"
+            env.stage("install").tap do |i|
+              i.add_task "python", "action" => "install", "python" => DEFAULT_PYTHON
+              i.add_task "python", "virtualenv"
+              i.add_task "python", "announce"
 
+              do_install(env) do
                 i.add_task "python", "action" => "pip:install", "pip_args" => PIP_OPTS
               end
             end

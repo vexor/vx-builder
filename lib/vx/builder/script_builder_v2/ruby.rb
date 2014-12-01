@@ -33,10 +33,11 @@ module Vx
             end
 
             env.stage("install").tap do |i|
+              i.add_task "ruby", "action" => "install", "ruby" => ruby_version(env)
+              i.add_task "ruby", "announce"
+
               do_install(env) do
                 i.add_env "BUNDLE_GEMFILE", "${PWD}/#{gemfile(env)}"
-                i.add_task "ruby", "action" => "install", "ruby" => ruby_version(env)
-                i.add_task "ruby", "announce"
                 if args = env.source.bundler_args.first
                   i.add_task "ruby", "action" => "bundle:install", "bundler_args" => args
                 else

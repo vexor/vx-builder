@@ -121,4 +121,16 @@ describe Vx::Builder::BuildConfiguration do
     end
 
   end
+
+  context "database?" do
+    let(:content) { {
+      "database" => false
+    } }
+
+    it "should not be" do
+      expect(subject).to_not be_database
+    end
+
+  end
+
 end
