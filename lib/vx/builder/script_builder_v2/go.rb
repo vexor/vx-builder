@@ -17,13 +17,14 @@ module Vx
 
             env.stage("install").tap do |i|
               i.add_env 'GOPATH', '${HOME}/gopath:${GOPATH}'
-              i.add_env 'PATH', '${HOME}/gopath/bin:${PATH}'
+              i.add_env 'PATH',   '${HOME}/gopath/bin:${PATH}'
               i.add_env 'VX_ORIG_CODE_ROOT', '${PWD}'
-              i.add_env "VX_NEW_CODE_ROOT", "${HOME}/gopath/src/#{project_path env}"
+              i.add_env "VX_NEW_CODE_ROOT",  "${HOME}/gopath/src/#{project_path env}"
 
               i.add_task 'shell', 'mkdir -p $VX_NEW_CODE_ROOT'
               i.add_task 'shell', 'rmdir $VX_NEW_CODE_ROOT'
               i.add_task 'shell', 'cp -r $VX_ORIG_CODE_ROOT $VX_NEW_CODE_ROOT'
+              i.add_task 'shell', "sudo chown -R ${USER}:${USER} ${GOROOT}"
               i.add_task 'chdir', '${VX_NEW_CODE_ROOT}'
 
               i.add_task 'shell', 'go version'
