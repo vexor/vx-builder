@@ -31,7 +31,11 @@ module Vx
               i.add_task "python", "announce"
 
               do_install(env) do
-                i.add_task "python", "action" => "pip:install", "pip_args" => PIP_OPTS
+                pip_args = PIP_OPTS
+                if args = env.source.pip_args.first
+                  pip_args = args
+                end
+                i.add_task "python", "action" => "pip:install", "pip_args" => pip_args
               end
             end
 

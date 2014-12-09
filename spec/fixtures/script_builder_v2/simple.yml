@@ -51,25 +51,53 @@
     DISPLAY: ":99"
     CI_PARALLEL_JOBS: 3
     CI_PARALLEL_JOB_NUMBER: 0
+    global: ''
+    matrix: ''
     RAILS_ENV: test
     RACK_ENV: test
     GEM_HOME: "~/.rubygems"
+    TRAVIS_PYTHON_VERSION: py_version
   tasks:
   - services:
     - rabbitmq-server
   - cache_fetch:
       url:
-      - http://example.com/test/pull-request/rvm-2.0.0-gemfile.tgz
-      - http://example.com/master/rvm-2.0.0-gemfile.tgz
+      - http://localhost:3001/test/pull-request/scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
+      - http://localhost:3001/master/scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
   - cache_add:
       dir:
       - "~/.cache"
+      - "~/.sbt"
+      - "~/.ivy2"
       - "~/.rubygems"
+      - node_modules
+      - bower_components
+      - "~/.pip-downloads"
 - name: before_install
   tasks:
   - shell: echo before_install
 - name: install
+  environment:
+    PATH: "${PATH}:${PWD}/node_modules/bin"
   tasks:
+  - scala:
+      action: install
+      scala: 2.10.3
+  - ruby:
+      action: install
+      ruby: 2.0.0
+  - ruby: announce
+  - vxvm: nodejs 0.10
+  - shell: npm config set spin false
+  - shell: node --version
+  - shell: npm --version
+  - vxvm: rust 0.11.0
+  - shell: rustc --version
+  - python:
+      action: install
+      python: '2.7'
+  - python: virtualenv
+  - python: announce
   - shell: echo install
 - name: database
   tasks:
@@ -86,4 +114,4 @@
 - name: teardown
   tasks:
   - cache_push:
-      url: http://example.com/test/pull-request/rvm-2.0.0-gemfile.tgz
+      url: http://localhost:3001/test/pull-request/scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz

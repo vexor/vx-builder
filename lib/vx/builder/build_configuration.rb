@@ -34,7 +34,9 @@ module Vx
         gemfile
         services
         image
+
         bundler_args
+        pip_args
 
         before_install
         install
