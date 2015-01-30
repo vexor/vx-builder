@@ -8,7 +8,6 @@ module Vx
     autoload :BuildConfiguration, File.expand_path("../builder/build_configuration", __FILE__)
     autoload :MatrixBuilder,      File.expand_path("../builder/matrix_builder",      __FILE__)
     autoload :DeployBuilder,      File.expand_path("../builder/deploy_builder",      __FILE__)
-    autoload :ScriptBuilder,      File.expand_path("../builder/script_builder",      __FILE__)
     autoload :ScriptBuilderV2,    File.expand_path("../builder/script_builder_v2",   __FILE__)
 
     module Helper
@@ -40,10 +39,6 @@ module Vx
 
     def deploy(matrix_builder, options = {})
       DeployBuilder.new(matrix_builder, options)
-    end
-
-    def script(task, build_configuration)
-      ScriptBuilder.new task, build_configuration
     end
 
     def script_v2(task, build_configuration)
