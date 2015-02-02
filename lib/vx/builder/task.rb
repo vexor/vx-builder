@@ -2,7 +2,7 @@ module Vx
   module Builder
     class Task
 
-      attr_reader :name, :src, :sha, :deploy_key, :branch, :pull_request_id,
+      attr_reader :name, :src, :sha, :ssh_keys, :branch, :pull_request_id,
         :cache_url_prefix, :job_id, :build_id, :build_number, :job_number,
         :project_host, :project_token
 
@@ -12,7 +12,7 @@ module Vx
         @sha                  = options[:sha]
         @job_id               = options[:job_id]
         @build_id             = options[:build_id]
-        @deploy_key           = options[:deploy_key]
+        @ssh_keys             = options[:ssh_keys]
         @branch               = options[:branch]
         @pull_request_id      = options[:pull_request_id]
         @cache_url_prefix     = options[:cache_url_prefix]
@@ -27,7 +27,7 @@ module Vx
       private
 
         def validate!
-          (name && src && sha && deploy_key && branch && job_id && build_id &&
+          (name && src && sha && ssh_keys && branch && job_id && build_id &&
             build_number && job_number && project_host) or
             raise(MissingKeys)
         end

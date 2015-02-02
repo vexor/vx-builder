@@ -1,37 +1,92 @@
 ---
 - name: clone
-  vars:
-    ssh_key: |
-      -----BEGIN RSA PRIVATE KEY-----
-      MIIEpAIBAAKCAQEApMkam+mhwCdCQdqtu7U9p5VRFmkrbi9HaA3vagphMvyryWqx
-      C9sY+an8jCNRUpelyjJ8f6b6/V5h4WcnlwpOvVGGns4HObnYj89GKoBF+QpT28mp
-      CMi0kzHNSWMRZg/d9x3Af2cDIgJhgGKdKLhOb+SJ2iRzKA6ywmyNTrUB4tJhpgJ/
-      PA1lGlYXkGad2KRAfg7mTcuQrqLJ4qi2XdgAHctISN9wUdbE1x5HFPyzukwKuBAE
-      h7m6VVrJzskKNrBsuOVSZuQ6rv9TiqWXVpAXgrWvKztlf3SNAttmABb5d2uPOa2+
-      reCWEzHbWOFgMQDQsXsS3rqC3fzw4VMKRQwXIQIDAQABAoIBADgZOpTPkcBf3R+c
-      Ob8IcYfmvmc5wI5PTCjxbYsVI4f/GuCEEOfvW+5K324568qJU+ilDVtL1nCBPCNH
-      QeQanzm2UnUnwK/3Q/GZZ9K6PpgM2wWc/o29/jOKJdARCPBNAIzLNShqQlfGpbjW
-      WZhuPk27aO65r/Z4IoUr/WNJHe5Akv5FMfseAZ+zlAHA32QqNggOeit65Gio2cIu
-      YDKI5Nr1iiSq3JMfEZvmc/5QedU9U7DIeNWwji8pGzFkF8xhu6Ey9hpGR2U7gEqR
-      +dySnwi8+qaspof8rguGeSUZVmoTGmfYUEnz1ZpJVaQiABkaVXwADahhve8td1Tr
-      7h1b+Q0CgYEA1vDp7OklWyvFiePYu4rlnmjVKNv6kbUULtOix9yKWbApY6ljpYhS
-      yigiqV6jiVorC1ClcXPWpWsHosd+p6DRaa0MiqD2WJPSXndComGRsOrCeO7DrLWl
-      UCRHl1OlcRHcuxSqVDH+CCqW+NC4JxUKc22OzI+kaKTruj3s9XkefIMCgYEAxEN6
-      B7xANY9ceb1Xoev3Z7AWIhLPQ8GPZ3KSSmz1Zdp11MNouxRJBzDS4k64Qv2n44JP
-      U+kbXSjvnCyITCjTevDIsKxHtO0wOLEwB5LCBzpJTEsjwGZcTP0AOv6dqwJwLPpm
-      ysiTrLFBH5SdVsTMt8UJFxZ33sDWHZvSo0p21IsCgYB688rMk72jvpE8RJLpDRY2
-      nH865UMbcHsAIl4ed+DIV0YF1ZLD0QySyYyyWAmye1reGR7anEnvzB7NFdM0roC8
-      M5pV/qeMmdqf4RbD7o45psDiDqruM+ZBxs8RGG8uE+qxNawNh59qKnq8ECEXcijN
-      SKGEELMajSSvH9dZwBQZYwKBgQCcBhiI9bsF2UZm8YMtEm3IXE/8Hn/vGX1re8WY
-      rS4ZHqb10bL8po+3y7SafII3n3dMgleWGYbLdLOnsC9afEpDPhANg6gtyTHAn/vS
-      yXS+UjPbFxEA718JRUhdnfSx8mpDF32IUBQ2AWQIOxkp1aH5pgYn+JCq4RpWx32Y
-      mqYFKQKBgQCbEsvYlfeWJDi+CBH+zhfkfWIY9SiyuHEUQa4hNbaS/DkDMgqN58Cu
-      8gXGSftEiTcLat0a0P6veacgPKuhAHe1K7h84+R0rE/cv1QTBpW38RQgabLs+exy
-      jyF5R1NHI/LXsDBNaiR05srXdiSZumL0awX7riC4DzIk6ZZYRdbnbQ==
-      -----END RSA PRIVATE KEY-----
   tasks:
   - ssh_agent:
-      key: "$ssh_key"
+      deploy_key:
+      - |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEpAIBAAKCAQEApMkam+mhwCdCQdqtu7U9p5VRFmkrbi9HaA3vagphMvyryWqx
+        C9sY+an8jCNRUpelyjJ8f6b6/V5h4WcnlwpOvVGGns4HObnYj89GKoBF+QpT28mp
+        CMi0kzHNSWMRZg/d9x3Af2cDIgJhgGKdKLhOb+SJ2iRzKA6ywmyNTrUB4tJhpgJ/
+        PA1lGlYXkGad2KRAfg7mTcuQrqLJ4qi2XdgAHctISN9wUdbE1x5HFPyzukwKuBAE
+        h7m6VVrJzskKNrBsuOVSZuQ6rv9TiqWXVpAXgrWvKztlf3SNAttmABb5d2uPOa2+
+        reCWEzHbWOFgMQDQsXsS3rqC3fzw4VMKRQwXIQIDAQABAoIBADgZOpTPkcBf3R+c
+        Ob8IcYfmvmc5wI5PTCjxbYsVI4f/GuCEEOfvW+5K324568qJU+ilDVtL1nCBPCNH
+        QeQanzm2UnUnwK/3Q/GZZ9K6PpgM2wWc/o29/jOKJdARCPBNAIzLNShqQlfGpbjW
+        WZhuPk27aO65r/Z4IoUr/WNJHe5Akv5FMfseAZ+zlAHA32QqNggOeit65Gio2cIu
+        YDKI5Nr1iiSq3JMfEZvmc/5QedU9U7DIeNWwji8pGzFkF8xhu6Ey9hpGR2U7gEqR
+        +dySnwi8+qaspof8rguGeSUZVmoTGmfYUEnz1ZpJVaQiABkaVXwADahhve8td1Tr
+        7h1b+Q0CgYEA1vDp7OklWyvFiePYu4rlnmjVKNv6kbUULtOix9yKWbApY6ljpYhS
+        yigiqV6jiVorC1ClcXPWpWsHosd+p6DRaa0MiqD2WJPSXndComGRsOrCeO7DrLWl
+        UCRHl1OlcRHcuxSqVDH+CCqW+NC4JxUKc22OzI+kaKTruj3s9XkefIMCgYEAxEN6
+        B7xANY9ceb1Xoev3Z7AWIhLPQ8GPZ3KSSmz1Zdp11MNouxRJBzDS4k64Qv2n44JP
+        U+kbXSjvnCyITCjTevDIsKxHtO0wOLEwB5LCBzpJTEsjwGZcTP0AOv6dqwJwLPpm
+        ysiTrLFBH5SdVsTMt8UJFxZ33sDWHZvSo0p21IsCgYB688rMk72jvpE8RJLpDRY2
+        nH865UMbcHsAIl4ed+DIV0YF1ZLD0QySyYyyWAmye1reGR7anEnvzB7NFdM0roC8
+        M5pV/qeMmdqf4RbD7o45psDiDqruM+ZBxs8RGG8uE+qxNawNh59qKnq8ECEXcijN
+        SKGEELMajSSvH9dZwBQZYwKBgQCcBhiI9bsF2UZm8YMtEm3IXE/8Hn/vGX1re8WY
+        rS4ZHqb10bL8po+3y7SafII3n3dMgleWGYbLdLOnsC9afEpDPhANg6gtyTHAn/vS
+        yXS+UjPbFxEA718JRUhdnfSx8mpDF32IUBQ2AWQIOxkp1aH5pgYn+JCq4RpWx32Y
+        mqYFKQKBgQCbEsvYlfeWJDi+CBH+zhfkfWIY9SiyuHEUQa4hNbaS/DkDMgqN58Cu
+        8gXGSftEiTcLat0a0P6veacgPKuhAHe1K7h84+R0rE/cv1QTBpW38RQgabLs+exy
+        jyF5R1NHI/LXsDBNaiR05srXdiSZumL0awX7riC4DzIk6ZZYRdbnbQ==
+        -----END RSA PRIVATE KEY-----
+      - |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEoQIBAAKCAQEAp+sIWk/X62Aa7FueZOJzXjRLRypKAmUC+wLLv2RsJTqFtLOr
+        pFUfOcDuXYCPWcgxcbRDzt9LfTbOd51QIn9BzKytnlECWWeQs0/by25K7bLVJYh8
+        VNmFohziPcl8GL+g0PPwfyZaaLeSXiIqYJ3/Cwy9CW7xog8XoWmW81nwiXaiIcpE
+        Uktq48VRbGlzYiWaMy2St48uRaDKFatDkrchStkAktSf0bofiN5XFRiNfQ5pt0Ee
+        5s3TXGhMYzPSO1ml88bxBDCkvJ8VciATLNSZ8KTYvbJGrgPbvGyclW1v9SBBcMXr
+        WhZPL75h24zUKwtmgK0fvz13/bvXdxPlOYo/lwIDAQABAoIBAQCDgmidSpEBb9hG
+        Ko8H1e6i5fPa/XzPGUtXSV5HPCASnB3hYyHXZy84bSiCJFCg8VAADD1bBLi7jTPw
+        rEz5Z48h/E9RgYKEgL7sIGw0i+G0/e0/IwC091NYnqR13ZoKS/JoE9TT0DbYcoT4
+        omtsFfGMNuLKQ5CM6qMIMIkfd94R2YnabnZ8o6OV6tevr3m3PZWXD9B9F8dIfNYL
+        ycYJ/eQQ+J98u8UqUUOOugjn4NSC/ktdO2fAPbSH3+XK8W75Cnuh2Y/dbjTraIjp
+        Me5nvQa8cPHNSonCCeqBodnDLpIJJ3AIbQmeqUrUMWxU7bypTvoD4HoNPFiih2C7
+        +xciYDFRAoGBANMobQ+aMOPLU0EK/JwyCTjLULQgx0eioK+vXbBBlrpIHAaWW/Bj
+        oQMBTPCIkBUrl2gn85NcmgBt4FaFevIEsQoQxlgnMvwj73lvQ1fLJCkJjmxlrM0v
+        gGbKtiUhaao3TJsjwuvlDmR2qQnrWeT95Qo6Jb4N8jU9jCiQeMXWA1s/AoGBAMuT
+        4RWPmTUWDKM2tdZmu97n+6KrB4BUQ94L1A7IJY3nqCu7Ja065yanjPkwzpL7o4OP
+        R3SMdF63ldKb/nvM2pJWuCX0DF2HkPBbukOzOtST/sutGog4Q66pzKJ4qBQrGS0c
+        s4E8mzgUJCi9FJYsAm2O8Rb6tHSZA2vzOHTvKz2pAoGAYaUWGdrxtMU3cKKGAizZ
+        Otw6K7HktWms6NEtf+40p1vlKd6qEVXhBSS60Zg1GLUZxN6EsqZlyMEGtrvvCK/G
+        tqLfNbCa0SJFAWDEQXr888UpiVLTP+cxd1dSN4Vl+YKs+CjnYHKB309ICAA/h7cp
+        DTuqbGLCmIAnqjJ0xveagb0CgYAEh2uwgRtVdQIe926gMHTphpuwiMGH91fzLqwv
+        EADV4Vt6bZVu/yp5T6zxNkbCOlru6FccnqtQGCF7KAFHW81ZCBjcr0s/IW72CfRg
+        4THj3M8EVPuMIERRNHHbA3gpyrOqr0LHE0QYwUn0phA5Lw12xoFSk41EMstCsYyF
+        /XQm0QJ/SQ6hJvNQ0kr4Zr8Lhf5xMUbXQeikvPWSPRdDd54HADV5TUTG7JMf5AxI
+        k0yYH3JOcEvztiJdb3cY6qdVWZTQsk3CB2wySISpGBxZAjiByNgKyl1r/UL1lynP
+        7NGrsaLVbdyfyZFD3Z1axRuI3FfGmb2exBdmEucyhmxw8G78xg==
+        -----END RSA PRIVATE KEY-----
+      - |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEpAIBAAKCAQEA76I+E6u+JdTu8+X4Z2D+38WS/Cn84Ki6cJcTVui+tabkauf3
+        /XKbXCxJhdPm7nwDrho1G/Xb9v7xB6sJ1aHqWmVmPz1kVf+EnyxEKuRqDMhNppMB
+        NBpycMUD0mhOTCV7z3UUEKO6qktz3qva2exBBpHiGhoxeJWXq4OkqGj5KJ3UGewW
+        Jqdq+qr2bsp2VqYk4QLVUKT0J0eMH2CU4AEND0YpOpxrD7AOj/JsigLvf/+n+Mv+
+        1ioubRzstNTEfxW+Xr9HHJUlPfvUFaTNCrMPYSF+4cKiTNmIggZkHbbRqiCnuPlU
+        fxCqkpygWrjyriGemLOCfDT0SxFsQTqr7hIGUwIDAQABAoIBAHQ7Ubjg2L4o5i5P
+        IYmjNnz7rCu7gfjGXog1/x9sjPQ3GxvvoA3DBTBUGuVavux2IqLT+2awfhzz051Q
+        jNieTLnD7TBHat97rKw4IGhdmkLQ9TkSnMbU/SVNqmjoRvIQTFl4BF99yxDGwFEF
+        MoX5XiD9qZnXkp9Wj9aVZ8x3/kKAOxNZ0k0sf0fKPOpbLk/ylXLDk3GypPmJFlCK
+        1glsUhwjLylF0ivJIARl2RhQwXoexYaD8lrEsRULEMyHoLZX/mKbrhsvUyX4c9E1
+        wtc5ZD8tzdS6EsTjKj5WoNqzHEZLTmMVYFRNz80IeEHL21V23nNxspGP+drS9mtn
+        naPjvsECgYEA+jpz6xKqWUwSNNqQCQAtlQv+1N1iAEemR0lK6/TYqPthpqpWELK1
+        CEDyGk36tLrtwCnsz7sDFYkr02LzV6sNXaxlXBPZjd85BKs1yJfW1dxu5FsS6UZ8
+        bJpSFo4s1/JbofFMVWuU21vP5IHJcbpuad9VPNB1TnmCVntVVdZZHKkCgYEA9Sk7
+        HEza2tH8rS7iUWpvoKL63hm5QEAHMX6+qbCK5z89z63GPqWQJGI3t14AnN5jP0oT
+        hhe2rHIx7f799MkCksy/5meOuz7XOBiREQlDR5dM7hE8sVWPmCweWyThcXGct9Yk
+        ORQ1EWPEegyjHdpUkEnHoELPHWeJukSTJsZvzJsCgYEA7VWjvMLnb+sHGbp0AxV4
+        JnZKLfwMh9dtjw+lUEfbd+t2o23MU+osareu6eQsdl8WQb2CL0Vhl3uTZdvkkrJa
+        6w4o1Ty+jCG9IwCA8tGRoyaAx3baaQfB3ABC+8G+JtRotSD5FcwEVEqw1DuFpaj+
+        MMzzO8s8eEInrX8tYUz9GIECgYAj01+g9hYxTehXwncuIJipZ8ezNx0cJ38lm3jv
+        QS47NsGonKNQuk8DEhtEP4dlZRYpxIBv4v092/4x4kZoRAuNOkB8wftYn4lB2E0y
+        qSDc0F5cl8Y/v9oZCbFx7kTHmCunrbJjaPGMVgD7OOeJUEN1RmLWp4yuple5EZZT
+        X0ItKwKBgQDbags/0GaJasfG4gNTp0vpRzXeGhCNsVPm72VNodv5fAZGU6Vgfjpy
+        0QlsHl7c148fkvjj3TxriqRWmEosI9vjVptTYjcctBDhhk+gD4ufokqhhtckbfRk
+        EQeydeybKLW49Mewm42mjJMm+CAIpO+TVFYR+/UZxBZN3WhKePOXiA==
+        -----END RSA PRIVATE KEY-----
   - git_clone:
       repo: git@github.com:vexor/vx-test-repo.git
       dest: "~/vexor/vx-test-repo"

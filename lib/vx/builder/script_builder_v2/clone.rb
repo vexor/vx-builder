@@ -9,9 +9,8 @@ module Vx
         def call(env)
 
           env.stage("clone").tap do |e|
-            e.add_var "ssh_key", env.task.deploy_key
+            e.add_task "ssh_agent", "key" => env.task.ssh_keys
 
-            e.add_task "ssh_agent", "key" => "$ssh_key"
             clone = {}
             clone["repo"] = env.task.src
             clone["dest"] = "~/#{env.task.name}"
