@@ -9,10 +9,8 @@ module Vx
         def call(env)
           if enabled?(env)
 
-            do_install(env) do
-              env.stage("before_install").tap do |i|
-                i.add_task "vxvm", "go #{go_version(env)}"
-              end
+            env.stage("init").tap do |i|
+              i.add_task "vxvm", "go #{go_version(env)}"
             end
 
             env.stage("install").tap do |i|
@@ -24,14 +22,13 @@ module Vx
               i.add_task 'shell', 'mkdir -p $VX_NEW_CODE_ROOT'
               i.add_task 'shell', 'rmdir $VX_NEW_CODE_ROOT'
               i.add_task 'shell', 'cp -r $VX_ORIG_CODE_ROOT $VX_NEW_CODE_ROOT'
-              i.add_task 'shell', "sudo chown -R ${USER}:${USER} ${GOROOT}"
               i.add_task 'chdir', '${VX_NEW_CODE_ROOT}'
 
               i.add_task 'shell', 'go version'
               i.add_task 'shell', 'go env'
 
               do_install(env) do
-                i.add_task 'shell', 'go get -v ./...'
+                i.add_task 'shell', 'go get -t -v ./...'
               end
             end
 
