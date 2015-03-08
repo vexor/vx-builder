@@ -9,7 +9,8 @@ describe Vx::Builder::Task do
     its(:name)            { should eq 'vexor/vx-test-repo' }
     its(:sha)             { should eq '8f53c077072674972e21c82a286acc07fada91f5' }
     its(:ssh_keys)        { should be }
-    its(:cache_url_prefix){ should eq 'http://localhost:3001' }
+    its(:cache_read_url)  { should eq 'http://localhost:3001/read' }
+    its(:cache_write_url) { should eq 'http://localhost:3001/write' }
     its(:job_id)          { should eq 1 }
     its(:build_id)        { should eq 12 }
     its(:pull_request_id) { should eq 1 }

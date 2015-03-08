@@ -1,5 +1,5 @@
 module Vx
   module Builder
-    VERSION = "0.5.63"
+    VERSION = "0.6.0"
   end
 end
