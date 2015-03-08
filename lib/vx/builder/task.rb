@@ -3,8 +3,9 @@ module Vx
     class Task
 
       attr_reader :name, :src, :sha, :ssh_keys, :branch, :pull_request_id,
-        :cache_url_prefix, :job_id, :build_id, :build_number, :job_number,
-        :project_host, :project_token
+        :job_id, :build_id, :build_number, :job_number,
+        :project_host, :project_token,
+        :cache_read_url, :cache_write_url
 
       def initialize(options = {})
         @name                 = options[:name]
@@ -15,11 +16,12 @@ module Vx
         @ssh_keys             = options[:ssh_keys]
         @branch               = options[:branch]
         @pull_request_id      = options[:pull_request_id]
-        @cache_url_prefix     = options[:cache_url_prefix]
         @build_number         = options[:build_number]
         @job_number           = options[:job_number]
         @project_host         = options[:project_host]
         @project_token        = options[:project_token]
+        @cache_read_url       = options[:cache_read_url]
+        @cache_write_url      = options[:cache_write_url]
 
         validate!
       end
