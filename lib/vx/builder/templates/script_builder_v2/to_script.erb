@@ -4,6 +4,11 @@ RED="\033[31m"
 NORMAL="\033[0;39m"
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# reread profile.d
+for f in $(ls -1 /etc/profile.d/*.sh) ; do
+  test -r $f && source $f
+done
+
 export LC_ALL=en_US.UTF8
 export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm
