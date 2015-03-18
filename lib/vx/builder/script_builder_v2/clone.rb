@@ -30,8 +30,9 @@ module Vx
         private
 
           def chdir!(env)
-            repo, workdir = "~/#{env.task.name}", env.source.workdir
-            env.stage("init").chdir!("#{repo}#{workdir}")
+            workdir = env.source.workdir.first.to_s
+            dir     = "~/#{env.task.name}/#{workdir}"
+            env.stage("init").chdir!(dir)
           end
 
           def branch_name(env)

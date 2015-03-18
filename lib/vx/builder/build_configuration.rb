@@ -47,6 +47,8 @@ module Vx
         before_deploy
         after_deploy
 
+        workdir
+
         parallel
         parallel_job_number
 
@@ -77,8 +79,6 @@ module Vx
         @cache               = Cache.new     new_attributes.delete("cache")
         @vexor               = Vexor.new     new_attributes.delete("vexor")
         @matrix              = Matrix.new    new_attributes.delete("matrix")
-
-        @workdir             = new_attributes.delete("workdir")
 
         @deploy              = Deploy.new    new_attributes.delete("deploy")
         @deploy_modules      = new_attributes.delete("deploy_modules") || []
@@ -128,14 +128,6 @@ module Vx
 
       def deploy?
         deploy.attributes.any?
-      end
-
-      def workdir
-        if @workdir.is_a?(String) && @workdir.match(/\A(~|\.\/)?(.*?)\/?\z/)
-         "/#{$2}"
-        else
-          ""
-        end
       end
 
       def deploy_modules?
@@ -198,7 +190,7 @@ module Vx
         cache.enabled? and cache.directories
       end
 
-      (ATTRIBUTES - %w{ language parallel parallel_job_number workdir }).each do |attr|
+      (ATTRIBUTES - %w{ language parallel parallel_job_number }).each do |attr|
         define_method attr do
           attributes[attr]
         end

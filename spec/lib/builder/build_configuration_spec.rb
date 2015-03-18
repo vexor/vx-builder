@@ -58,7 +58,8 @@ describe Vx::Builder::BuildConfiguration do
        "after_deploy"   => ["echo after deploy"],
        "matrix"         => {"exclude"=>[{"rvm"=>2.1}]},
        "parallel"       => [3],
-       "parallel_job_number" => []
+       "parallel_job_number" => [],
+       "workdir" => ["relative_dir"]
       }
     ) }
   end
