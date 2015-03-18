@@ -49,4 +49,10 @@ describe Vx::Builder::ScriptBuilderV2 do
     expect(script.to_script).to be
   end
 
+  it "adds user env variables" do
+    hash  = script.to_hash
+    stage = script.stage("init")
+    expect(stage.environment["VX_USER_ENV"]).to eq '!test me'
+  end
+
 end

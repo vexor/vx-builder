@@ -13,6 +13,7 @@ def create(name, options = {})
       ssh_keys:         [fixture("vx_test_repo_insecure_key"),
                          fixture("test_key1"),
                          fixture("test_key2")],
+      env_vars:         { 'VX_USER_ENV' => 'test me' },
       branch:           options[:branch] || "test/pull-request",
       cache_read_url:   "http://localhost:3001/read",
       cache_write_url:  "http://localhost:3001/write",
