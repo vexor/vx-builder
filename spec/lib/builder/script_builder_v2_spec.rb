@@ -55,4 +55,10 @@ describe Vx::Builder::ScriptBuilderV2 do
     expect(stage.environment["VX_USER_ENV"]).to eq '!test me'
   end
 
+  it "should chdir after clone if workdir is present" do
+    hash  = script.to_hash
+    stage = script.stage("init")
+    expect(stage.chdir).to eq "~/vexor/vx-test-repo/relative_dir"
+  end
+
 end

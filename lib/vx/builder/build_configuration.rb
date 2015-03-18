@@ -47,6 +47,8 @@ module Vx
         before_deploy
         after_deploy
 
+        workdir
+
         parallel
         parallel_job_number
 

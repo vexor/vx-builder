@@ -28,6 +28,8 @@ python: "2.7"
 
 pip_args: "pip args"
 
+workdir: "relative_dir"
+
 matrix:
   exclude:
   - rvm: 2.1
