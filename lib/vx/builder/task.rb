@@ -2,7 +2,7 @@ module Vx
   module Builder
     class Task
 
-      attr_reader :name, :src, :sha, :ssh_keys, :branch, :pull_request_id,
+      attr_reader :name, :src, :sha, :ssh_keys, :env_vars, :branch, :pull_request_id,
         :job_id, :build_id, :build_number, :job_number,
         :project_host, :project_token,
         :cache_read_url, :cache_write_url
@@ -14,6 +14,7 @@ module Vx
         @job_id               = options[:job_id]
         @build_id             = options[:build_id]
         @ssh_keys             = options[:ssh_keys]
+        @env_vars             = options[:env_vars]
         @branch               = options[:branch]
         @pull_request_id      = options[:pull_request_id]
         @build_number         = options[:build_number]

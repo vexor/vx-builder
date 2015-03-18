@@ -43,6 +43,5 @@ describe Vx::Builder::BuildConfiguration::Env do
       let(:params) { [{secure: "foo"}] }
       its(:attributes) { should eq({"global" => [], "matrix" => []}) }
     end
-
   end
 end

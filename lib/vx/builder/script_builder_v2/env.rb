@@ -14,6 +14,15 @@ module Vx
             e.add_env "CI_PROJECT_NAME",    env.task.name
             e.add_env "CI_BUILD_SHA",       env.task.sha
 
+            env.task.tap do |t|
+              t.respond_to?(:env_vars)      &&
+              t.env_vars.respond_to?(:any?) &&
+              t.env_vars.any?               &&
+              t.env_vars.each do |key, value|
+                e.add_env key, value, hidden: true
+              end
+            end
+
             if env.task.project_token
               e.add_env "CI_PROJECT_TOKEN", env.task.project_token, hidden: true
             end
