@@ -14,7 +14,7 @@ module Vx
         @job_id               = options[:job_id]
         @build_id             = options[:build_id]
         @ssh_keys             = options[:ssh_keys]
-        @env_vars             = options[:env_vars]
+        @env_vars             = options[:env_vars] || {}
         @branch               = options[:branch]
         @pull_request_id      = options[:pull_request_id]
         @build_number         = options[:build_number]
