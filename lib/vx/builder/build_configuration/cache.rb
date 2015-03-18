@@ -7,6 +7,7 @@ module Vx
 
         def initialize(new_cache)
           normalize_attributes(new_cache)
+          expand_directories!
         end
 
         def directories
@@ -20,7 +21,6 @@ module Vx
         private
 
           def normalize_attributes(new_cache)
-
             @attributes =
               case new_cache
               when nil
@@ -39,7 +39,21 @@ module Vx
                   "enabled"     => false
                 }
               end
+          end
 
+          def expand_directories!
+            directories.map! do |dir|
+              case dir
+              when 'bundler'
+                '~/.rubygems'
+              when 'npm'
+                'node_modules'
+              when 'bower'
+                'bower_components'
+              else
+                dir
+              end
+            end
           end
 
       end

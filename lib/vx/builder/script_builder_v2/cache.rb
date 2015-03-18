@@ -25,7 +25,7 @@ module Vx
           end
 
           def cache_directories(env)
-            env.source.cache.directories
+            env.source.cache.directories.compact
           end
 
           def cache_push_url(env)
