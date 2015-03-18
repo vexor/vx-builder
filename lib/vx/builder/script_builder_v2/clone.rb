@@ -22,12 +22,17 @@ module Vx
             e.add_task "git_clone", clone
           end
 
-          env.stage("init").chdir!("~/#{env.task.name}")
+          chdir!(env)
 
           app.call(env)
         end
 
         private
+
+          def chdir!(env)
+            repo, workdir = "~/#{env.task.name}", env.source.workdir
+            env.stage("init").chdir!("#{repo}#{workdir}")
+          end
 
           def branch_name(env)
             b = env.task && env.task.branch

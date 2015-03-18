@@ -93,7 +93,7 @@
       branch: test/pull-request
       sha: 8f53c077072674972e21c82a286acc07fada91f5
 - name: init
-  chdir: "~/vexor/vx-test-repo"
+  chdir: "~/vexor/vx-test-repo/relative_dir"
   environment:
     CI: '1'
     CI_JOB_ID: 1
@@ -112,7 +112,7 @@
     RAILS_ENV: test
     RACK_ENV: test
     GEM_HOME: "~/.rubygems"
-    TRAVIS_PYTHON_VERSION: py_version
+    TRAVIS_PYTHON_VERSION: '2.7'
   tasks:
   - services:
     - rabbitmq-server
