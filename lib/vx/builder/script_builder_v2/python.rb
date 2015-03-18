@@ -5,8 +5,8 @@ module Vx
       class Python < Base
 
         DEFAULT_PYTHON = '2.7'
-        PIP_DOWNLOADS = "~/.pip-downloads"
-        PIP_OPTS = " --download-cache=#{PIP_DOWNLOADS}"
+        PIP_DOWNLOADS  = "~/.pip-downloads"
+        PIP_OPTS       = " --download-cache=#{PIP_DOWNLOADS}"
 
         def call(env)
           if enabled?(env)
@@ -26,7 +26,7 @@ module Vx
             end
 
             env.stage("install").tap do |i|
-              i.add_task "python", "action" => "install", "python" => DEFAULT_PYTHON
+              i.add_task "python", "action" => "install", "python" => py_version
               i.add_task "python", "virtualenv"
               i.add_task "python", "announce"
 
@@ -64,7 +64,7 @@ module Vx
 
           def python_version(env)
             v = env.source.python.first
-            v || DEFAULT_PYTHON
+            (v || DEFAULT_PYTHON).to_s
           end
 
       end
