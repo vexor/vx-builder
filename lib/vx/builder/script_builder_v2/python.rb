@@ -22,7 +22,7 @@ module Vx
             end
 
             env.stage("init").tap do |i|
-              i.add_env 'TRAVIS_PYTHON_VERSION', "py_version"
+              i.add_env 'TRAVIS_PYTHON_VERSION', py_version
             end
 
             env.stage("install").tap do |i|
