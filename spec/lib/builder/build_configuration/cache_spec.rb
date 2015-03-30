@@ -34,9 +34,9 @@ describe Vx::Builder::BuildConfiguration::Cache do
   end
 
   it "should expand directories" do
-    params = { "directories" => ["bundler", 'npm', 'bower'] }
+    params = { "directories" => ["bundler", 'bower'] }
     cache  = described_class.new(params)
-    expect(cache.directories).to eq ["~/.rubygems", "node_modules", "bower_components"]
+    expect(cache.directories).to eq ["~/.rubygems", "bower_components"]
   end
 
 end
