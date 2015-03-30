@@ -46,8 +46,6 @@ module Vx
               case dir
               when 'bundler'
                 '~/.rubygems'
-              when 'npm'
-                'node_modules'
               when 'bower'
                 'bower_components'
               else
