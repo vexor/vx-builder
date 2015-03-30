@@ -5,6 +5,7 @@ module Vx
       class Nodejs < Base
 
         DEFAULT_NODE = '0.10'
+        NPM_PACKAGES = 'node_modules'
         BOWER_COMPONENTS = 'bower_components'
 
         def call(env)
