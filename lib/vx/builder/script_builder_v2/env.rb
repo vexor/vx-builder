@@ -16,7 +16,7 @@ module Vx
 
             env.task.tap do |t|
               t.env_vars.each do |key, value|
-                e.add_env key, value, hidden: true
+                e.add_env key, Shellwords.escape(value), hidden: true
               end
             end
 
@@ -39,30 +39,28 @@ module Vx
               e.add_env "CI_PARALLEL_JOB_NUMBER", env.source.parallel_job_number
             end
 
-            env.source.env.global.each do |i|
-              i = i.split("=")
-              key = i.shift
-              value = i.join("=").to_s
+            add_var = ->(var) {
+              var = var.split("=")
+              key = var.shift
+              value = var.join("=").to_s
               e.add_env key, normalize_env_value(value)
-            end
+            }
 
-            env.source.env.matrix.each do |i|
-              i = i.split("=")
-              key = i.shift
-              value = i.join("=").to_s
-              e.add_env key, normalize_env_value(value)
-            end
+            env.source.env.global.each &add_var
+            env.source.env.matrix.each &add_var
           end
 
           app.call(env)
         end
 
         def normalize_env_value(value)
-          if value[0] == '"' && value[-1] == '"'
-            value[1..-2]
-          else
-            value
-          end
+          Shellwords.escape(
+            if value[0] == '"' && value[-1] == '"'
+              value[1..-2]
+            else
+              value
+            end
+          )
         end
 
       end
