@@ -52,7 +52,7 @@ describe Vx::Builder::ScriptBuilderV2 do
   it "adds user env variables" do
     hash  = script.to_hash
     stage = script.stage("init")
-    expect(stage.environment["VX_USER_ENV"]).to eq '!test me'
+    expect(stage.environment["VX_USER_ENV"]).to eq '!test\\ me'
   end
 
   it "should chdir after clone if workdir is present" do
