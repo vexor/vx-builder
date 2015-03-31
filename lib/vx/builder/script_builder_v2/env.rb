@@ -43,7 +43,7 @@ module Vx
               var = var.split("=")
               key = var.shift
               value = var.join("=").to_s
-              e.add_env key, normalize_env_value(value)
+              e.add_env key, value
             }
 
             env.source.env.global.each &add_var
@@ -52,17 +52,6 @@ module Vx
 
           app.call(env)
         end
-
-        def normalize_env_value(value)
-          Shellwords.escape(
-            if value[0] == '"' && value[-1] == '"'
-              value[1..-2]
-            else
-              value
-            end
-          )
-        end
-
       end
     end
   end

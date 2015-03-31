@@ -107,8 +107,8 @@
     DISPLAY: ":99"
     CI_PARALLEL_JOBS: 3
     CI_PARALLEL_JOB_NUMBER: 0
-    global: "''"
-    matrix: "''"
+    global: ''
+    matrix: ''
     RAILS_ENV: test
     RACK_ENV: test
     GEM_HOME: "~/.rubygems"
