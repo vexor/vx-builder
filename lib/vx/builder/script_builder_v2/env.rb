@@ -6,10 +6,12 @@ module Vx
 
         def call(env)
           env.stage("init").tap do |e|
+            e.add_env "CI_NAME",            "VEXOR"
             e.add_env "CI",                 "1"
             e.add_env "CI_JOB_ID",          env.task.job_id
             e.add_env "CI_JOB_NUMBER",      env.task.job_number
             e.add_env "CI_BUILD_ID",        env.task.build_id
+            e.add_env "CI_BUILD_URL",       env.task.build_url
             e.add_env "CI_BUILD_NUMBER",    env.task.build_number
             e.add_env "CI_PROJECT_NAME",    env.task.name
             e.add_env "CI_BUILD_SHA",       env.task.sha

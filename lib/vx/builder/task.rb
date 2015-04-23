@@ -3,7 +3,7 @@ module Vx
     class Task
 
       attr_reader :name, :src, :sha, :ssh_keys, :env_vars, :branch, :pull_request_id,
-        :job_id, :build_id, :build_number, :job_number,
+        :job_id, :build_id, :build_url, :build_number, :job_number,
         :project_host, :project_token,
         :cache_read_url, :cache_write_url
 
@@ -13,6 +13,7 @@ module Vx
         @sha                  = options[:sha]
         @job_id               = options[:job_id]
         @build_id             = options[:build_id]
+        @build_url            = options[:build_url]
         @ssh_keys             = options[:ssh_keys]
         @env_vars             = options[:env_vars] || {}
         @branch               = options[:branch]
@@ -31,7 +32,7 @@ module Vx
 
         def validate!
           (name && src && sha && ssh_keys && branch && job_id && build_id &&
-            build_number && job_number && project_host) or
+            build_url && build_number && job_number && project_host) or
             raise(MissingKeys)
         end
 
