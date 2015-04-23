@@ -95,10 +95,12 @@
 - name: init
   chdir: "~/vexor/vx-test-repo/relative_dir"
   environment:
+    CI_NAME: VEXOR
     CI: '1'
     CI_JOB_ID: 1
     CI_JOB_NUMBER: 100
     CI_BUILD_ID: 12
+    CI_BUILD_URL: https://localhost:3001/builds/1
     CI_BUILD_NUMBER: 101
     CI_PROJECT_NAME: vexor/vx-test-repo
     CI_BUILD_SHA: 8f53c077072674972e21c82a286acc07fada91f5
