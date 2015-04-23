@@ -6,6 +6,7 @@ module Vx
 
         def call(env)
           env.stage("init").tap do |e|
+            e.add_env "CI_NAME",            "VEXOR"
             e.add_env "CI",                 "1"
             e.add_env "CI_JOB_ID",          env.task.job_id
             e.add_env "CI_JOB_NUMBER",      env.task.job_number
