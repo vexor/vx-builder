@@ -25,7 +25,7 @@ module Vx
 
             env.stage("init").tap do |i|
               if jruby?(env)
-                i.add_env "JRUBY_OPTS", "-Xcext.enabled=true"
+                i.add_env "JRUBY_OPTS", "\"-Xcext.enabled=true\""
               end
               i.add_env "RAILS_ENV", "test"
               i.add_env "RACK_ENV", "test"
