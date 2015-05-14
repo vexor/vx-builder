@@ -1,4 +1,4 @@
-# Vx::Builder
+# Vx::Builder [![Vexor status](http://ci.vexor.io/projects/1f6b7075-cbba-4c12-aa8c-520b3dbbd39b/status.svg)](https://ci.vexor.io/ui/projects/1f6b7075-cbba-4c12-aa8c-520b3dbbd39b/builds)
 
 TODO: Write a gem description
 
