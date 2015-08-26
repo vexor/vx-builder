@@ -5,12 +5,15 @@ module Vx
       class Java < Base
 
         def call(env)
-          if java(env)
-=begin
+          if version = java(env)
             do_cache_key(env) do |i|
-              i << "jdk-#{java env}"
+              i << "jdk-#{version}"
             end
 
+            env.stage("install").tap do |i|
+              i.add_task "jdk",  "action" => "install", "version" => version
+            end
+=begin
             env.stage("before_install").tap do |i|
             end
 
