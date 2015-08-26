@@ -34,7 +34,7 @@ describe "(integration v2) go" do
         io.write "set -e\n"
         io.write b.script.to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to eq 0
     end
   end

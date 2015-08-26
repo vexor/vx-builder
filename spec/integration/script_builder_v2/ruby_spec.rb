@@ -38,7 +38,7 @@ describe "(integration v2) ruby" do
         io.write "set -e\n"
         io.write b.scripts[0].to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to eq 0
     end
   end
@@ -57,7 +57,7 @@ describe "(integration v2) ruby" do
         io.write "set -e\n"
         io.write b.scripts[0].to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to_not eq 0
     end
   end
@@ -76,7 +76,7 @@ describe "(integration v2) ruby" do
         io.write "set -e\n"
         io.write b.scripts[0].to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to eq 0
     end
   end
@@ -95,7 +95,7 @@ describe "(integration v2) ruby" do
         io.write "set -e\n"
         io.write b.scripts[0].to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to eq 0
     end
   end
@@ -114,7 +114,7 @@ describe "(integration v2) ruby" do
         io.write "set -e\n"
         io.write b.scripts[0].to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to eq 0
     end
   end
@@ -133,7 +133,7 @@ describe "(integration v2) ruby" do
         io.write "set -e\n"
         io.write b.scripts[0].to_script
       end
-      system("env", "-", "USER=$USER", "HOME=#{path}", "bash", "script.sh" )
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
       expect($?.to_i).to eq 0
     end
   end
