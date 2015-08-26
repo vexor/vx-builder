@@ -38,4 +38,23 @@ describe "(integration v2) go" do
       expect($?.to_i).to eq 0
     end
   end
+
+  it "should succesfuly run lang/clojure with different jdk version", real: true do
+    file = {"language" => "clojure", "jdk" => "oraclejdk8"} .to_yaml
+    task = create(
+      :task,
+      sha: "HEAD",
+      branch: "lang/clojure"
+    )
+
+    b = build(file, task: task)
+    Dir.chdir(path) do
+      File.open("script.sh", "w") do |io|
+        io.write "set -e\n"
+        io.write b.script.to_script
+      end
+      system("env", "-", "USER=#{ENV['USER']}", "HOME=#{path}", "bash", "script.sh" )
+      expect($?.to_i).to eq 0
+    end
+  end
 end
