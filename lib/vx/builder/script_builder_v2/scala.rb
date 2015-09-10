@@ -4,7 +4,7 @@ module Vx
 
       class Scala < Base
 
-        DEFAULT_SCALA = '2.10.3'
+        DEFAULT_SCALA = '2.11.7'
 
         def call(env)
           if enabled?(env)
