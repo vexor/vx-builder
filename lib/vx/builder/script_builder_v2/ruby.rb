@@ -14,7 +14,7 @@ module Vx
           if enabled?(env)
 
             do_cache_key(env) do |k|
-              ruby_v = ruby_version(env)
+              ruby_v = ruby_version(env) || DEFAULT_RUBY
               k << "rvm-#{ruby_v}"
               k << gemfile(env)
             end
@@ -71,7 +71,7 @@ module Vx
 
           def ruby_version(env)
             v = env.source.rvm.first
-            ALIASES[v] || v || DEFAULT_RUBY
+            ALIASES[v] || v
           end
 
           def jruby?(env)
