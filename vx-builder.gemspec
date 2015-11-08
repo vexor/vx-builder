@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'vx-common',  '0.4.0'
   spec.add_runtime_dependency 'vx-message', '0.6.2'
-  spec.add_runtime_dependency 'hashr'
+  spec.add_runtime_dependency 'hashr',      '2.0.0'
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

@@ -4,10 +4,9 @@ module Vx
   module Builder
     class Configuration < ::Hashr
 
-      extend Hashr::EnvDefaults
+      extend Hashr::Env
 
       self.env_namespace      = 'vx'
-      self.raise_missing_keys = true
 
       define casher_ruby: "casher-ruby"
 
