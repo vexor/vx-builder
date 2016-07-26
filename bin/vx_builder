@@ -4,7 +4,7 @@ set -e
 
 # TODO: remove after image updated
 # TODO: create default ruby and bundle links in docker image
-default_bundle="/opt/vexor/packages/ruby-2.0.0-p594/bin/bundle"
+default_bundle="/opt/vexor/packages/ruby-2.0.0-p645/bin/bundle"
 
 ruby_version () {
   local ver
@@ -178,4 +178,3 @@ case "$1" in
     exit 1
     ;;
 esac
-

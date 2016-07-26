@@ -120,8 +120,8 @@
     - rabbitmq-server
   - cache_fetch:
       url:
-      - http://localhost:3001/read?file_name=test/pull-request/scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
-      - http://localhost:3001/read?file_name=master/scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
+      - http://localhost:3001/read?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
+      - http://localhost:3001/read?file_name=master/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
   - cache_add:
       dir:
       - "~/.cache"
@@ -137,6 +137,9 @@
   environment:
     PATH: "${PATH}:${PWD}/node_modules/bin"
   tasks:
+  - jdk:
+      action: install
+      version: openjdk7
   - scala:
       action: install
       scala: 2.10.3
@@ -171,4 +174,4 @@
 - name: teardown
   tasks:
   - cache_push:
-      url: http://localhost:3001/write?file_name=test/pull-request/scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
+      url: http://localhost:3001/write?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
