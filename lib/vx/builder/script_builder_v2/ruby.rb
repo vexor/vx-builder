@@ -33,7 +33,7 @@ module Vx
             end
 
             env.stage("install").tap do |i|
-              i.add_task "ruby", "action" => "install", "ruby" => ruby_version(env)
+              i.add_task "ruby", "action" => "install", "ruby" => (ruby_version(env) || DEFAULT_RUBY)
               i.add_task "ruby", "announce"
 
               do_install(env) do

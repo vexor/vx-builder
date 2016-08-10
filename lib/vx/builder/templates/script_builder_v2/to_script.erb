@@ -36,9 +36,6 @@ echo
 <% end %>
 
 echo <%= Base64.encode64(to_yaml).gsub("\n", '') %> \
-  | base64 --decode > ~/.debug.script
-
-echo <%= Base64.encode64(to_yaml).gsub("\n", '') %> \
   | base64 --decode | ~/citool/bin/vx-citool -
 
 exit $?
