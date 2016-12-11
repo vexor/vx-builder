@@ -16,7 +16,7 @@ export TERM=xterm
 cd ~/
 
 rm -rf ~/citool
-git clone -q --depth=1 --branch=change_aws_path https://github.com/vexor/vx-citool.git ~/citool || (
+git clone -q --depth=1 --branch=master https://github.com/vexor/vx-citool.git ~/citool || (
   rs=$?
 
   echo -e "${RED}The command 'git clone -q --depth=1 --branch=master https://github.com/vexor/vx-citool.git ~/citool' failed with code $rs${NORMAL}"
