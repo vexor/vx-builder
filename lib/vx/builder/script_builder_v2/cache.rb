@@ -11,7 +11,7 @@ module Vx
 
           if env.task.cache_read_url && env.task.cache_write_url && enabled?(env)
             env.stage("init").add_task     "cache_fetch", "url" => cache_fetch_urls(env)
-            env.stage("init").add_task     "cache_add",   "dir" => cache_directories(env)
+            env.stage("teardown").add_task     "cache_add",   "dir" => cache_directories(env)
             env.stage("teardown").add_task "cache_push",  "url" => cache_push_url(env)
           end
 
