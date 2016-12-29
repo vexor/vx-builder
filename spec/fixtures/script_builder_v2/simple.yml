@@ -109,12 +109,12 @@
     DISPLAY: ":99"
     CI_PARALLEL_JOBS: 3
     CI_PARALLEL_JOB_NUMBER: 0
-    global: ''
-    matrix: ''
     RAILS_ENV: test
     RACK_ENV: test
     GEM_HOME: "~/.rubygems"
     TRAVIS_PYTHON_VERSION: '2.7'
+    global: ''
+    matrix: ''
   tasks:
   - services:
     - rabbitmq-server

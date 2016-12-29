@@ -41,15 +41,6 @@ module Vx
               e.add_env "CI_PARALLEL_JOB_NUMBER", env.source.parallel_job_number
             end
 
-            add_var = ->(var) {
-              var = var.split("=")
-              key = var.shift
-              value = var.join("=").to_s
-              e.add_env key, value
-            }
-
-            env.source.env.global.each &add_var
-            env.source.env.matrix.each &add_var
           end
 
           app.call(env)

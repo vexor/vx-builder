@@ -25,6 +25,7 @@ module Vx
       autoload :Services,     File.expand_path("../script_builder_v2/services",  __FILE__)
       autoload :Deploy,       File.expand_path("../script_builder_v2/deploy",    __FILE__)
       autoload :Defaults,     File.expand_path("../script_builder_v2/defaults",  __FILE__)
+      autoload :UserEnv,      File.expand_path("../script_builder_v2/user_env",  __FILE__)
 
       class Stage
         attr_reader :name, :environment, :tasks, :vars, :chdir
@@ -87,6 +88,8 @@ module Vx
         use Builder::ScriptBuilderV2::Nodejs
         use Builder::ScriptBuilderV2::Rust
         use Builder::ScriptBuilderV2::Python
+
+        use Builder::ScriptBuilderV2::UserEnv
 
         use Builder::ScriptBuilderV2::Deploy
         use Builder::ScriptBuilderV2::Defaults
