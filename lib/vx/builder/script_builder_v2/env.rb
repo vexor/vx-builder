@@ -16,12 +16,6 @@ module Vx
             e.add_env "CI_PROJECT_NAME",    env.task.name
             e.add_env "CI_BUILD_SHA",       env.task.sha
 
-            env.task.tap do |t|
-              t.env_vars.each do |key, value|
-                e.add_env key, Shellwords.escape(value), hidden: true
-              end
-            end
-
             if env.task.project_token
               e.add_env "CI_PROJECT_TOKEN", env.task.project_token, hidden: true
             end
@@ -35,6 +29,13 @@ module Vx
             end
 
             e.add_env "DISPLAY", ":99"
+
+            env.task.tap do |t|
+              t.env_vars.each do |key, value|
+                e.add_env key, Shellwords.escape(value), hidden: true
+              end
+            end
+
 
             if env.source.parallel?
               e.add_env "CI_PARALLEL_JOBS", env.source.parallel
