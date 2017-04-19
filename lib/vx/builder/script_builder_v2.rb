@@ -19,6 +19,7 @@ module Vx
       autoload :Clojure,      File.expand_path("../script_builder_v2/clojure",   __FILE__)
       autoload :Rust,         File.expand_path("../script_builder_v2/rust",      __FILE__)
       autoload :Python,       File.expand_path("../script_builder_v2/python",    __FILE__)
+      autoload :Php,          File.expand_path("../script_builder_v2/php",       __FILE__)
       autoload :Clone,        File.expand_path("../script_builder_v2/clone",     __FILE__)
       autoload :Databases,    File.expand_path("../script_builder_v2/databases", __FILE__)
       autoload :Cache,        File.expand_path("../script_builder_v2/cache",     __FILE__)
@@ -88,6 +89,7 @@ module Vx
         use Builder::ScriptBuilderV2::Nodejs
         use Builder::ScriptBuilderV2::Rust
         use Builder::ScriptBuilderV2::Python
+        use Builder::ScriptBuilderV2::Php
 
         use Builder::ScriptBuilderV2::UserEnv
 

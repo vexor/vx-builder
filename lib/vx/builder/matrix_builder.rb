@@ -11,6 +11,7 @@ module Vx
         node_js
         rust
         python
+        php
 
         image
         env_matrix:env

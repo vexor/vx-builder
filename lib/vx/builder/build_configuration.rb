@@ -16,6 +16,7 @@ module Vx
         node_js
         rust
         python
+        php
 
         language
         script
@@ -29,6 +30,7 @@ module Vx
         node_js
         rust
         python
+        php
 
         language
         gemfile
