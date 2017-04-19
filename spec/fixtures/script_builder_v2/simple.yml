@@ -89,11 +89,11 @@
         -----END RSA PRIVATE KEY-----
   - git_clone:
       repo: git@github.com:vexor/vx-test-repo.git
-      dest: "~/vexor/vx-test-repo"
+      dest: ~/vexor/vx-test-repo
       branch: test/pull-request
       sha: 8f53c077072674972e21c82a286acc07fada91f5
 - name: init
-  chdir: "~/vexor/vx-test-repo/relative_dir"
+  chdir: ~/vexor/vx-test-repo/relative_dir
   environment:
     CI_NAME: VEXOR
     CI: '1'
@@ -105,13 +105,13 @@
     CI_PROJECT_NAME: vexor/vx-test-repo
     CI_BUILD_SHA: 8f53c077072674972e21c82a286acc07fada91f5
     CI_BRANCH: test/pull-request
-    DISPLAY: ":99"
-    VX_USER_ENV: "!test\\ me"
+    DISPLAY: ':99'
+    VX_USER_ENV: '!test\ me'
     CI_PARALLEL_JOBS: 3
     CI_PARALLEL_JOB_NUMBER: 0
     RAILS_ENV: test
     RACK_ENV: test
-    GEM_HOME: "~/.rubygems"
+    GEM_HOME: ~/.rubygems
     TRAVIS_PYTHON_VERSION: '2.7'
     global: ''
     matrix: ''
@@ -120,22 +120,23 @@
     - rabbitmq-server
   - cache_fetch:
       url:
-      - http://localhost:3001/read?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
-      - http://localhost:3001/read?file_name=master/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
+      - http://localhost:3001/read?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7-php-7.1-composer.tgz
+      - http://localhost:3001/read?file_name=master/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7-php-7.1-composer.tgz
   - cache_add:
       dir:
-      - "~/.cache"
-      - "~/.sbt"
-      - "~/.ivy2"
-      - "~/.rubygems"
+      - ~/.cache
+      - ~/.sbt
+      - ~/.ivy2
+      - ~/.rubygems
       - bower_components
-      - "~/.pip-downloads"
+      - ~/.pip-downloads
+      - vendor
 - name: before_install
   tasks:
   - shell: echo before_install
 - name: install
   environment:
-    PATH: "${PATH}:${PWD}/node_modules/bin"
+    PATH: ${PATH}:${PWD}/node_modules/bin
   tasks:
   - jdk:
       action: install
@@ -158,6 +159,9 @@
       python: '2.7'
   - python: virtualenv
   - python: announce
+  - vxvm: php 7.1
+  - shell: php --version
+  - shell: composer --version
   - shell: echo install
 - name: database
   tasks:
@@ -174,4 +178,4 @@
 - name: teardown
   tasks:
   - cache_push:
-      url: http://localhost:3001/write?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7.tgz
+      url: http://localhost:3001/write?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7-php-7.1-composer.tgz

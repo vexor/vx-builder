@@ -41,6 +41,7 @@ describe Vx::Builder::BuildConfiguration do
        "image"          => ["one", "two"],
        "jdk"            => ['openjdk7'],
        "language"       => ["ruby"],
+       "php"            => ["7.1"],
        "pip_args"       => ["pip args"],
        "python"         => ["2.7"],
        "rust"           => ['0.11.0'],
