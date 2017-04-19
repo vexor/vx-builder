@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe Vx::Builder::Configuration do
-  its(:casher_ruby) { should be }
+  it { expect(subject.casher_ruby).to be }
 end

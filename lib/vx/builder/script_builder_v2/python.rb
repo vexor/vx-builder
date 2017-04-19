@@ -6,7 +6,7 @@ module Vx
 
         DEFAULT_PYTHON = '2.7'
         PIP_DOWNLOADS  = "~/.pip-downloads"
-        PIP_OPTS       = " --download-cache=#{PIP_DOWNLOADS}"
+        PIP_OPTS       = ""#" --download-cache=#{PIP_DOWNLOADS}"
 
         def call(env)
           if enabled?(env)

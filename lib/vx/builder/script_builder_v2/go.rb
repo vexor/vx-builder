@@ -4,7 +4,7 @@ module Vx
 
       class Go < Base
 
-        DEFAULT_GO = '1.2'
+        DEFAULT_GO = '1.7'
 
         def call(env)
           if enabled?(env)
