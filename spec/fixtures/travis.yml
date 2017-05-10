@@ -12,7 +12,9 @@ script: "RAILS_ENV=test ls -1 && echo DONE!"
 
 after_success: "echo after success"
 
-services: "rabbitmq"
+services:
+  - rabbitmq
+  - postgresql: 9.6
 
 scala: "2.10.3"
 

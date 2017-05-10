@@ -15,9 +15,10 @@ describe Vx::Builder::BuildConfiguration do
   its(:after_success)  { should eq ["echo after success"] }
   its(:image)          { should eq %w{ one two } }
   its(:language)       { should eq 'ruby' }
-  its(:services)       { should eq %w{ rabbitmq } }
+  its(:services)       { should eq ["rabbitmq", {"postgresql" => 9.6}] }
   its(:scala)          { should eq %w{ 2.10.3 } }
   its(:jdk)            { should eq %w{ openjdk7 } }
+  its(:services_map)   { should eq ({"rabbitmq"=>"latest", "postgresql"=>"9.6"}) }
 
   context "to_hash" do
     subject { config.to_hash }
@@ -50,7 +51,7 @@ describe Vx::Builder::BuildConfiguration do
        "rvm"            => ["2.0.0"],
        "scala"          => ['2.10.3'],
        "script"         => ["RAILS_ENV=test ls -1 && echo DONE!"],
-       "services"       => ['rabbitmq'],
+       "services"       => ['rabbitmq', {"postgresql" => 9.6}],
        "vexor"          => {"timeout"=>10, "read_timeout"=>20},
        "deploy"         => [{"shell"=>"cap deploy production"}],
        "deploy_modules" => [],

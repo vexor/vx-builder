@@ -198,6 +198,23 @@ module Vx
         end
       end
 
+      def services_map
+        (services || []).inject({}) do |buffer, service|
+          case service
+          when Array
+            buffer[service[0]] = service[1].to_s
+          when Hash
+            service.each do |k,v|
+              buffer[k] = v.to_s
+            end
+          else
+            buffer[service] = "latest"
+          end
+          buffer
+        end
+      end
+
+
       private
 
         def build_attributes(new_attributes)
