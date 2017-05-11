@@ -118,7 +118,6 @@
   tasks:
   - services:
     - rabbitmq-server
-    - postgresql: 9.6
   - cache_fetch:
       url:
       - http://localhost:3001/read?file_name=test/pull-request/jdk-openjdk7-scala-2.10.3-rvm-2.0.0-gemfile-nodejs-0.10-rust-0.11.0-python-2.7-php-7.1-composer.tgz
