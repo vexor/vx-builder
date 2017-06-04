@@ -28,6 +28,10 @@ module Vx
               e.add_env "CI_BRANCH", env.task.branch
             end
 
+            if env.task.files
+              e.add_env "CI_CHANGED_FILES", Array(env.task.files).join(" ")
+            end
+
             e.add_env "DISPLAY", ":99"
 
             env.task.tap do |t|
