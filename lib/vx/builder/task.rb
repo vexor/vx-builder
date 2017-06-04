@@ -5,7 +5,7 @@ module Vx
       attr_reader :name, :src, :sha, :ssh_keys, :env_vars, :branch, :pull_request_id,
         :job_id, :build_id, :build_url, :build_number, :job_number,
         :project_host, :project_token,
-        :cache_read_url, :cache_write_url
+        :cache_read_url, :cache_write_url, :files
 
       def initialize(options = {})
         @name                 = options[:name]
@@ -24,6 +24,7 @@ module Vx
         @project_token        = options[:project_token]
         @cache_read_url       = options[:cache_read_url]
         @cache_write_url      = options[:cache_write_url]
+        @files                = options[:files]
 
         validate!
       end
