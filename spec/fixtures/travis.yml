@@ -65,3 +65,7 @@ bundler_args: --without development
 vexor:
   timeout: 10
   read_timeout: 20
+
+git_args:
+  - --no-single-branch
+  - --depth=1

@@ -61,7 +61,8 @@ describe Vx::Builder::BuildConfiguration do
        "matrix"         => {"exclude"=>[{"rvm"=>2.1}]},
        "parallel"       => [3],
        "parallel_job_number" => [],
-       "workdir" => ["relative_dir"]
+       "workdir"        => ["relative_dir"],
+       "git_args"       => ["--no-single-branch", "--depth=1"]
       }
     ) }
   end

@@ -55,6 +55,7 @@ module Vx
         parallel_job_number
 
         database
+        git_args
       }
 
       class << self
