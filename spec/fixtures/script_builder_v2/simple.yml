@@ -92,6 +92,9 @@
       dest: "~/vexor/vx-test-repo"
       branch: test/pull-request
       sha: 8f53c077072674972e21c82a286acc07fada91f5
+      git_args:
+      - "--no-single-branch"
+      - "--depth=1"
 - name: init
   chdir: "~/vexor/vx-test-repo/relative_dir"
   environment:

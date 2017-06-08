@@ -19,6 +19,7 @@ module Vx
             if pr = env.task.pull_request_id
               clone["pr"] = pr
             end
+            clone["git_args"] = git_args(env)
             e.add_task "git_clone", clone
           end
 
@@ -29,18 +30,22 @@ module Vx
 
         private
 
-          def chdir!(env)
-            workdir = env.source.workdir.first.to_s
-            dir     = "~/#{env.task.name}/#{workdir}"
-            env.stage("init").chdir!(dir)
-          end
+        def chdir!(env)
+          workdir = env.source.workdir.first.to_s
+          dir     = "~/#{env.task.name}/#{workdir}"
+          env.stage("init").chdir!(dir)
+        end
 
-          def branch_name(env)
-            b = env.task && env.task.branch
-            if b && b != 'HEAD'
-              b
-            end
+        def branch_name(env)
+          b = env.task && env.task.branch
+          if b && b != 'HEAD'
+            b
           end
+        end
+
+        def git_args(env)
+          env.source.git_args
+        end
 
       end
     end
