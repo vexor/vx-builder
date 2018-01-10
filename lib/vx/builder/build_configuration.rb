@@ -209,7 +209,7 @@ module Vx
               buffer[k] = v.to_s
             end
           else
-            buffer[service] = "latest"
+            buffer[service] = "local"
           end
           buffer
         end

@@ -1,3 +1,5 @@
+require 'shellwords'
+
 module Vx
   module Builder
     class ScriptBuilderV2
@@ -29,7 +31,7 @@ module Vx
             end
 
             if env.task.files
-              e.add_env "CI_CHANGED_FILES", Array(env.task.files).join(" ")
+              e.add_env "CI_CHANGED_FILES", Array(env.task.files.map{ |s| Shellwords.shellescape(s) }).join(" ")
             end
 
             e.add_env "DISPLAY", ":99"

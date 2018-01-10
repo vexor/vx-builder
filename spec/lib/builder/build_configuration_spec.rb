@@ -18,7 +18,7 @@ describe Vx::Builder::BuildConfiguration do
   its(:services)       { should eq ["rabbitmq", {"postgresql" => 9.6}] }
   its(:scala)          { should eq %w{ 2.10.3 } }
   its(:jdk)            { should eq %w{ openjdk7 } }
-  its(:services_map)   { should eq ({"rabbitmq"=>"latest", "postgresql"=>"9.6"}) }
+  its(:services_map)   { should eq ({"rabbitmq"=>"local", "postgresql"=>"9.6"}) }
 
   context "to_hash" do
     subject { config.to_hash }

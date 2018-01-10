@@ -10,9 +10,9 @@ module Vx
 
         def call(env)
           env.stage("init").tap do |e|
-            srvs = env.source.services
-                     .select{ |srv| legacy_service?(srv) }
-                     .map{ |srv| srv = ALIASES[srv] || srv }
+            raw_srvs = normalize(env.source.services)
+            srvs = raw_srvs.select{ |srv| legacy_service?(srv) }
+                           .map{ |srv| srv = ALIASES[srv] || srv }
             e.add_task "services", srvs
           end
 
@@ -28,6 +28,24 @@ module Vx
             return false
           else
             return true
+          end
+        end
+
+        def normalize(srvs)
+          srvs.inject([]) do |b, element|
+            case element
+            when Hash
+              element.each do |k, v|
+                if v =~ /local/
+                  b << k
+                else
+                  b << {k => v}
+                end
+              end
+            else
+              b << element
+            end
+            b
           end
         end
 
