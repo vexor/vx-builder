@@ -42,6 +42,10 @@ module Vx
           @tasks.push(name => value)
         end
 
+        def clean_tasks!
+          @tasks = []
+        end
+
         def tasks?
           @tasks.any?
         end
@@ -54,12 +58,20 @@ module Vx
           end
         end
 
+        def clean_env!
+          @environment = {}
+        end
+
         def chdir!(dir)
           @chdir = dir
         end
 
         def add_var(name, value)
           @vars[name] = value
+        end
+
+        def clean_vars!
+          @vars = {}
         end
 
         def to_hash
@@ -69,6 +81,10 @@ module Vx
           h.merge!( "environment" => environment ) if environment.any?
           h.merge!("tasks" => tasks) if tasks?
           h
+        end
+
+        def process_task(processor)
+          processor.(self)
         end
 
       end

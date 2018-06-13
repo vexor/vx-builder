@@ -1,0 +1,80 @@
+rvm: 2.0.0
+
+gemfile: 'Gemfile'
+
+before_script: "echo before_script"
+
+install: "echo install"
+
+before_install: "echo before_install"
+
+script: "RAILS_ENV=test ls -1 && echo DONE!"
+
+after_success: "echo after success"
+
+services:
+  - rabbitmq
+  - postgresql: 9.6
+
+scala: "2.10.3"
+
+jdk: "openjdk7"
+
+go: '1.2.2'
+
+node_js: "0.10"
+
+rust: "0.11.0"
+
+python: "2.7"
+
+php: "7.1"
+
+pip_args: "pip args"
+
+workdir: "relative_dir"
+
+matrix:
+  exclude:
+  - rvm: 2.1
+
+image:
+  - one
+  - two
+
+language: ruby
+
+env:
+  global: 'global'
+  matrix: 'matrix'
+
+parallel: 3
+
+cache:
+  directories:
+  - ~/.cache
+
+deploy:
+  - branch: master
+    shell: "cap deploy production"
+  - branch: develop
+    shell: "echo skip database"
+    skip: database
+  - branch: ci
+    shell: "echo skip database and install"
+    skip:
+      - install
+      - database
+
+after_deploy: echo after deploy
+before_deploy: echo before deploy
+
+bundler_args: --without development
+
+vexor:
+  timeout: 10
+  read_timeout: 20
+
+git_args:
+  - --no-single-branch
+  - --depth=1

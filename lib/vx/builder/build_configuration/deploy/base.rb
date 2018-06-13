@@ -38,6 +38,10 @@ module Vx
             self.branch = params["branch"]
           end
 
+          def rate
+            0
+          end
+
           def branch=(value)
             @branch = Array(value).map(&:to_s)
           end

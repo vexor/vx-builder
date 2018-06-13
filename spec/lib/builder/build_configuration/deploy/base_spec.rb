@@ -28,7 +28,7 @@ describe Vx::Builder::BuildConfiguration::Deploy::Base do
 
   context ".loaded" do
     subject { described_class.loaded }
-    it { should have(1).items }
+    it { should have(2).items }
   end
 
   context ".module_by_key" do
