@@ -30,7 +30,7 @@ describe "(integration v2) go" do
 
     b = build(file, task: task)
     s = b.script.to_yaml
-    expect(s).to match(/vxvm: go 1\.10/)
+    expect(s).to match(/vxvm: go 1\.7/)
   end
 
   it "should succesfuly run lang/go", real: true do

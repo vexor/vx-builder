@@ -27,7 +27,7 @@ module Vx
           app.call(env)
 
           do_deploy_script(env) do
-            %w(install database script).each do |stage|
+            %w(before_install install database before_script script after_success).each do |stage|
               env.stage(stage).tap do |i|
                 env.source.deploy_modules.sort_by(&:rate).each do |m|
                   i.process_task(m)
@@ -35,6 +35,7 @@ module Vx
               end
             end
           end
+
         end
 
       end

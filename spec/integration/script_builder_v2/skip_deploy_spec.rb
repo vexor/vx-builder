@@ -26,7 +26,7 @@ describe "(integration v2) Skips" do
     config = deploy.build.first
     script = Vx::Builder.script_v2(create(:task), config)
     res_yaml = script.to_yaml
-    puts res_yaml
+    # puts res_yaml
     expect(res_yaml).to match(/Skipped/)
   end
 
